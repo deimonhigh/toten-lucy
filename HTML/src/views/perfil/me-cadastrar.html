@@ -1,0 +1,260 @@
+<div aria-label="Cadastre-se">
+  @@include('../includes/header-interno.html', {
+  "title": "Cadastre-se"
+  })
+
+  <div class="loaderView table full" ng-show="loaderData">
+    <div class="tCell">
+      @@include('../includes/loader.html')
+    </div>
+  </div>
+
+  <section class="sizeFooter sizeHeader endereco" layout="column" layout-align="start" layout-fill>
+    <form name="cadastroForm" ng-submit="cadastrar(dados)">
+      <md-input-container>
+        <input type="text"
+               md-no-asterisk
+               ng-model="dados.Username"
+               placeholder="Nome completo"
+               aria-label="Nome completo"
+               name="Username"
+               required>
+        <div ng-messages="cadastroForm.Username.$error"
+             multiple
+             ng-if="cadastroForm.Username.$invalid && cadastroForm.Username.$touched">
+          <div ng-message="required">
+            Campo Nome completo é obrigatório.
+          </div>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
+        <input type="email"
+               md-no-asterisk
+               ng-model="dados.Email"
+               placeholder="E-mail"
+               aria-label="E-mail"
+               name="Email"
+               required>
+        <div ng-messages="cadastroForm.Email.$error"
+             multiple
+             ng-if="cadastroForm.Email.$invalid && cadastroForm.Email.$touched">
+          <div ng-message="required">
+            Campo de E-mail é obrigatório.
+          </div>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
+        <input type="text"
+               md-no-asterisk
+               ng-model="dados.CPF"
+               cpf
+               placeholder="CPF"
+               aria-label="CPF"
+               name="CPF"
+               required>
+        <div ng-messages="cadastroForm.CPF.$error"
+             multiple
+             ng-if="cadastroForm.CPF.$invalid && cadastroForm.CPF.$touched">
+          <div ng-message="required">
+            Campo de CPF é obrigatório.
+          </div>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
+        <input type="date"
+               md-no-asterisk
+               ng-model="dados.DataNascimento"
+               placeholder="Data de Nascimento"
+               aria-label="Data de Nascimento"
+               name="DataNascimento"
+               required>
+        <div ng-messages="cadastroForm.DataNascimento.$error"
+             multiple
+             ng-if="cadastroForm.DataNascimento.$invalid && cadastroForm.DataNascimento.$touched">
+          <div ng-message="required">
+            Campo Data de Nascimento é obrigatório.
+          </div>
+        </div>
+      </md-input-container>
+
+      <label class="materialLabel">Sexo</label>
+      <md-radio-group ng-model="dados.Sexo">
+        <md-list-item>
+          <md-radio-button value="M" class="md-primary">Masculino</md-radio-button>
+        </md-list-item>
+
+        <md-list-item>
+          <md-radio-button value="F" class="md-primary">Feminino</md-radio-button>
+        </md-list-item>
+      </md-radio-group>
+
+      <md-input-container>
+        <input type="tel"
+               md-no-asterisk
+               ng-model="dados.Telefone"
+               placeholder="DDD + Telefone"
+               aria-label="Telefone"
+               name="Telefone"
+               telefone
+               required>
+        <div ng-messages="cadastroForm.Telefone.$error"
+             multiple
+             ng-if="cadastroForm.Telefone.$invalid && cadastroForm.Telefone.$touched">
+          <div ng-message="required">
+            Campo de Telefone é obrigatório.
+          </div>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
+        <input type="password"
+               md-no-asterisk
+               ng-model="dados.Senha"
+               placeholder="Senha"
+               aria-label="Senha"
+               name="password"
+               ng-minlength="8"
+               required>
+        <div ng-messages="cadastroForm.password.$error"
+             multiple
+             ng-if="cadastroForm.password.$invalid && cadastroForm.password.$touched">
+          <div ng-message="required">
+            Campo de Senha é obrigatório.
+          </div>
+          <div ng-message="minlength">
+            Campo de Senha deve conter, no mínimo, 8 caracteres.
+          </div>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
+        <input type="password"
+               md-no-asterisk
+               ng-model="dados.Resenha"
+               placeholder="Repetir Senha"
+               aria-label="Resenha"
+               name="confirmPassword"
+               required
+               match="dados.Senha"
+        >
+        <div ng-messages="cadastroForm.confirmPassword.$error"
+             multiple
+             ng-if="cadastroForm.confirmPassword.$invalid && cadastroForm.confirmPassword.$touched">
+          <div ng-message="match">
+            Campo de Senha e Repetir senha não conferem.
+          </div>
+          <div ng-message="required">
+            Campo para Repetir senha é obrigatório.
+          </div>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
+        <input type="text"
+               md-no-asterisk
+               ng-model="dados.CEP"
+               cep
+               placeholder="CEP"
+               aria-label="CEP"
+               name="CEP"
+        >
+      </md-input-container>
+
+      <div class="centerBlock">
+        <md-button class="white md-raised md-primary" ng-click="consultarCEP(dados.CEP)">
+          Consultado CEP
+        </md-button>
+      </div>
+
+      <md-input-container>
+        <input type="text"
+               md-no-asterisk
+               ng-model="dados.tipoLogradouroConsumidor"
+               placeholder="Tipo de Logradouro"
+               aria-label="Tipo de Logradouro"
+               name="tipoLogradouroConsumidor"
+               ng-disabled="true"
+        >
+      </md-input-container>
+
+      <md-input-container>
+        <input type="text"
+               md-no-asterisk
+               ng-model="dados.UF"
+               placeholder="UF"
+               aria-label="UF"
+               name="UF"
+               ng-disabled="true"
+        >
+      </md-input-container>
+
+      <md-input-container>
+        <input type="text"
+               md-no-asterisk
+               ng-model="dados.Cidade"
+               placeholder="Cidade"
+               aria-label="Cidade"
+               name="Cidade"
+               ng-disabled="true"
+        >
+      </md-input-container>
+
+      <md-input-container>
+        <input type="text"
+               md-no-asterisk
+               ng-model="dados.logradouroConsumidor"
+               placeholder="Logradouro"
+               aria-label="Logradouro"
+               name="logradouroConsumidor"
+               ng-disabled="true"
+        >
+      </md-input-container>
+
+      <md-input-container>
+        <input type="text"
+               md-no-asterisk
+               ng-model="dados.logradouroConsumidor"
+               placeholder="Logradouro"
+               aria-label="Logradouro"
+               name="logradouroConsumidor"
+               ng-disabled="true"
+        >
+      </md-input-container>
+
+      <md-input-container>
+        <input type="text"
+               md-no-asterisk
+               ng-model="dados.NrEnder"
+               placeholder="Número do endereço"
+               aria-label="Número do endereço"
+               name="NrEnder"
+               ng-disabled="true"
+        >
+        <div ng-messages="cadastroForm.NrEnder.$error"
+             multiple
+             ng-if="cadastroForm.NrEnder.$invalid && cadastroForm.NrEnder.$touched">
+          <div ng-message="required">
+            Campo Número do endereço é obrigatório.
+          </div>
+        </div>
+      </md-input-container>
+
+      <md-checkbox ng-model="dados.ReceberEmail" aria-label="Receber Email">
+        Gostaria de receber e-mail comunicando novidades e promoções.
+      </md-checkbox>
+
+      <md-button class="blockButton white md-raised md-primary"
+                 ng-disabled="cadastroForm.$invalid"
+                 type="submit"
+      >
+        Quero me cadastrar
+      </md-button>
+      <md-button class="blockButton md-primary" onclick="window.history.back(-1);">
+        Voltar
+      </md-button>
+    </form>
+  </section>
+</div>

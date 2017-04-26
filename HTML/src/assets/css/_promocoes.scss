@@ -1,0 +1,106 @@
+.listagem {
+  overflow : auto;
+  height   : 100vh;
+
+  article {
+    display    : inline-block;
+    background : #F1F1F1;
+
+    &:last-child:not(.interna) {
+      .outer {
+        border : none;
+      }
+    }
+
+    &.cardDestaque {
+      padding : 10px;
+
+      .outer {
+        border : none;
+
+        .dataPromo {
+          display : none;
+        }
+      }
+    }
+
+    .outer {
+      background    : $white;
+      position      : relative;
+      padding       : 10px;
+      border-bottom : 1px solid #D9D9D9;
+
+      .normal {
+        min-width     : 40px;
+        min-height    : 40px;
+        border-radius : 50%;
+      }
+
+      .md-button:not(.normal) {
+        width    : 100%;
+        height   : 100%;
+        position : absolute;
+        top      : 0;
+        left     : 0;
+        padding  : 0;
+        margin   : 0;
+      }
+
+      .img {
+        max-width     : 20%;
+        padding-right : 5px;
+
+        img {
+          display : block;
+          width   : 100%;
+        }
+      }
+
+      h3 {
+        font-size      : 1rem;
+        font-weight    : 500;
+        letter-spacing : 1px;
+      }
+
+      p {
+        font-size : 12px;
+        color     : lighten($gray, 20);
+      }
+
+      a {
+        color           : #00BFFF;
+        text-decoration : none;
+      }
+
+      .dataPromo {
+        font-size  : 12px;
+        color      : #757575;
+        min-width  : 60px;
+        align-self : flex-start;
+        text-align : right;
+      }
+    }
+
+  }
+}
+
+.facaLogin {
+  width : 100%;
+
+  .middleText {
+    padding     : 20px 0;
+    max-width   : 80%;
+    font-size   : 1.1rem;
+    color       : $gray;
+    text-align  : center;
+    font-weight : 300;
+    display     : inline-block;
+  }
+
+  .md-button {
+    color       : $white !important;
+    font-weight : 400;
+    font-size   : 18px;
+    padding     : 5px 25px;
+  }
+}

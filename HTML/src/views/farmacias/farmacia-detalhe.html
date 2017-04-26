@@ -1,0 +1,180 @@
+<div layout="column" layout-align="cente center" aria-label="Promoções">
+  @@include('../includes/header-interno.html', {
+  "title": "Farmácias"
+  })
+
+  <div class="endreco barFarmacia sizeHeader sizeFooter" layout="column" layout-align="cente center" layout-fill>
+    <md-tabs md-selected="selectedIndex" md-no-pagination md-stretch-tabs="always">
+      <md-tab md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)">
+        <md-tab-label>
+          <div md-truncate style="max-width: calc(100vw / 3)">Informações</div>
+        </md-tab-label>
+        <md-tab-body>
+          <section class="farmacias">
+            <div class="img"
+                 style="background-image: url('assets/images/programas/logo-gopharma-circ.png');"
+                 md-whiteframe="1"></div>
+
+            <div md-truncate
+                 style="max-width: calc(100vw - 40px)"
+                 class="nomeFarmacia"
+                 ng-bind="farmacias.nomeFantasia"></div>
+            <div md-truncate
+                 style="max-width: calc(100vw - 40px)"
+                 class="enderecoFarmacia"
+                 ng-bind="farmacias.logradouro"></div>
+            <md-button ng-if="farmacias.hasOwnProperty('telefone1')"
+                       class="telefoneFarmacia"
+                       href="tel:{{ farmacias.telefone1 }}">
+              <md-icon class="md-primary">phone</md-icon>
+              {{ farmacias.telefone1 }}
+            </md-button>
+            <ul class="infos">
+              <li ng-if="farmacias.distancia">
+                <md-icon class="md-primary">place</md-icon>
+                {{ farmacias.distancia }}km
+              </li>
+              <li ng-if="farmacias.avaliacaoMedia > 0">
+                <md-icon class="md-primary">star_complete</md-icon>
+                {{ farmacias.avaliacaoMedia }}
+              </li>
+            </ul>
+
+            <md-button class="md-raised md-primary tracarRota"
+                       ng-click="openRotas()">
+              <md-icon>near_me</md-icon>
+              Traçar rota
+            </md-button>
+
+            <ul class="checkList">
+              <li ng-repeat="item in filtros" ng-bind="item.label"></li>
+            </ul>
+            <md-button ng-if="false">Expandir lista</md-button>
+
+            <div class="map">
+              <iframe src="{{ trustUrl(farmacias.urlMapa) }}"
+                      frameborder="0"
+                      allowfullscreen></iframe>
+            </div>
+
+          </section>
+        </md-tab-body>
+      </md-tab>
+      <md-tab md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)">
+        <md-tab-label>
+          <div md-truncate style="max-width: calc(100vw / 3)">Programa de benefícios</div>
+        </md-tab-label>
+        <md-tab-body>
+          <section class="farmacias noPad" layout layout-fill layout-align="center">
+            <md-virtual-repeat-container style="height: 100%" ng-if="progBeneficios.length > 0" flex>
+              <article md-virtual-repeat="item in progBeneficios">
+                <div class="outer" layout="row" layout-align="start center">
+                  <div class="img"
+                       ng-style="{'background-image':'url(\'assets/images/programas/{{ item.programaBeneficiosLogomarca }}\')'}"></div>
+                  <div class="promoTexto">
+                    <h3 md-truncate style="max-width: calc(100vw - 100px)" ng-bind="item.programaBeneficiosNome"></h3>
+                    <md-button class="normal beneficio md-raised md-primary" ng-click="searchFarmacias(item)">
+                      <md-icon>search</md-icon>
+                      Farmácias
+                    </md-button>
+                    <md-button ng-if="$index%2 == 0" class="normal beneficio md-raised md-primary">
+                      <md-icon>card_membership</md-icon>
+                      Aderir
+                    </md-button>
+                    <md-button ng-if="$index%2 != 0"
+                               class="normal beneficio md-raised md-primary"
+                               ui-sref="beneficio({id:{{ item.idProgramaBeneficios }}})">
+                      <md-icon>info_outline</md-icon>
+                      Conhecer
+                    </md-button>
+                  </div>
+                </div>
+              </article>
+            </md-virtual-repeat-container>
+            <div class="table full" ng-if="progBeneficios.length == 0">
+              <div class="tCell">
+                <div class="dib txtCenter">
+                  <md-icon style="font-size: 100px; width: auto; height: auto; display: block;">card_giftcard</md-icon>
+                  <h1 class="topWarning">Ops!</h1>
+                  <p class="middleText">
+                    Essa farmácia não possui programas de benefício.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </md-tab-body>
+      </md-tab>
+      <md-tab md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)">
+        <md-tab-label>
+          <div md-truncate style="max-width: calc(100vw / 3)">Avaliações</div>
+        </md-tab-label>
+        <md-tab-body>
+          <section class="farmacias" ng-if="false">
+            <div class="table fullBack">
+              <div class="tCell top">
+                <div class="dib txtCenter full">
+                  <div class="starCenter md-whiteframe-1dp">
+                    <h3>
+                      <div md-truncate style="max-width: calc(100vw - 40px)" class="nomeFarmacia">
+                        Drogasil Shop Market
+                      </div>
+                    </h3>
+                    <h2>5</h2>
+                    <star-rating-comp star-type="'icon'"
+                                      rating="5"
+                                      color="'positive'"
+                                      size="'large '"
+                                      disabled="true"
+                                      show-half-stars="true"
+                                      on-rating-change="ctrl.onRatingChange($event)"></star-rating-comp>
+                  </div>
+                  <md-icon style="font-size: 100px; width: auto; height: auto; display: block;">mood_bad</md-icon>
+                  <p class="middleText">
+                    Entre ou cadastre-se para receber, avaliar e visualizar os comentários sobre as farmácias
+                  </p>
+                  <md-button class="blockButton md-primary md-raised" ui-sref="me">
+                    Entrar ou cadastrar
+                  </md-button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="farmacias" ng-if="true">
+            <div class="table fullBack">
+              <div class="tCell top">
+                <div class="dib txtCenter full">
+                  <div class="starCenter md-whiteframe-1dp">
+                    <h3>
+                      <div md-truncate style="max-width: calc(100vw - 40px)" class="nomeFarmacia">
+                        Drogasil Shop Market
+                      </div>
+                    </h3>
+                    <h2>5</h2>
+                    <star-rating-comp star-type="'icon'"
+                                      rating="2.63"
+                                      color="'positive'"
+                                      size="'large '"
+                                      disabled="true"
+                                      show-half-stars="true"
+                                      on-rating-change="ctrl.onRatingChange($event)"></star-rating-comp>
+                  </div>
+                  <div class="starCenter md-whiteframe-1dp avaliacao">
+                    <h3>Avaliação</h3>
+                    <star-rating-comp star-type="'icon'"
+                                      rating="0"
+                                      color="'positive'"
+                                      size="'large '"
+                                      show-half-stars="true"
+                                      on-rating-change="ctrl.onRatingChange($event)"></star-rating-comp>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </md-tab-body>
+      </md-tab>
+    </md-tabs>
+  </div>
+
+</div>

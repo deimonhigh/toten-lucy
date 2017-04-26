@@ -1,0 +1,38 @@
+<md-dialog aria-label="Confirmar endereço" class="enderecoModal">
+  <h2>Confirmar numeração</h2>
+  <form name="enderecoNumeroForm" ng-cloak>
+    <md-dialog-content>
+      <div class="enderecoAtual" layout="row" layout-align="start center">
+        <md-icon>place</md-icon>
+        <div class="address">
+          <h3 md-truncate style="max-width: calc(100vw - 30px - 24px);" ng-bind="endereco.rua"></h3>
+          <p ng-bind="endereco.paisEstado"></p>
+        </div>
+      </div>
+      <md-input-container>
+        <input type="number"
+               name="numero"
+               md-no-asterisk
+               ng-model="endereco.numero"
+               required
+               ng-minlength="1"
+               placeholder="Numeração do endereço"
+               ng-maxlength="4">
+      </md-input-container>
+      <span class="smallText">
+        Dados do complemento e referência serão solicitados na finalização do cadastro.
+      </span>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button class="md-primary" ng-click="cancel()">
+        Cancelar
+      </md-button>
+      <md-button class="md-primary"
+                 ng-disabled="enderecoNumeroForm.numero.$invalid"
+                 ng-click="confirm(endereco.numero)">
+        Confirmar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

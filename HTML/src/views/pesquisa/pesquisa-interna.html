@@ -1,0 +1,39 @@
+<div layout="column" layout-align="cente center" aria-label="Pesquisas">
+  @@include('../includes/header-interno.html', {
+  "title": "Pesquisas"
+  })
+
+  <div class="loaderView table full" ng-show="loaderData">
+    <div class="tCell">
+      @@include('../includes/loader.html')
+    </div>
+  </div>
+
+  <section ng-if="fimPesquisa" class="facaLogin sizeFooter" layout="column" layout-align="cente center">
+    <div class="table fullBack">
+      <div class="tCell">
+        <div class="dib txtCenter">
+          <md-icon style="font-size: 100px; width: auto; height: auto; display: block;">mood</md-icon>
+          <p class="middleText">
+            Você finalizou a sua pesquisa.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pesquisa sizeFooter sizeHeader" ng-show="!fimPesquisa">
+    <div layout="column" layout-align="start">
+      <md-subheader class="md-no-sticky" ng-bind="pesquisa.Pergunta"></md-subheader>
+      <md-radio-group ng-model="pesquisa.alternativa">
+        <md-list-item ng-repeat="item in answer">
+          <md-radio-button value="{{item.IdAlternativa}}" class="md-primary">{{ item.Alternativa }}</md-radio-button>
+        </md-list-item>
+      </md-radio-group>
+    </div>
+    <div class="alignButtons">
+      <md-button class="md-raised md-primary" ng-click="nextQuestion()">Pular</md-button>
+      <md-button class="md-raised md-primary" ng-click="salvarQuestion(pesquisa)">Próxima</md-button>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,69 @@
+<div layout="column" layout-align="cente center" aria-label="Promoções">
+  @@include('../includes/header-interno.html', {
+  "title": "Promoções"
+  })
+
+  <section ng-if="false" class="listagem sizeFooter sizeHeader">
+    <article ng-class="{'cardDestaque':true}">
+      <div class="outer" layout="row" layout-align="center center">
+        <md-button aria-label="Promoção Hospital São Camilo" ui-sref="promocao({promo:'hospital-camilo'})"></md-button>
+        <div class="img">
+          <img src="assets/images/promocoes/sao-camilo.jpg" alt="Hospital São Camilo">
+        </div>
+        <div class="promoTexto">
+          <h3>
+            São Camilo
+          </h3>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur doloribus est ipsam iure maxime
+            pariatur
+            provident.
+          </p>
+        </div>
+        <div class="dataPromo">
+          4 de Abr
+        </div>
+      </div>
+    </article>
+    <article>
+      <div class="outer" layout="row" layout-align="center center">
+        <md-button aria-label="Promoção Hospital São Camilo" ui-sref="promocao({promo:'hospital-camilo'})"></md-button>
+        <div class="promoTexto">
+          <h3>
+            São Camilo
+          </h3>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur doloribus est ipsam iure maxime
+            pariatur
+            provident.
+          </p>
+        </div>
+        <div class="dataPromo">
+          4 de Abr
+        </div>
+      </div>
+    </article>
+  </section>
+  <section ng-if="false" class="facaLogin sizeFooter" layout="column" layout-align="cente center">
+    <md-icon style="font-size: 100px; width: auto; height: auto;">account_circle</md-icon>
+    <p class="middleText">Entre ou cadastre-se para receber promoções exclusivas</p>
+
+    <md-button class="md-primary md-raised">
+      Entrar ou Cadastrar
+    </md-button>
+
+  </section>
+  <section ng-if="true" class="facaLogin sizeFooter" layout="column" layout-align="cente center">
+    <div class="table fullBack">
+      <div class="tCell">
+        <div class="dib txtCenter">
+          <md-icon style="font-size: 100px; width: auto; height: auto; display: block;">mood_bad</md-icon>
+          <p class="middleText">
+            Parece que não temos promoções ativas no momento, mas espere que logo irão aparecer novas para você.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</div>

@@ -1,0 +1,51 @@
+<div layout="column" layout-fill aria-label="Eu">
+  @@include('../includes/header-interno.html', {
+  "title": "Alterar senha"
+  })
+
+  <div class="loaderView table full" ng-show="loaderData">
+    <div class="tCell">
+      @@include('../includes/loader.html')
+    </div>
+  </div>
+
+  <section class="sizeHeader sizeFooter menuPerfil formLogin" layout="column" layout-align="start">
+    <md-content style="background: transparent;">
+      <md-card md-theme="default">
+        <md-card-title>
+          <span>Alterar sua senha</span>
+        </md-card-title>
+        <md-card-title-media>
+          <form name="loginForm" ng-submit="alterarSenha(dados)">
+            <md-input-container>
+              <input type="password"
+                     md-no-asterisk
+                     ng-model="dados.senha"
+                     placeholder="Senha Atual"
+                     name="senha"
+                     required>
+            </md-input-container>
+            <md-input-container>
+              <input type="password"
+                     md-no-asterisk
+                     ng-model="dados.novaSenha"
+                     placeholder="Nova Senha"
+                     name="resenha"
+                     require
+              >
+            </md-input-container>
+
+            <div class="center">
+              <md-button class="white inlineButton md-raised md-primary"
+                         ng-disabled="loginForm.$invalid"
+                         type="submit"
+              >
+                Salvar
+              </md-button>
+            </div>
+          </form>
+        </md-card-title-media>
+      </md-card>
+    </md-content>
+  </section>
+</div>

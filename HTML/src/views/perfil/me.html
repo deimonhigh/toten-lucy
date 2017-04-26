@@ -1,0 +1,56 @@
+<div layout="column" layout-fill aria-label="Eu">
+  @@include('../includes/header-interno.html', {
+  "title": "Eu"
+  })
+
+  <section class="sizeHeader sizeFooter menuPerfil logado" ng-if="logado" layout="column" layout-align="start">
+    <md-content>
+      <md-list>
+        <md-list-item ng-repeat="item in listagemMenu">
+          <div class="md-list-item-text" aria-label="{{ item.aria }}">
+            <h4 ng-if="item.interna" ui-sref="{{ item.url }}">{{ item.aria }}</h4>
+            <h4 ng-if="!item.interna">
+              <a style="text-decoration: none; color: inherit;" href="{{ trustUrl(item.url) }}">{{ item.aria }}</a>
+            </h4>
+          </div>
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+      </md-list>
+    </md-content>
+  </section>
+
+  <section class="sizeHeader sizeFooter menuPerfil" ng-if="!logado" layout="column" layout-align="start">
+    <md-content style="background: transparent;">
+      <md-card md-theme="default">
+        <md-card-title>
+          <span>Entre em sua conta</span>
+        </md-card-title>
+        <md-card-title-media>
+          <md-button class="facebook md-raised" aria-label="Entrar com o facebook" ng-click="loginFacebook()">
+            <md-icon md-svg-src="assets/images/perfil/facebook.svg" aria-label="Facebook"></md-icon>
+            Entrar com o facebook
+          </md-button>
+          <!--<md-button class="md-raised" aria-label="Entrar com número de telefone" ui-sref="meNumero">-->
+          <!--<md-icon>smartphone</md-icon>-->
+          <!--Entrar com número de telefone-->
+          <!--</md-button>-->
+          <md-button class="md-raised" aria-label="Entrar com e-mail e senha" ui-sref="meEmail">
+            <md-icon>email</md-icon>
+            Entrar com e-mail e senha
+          </md-button>
+        </md-card-title-media>
+      </md-card>
+      <md-card md-theme="default">
+        <md-card-title>
+          <span>Ainda não tem uma conta?</span>
+        </md-card-title>
+        <md-card-title-media>
+          <md-button class="md-primary cadastro" aria-label="Quero me cadastrar" ui-sref="cadastrar">
+            <md-icon>person</md-icon>
+            Quero me cadastrar
+          </md-button>
+        </md-card-title-media>
+      </md-card>
+    </md-content>
+  </section>
+</div>

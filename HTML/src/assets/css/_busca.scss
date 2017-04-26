@@ -1,0 +1,352 @@
+@import "variables";
+
+.busca {
+  md-backdrop {
+    z-index : 9999999;
+  }
+
+  .md-sidenav-right {
+    z-index : 9999999;
+
+    h1 {
+      color : $white;
+
+      .md-button {
+        min-width     : 40px;
+        min-height    : 40px;
+        border-radius : 50%;
+        margin-right  : 0;
+
+        md-icon {
+          min-width  : 0;
+          width      : auto;
+          min-height : 0;
+          color      : $white;
+          height     : auto;
+          font-size  : 30px;
+        }
+      }
+    }
+
+    md-checkbox {
+      display       : block;
+      margin-bottom : 0;
+    }
+  }
+
+  section {
+    &.listagemVirtual {
+      height : 100vh;
+    }
+    article {
+      display    : inline-block;
+      width      : 100vw;
+      background : #F1F1F1;
+      padding    : 0 5px 5px 5px;
+
+      &:last-child:not(.interna) {
+        .outer {
+          border : none;
+        }
+      }
+
+      .outer {
+        background    : $white;
+        position      : relative;
+        padding       : 10px;
+        border-bottom : 1px solid #D9D9D9;
+
+        .normal {
+          min-width     : 40px;
+          min-height    : 40px;
+          border-radius : 50%;
+
+          &.beneficio {
+            min-width             : 120px;
+            min-height            : 24px;
+            -webkit-border-radius : 0;
+            -moz-border-radius    : 0;
+            border-radius         : 0;
+            color                 : $white;
+            padding               : 0 12px;
+            margin-left           : 0;
+            font-size             : 13px;
+            margin-right          : 2px;
+
+            md-icon {
+              min-width  : 0;
+              min-height : 0;
+              color      : $white;
+            }
+          }
+        }
+
+        .md-button:not(.normal) {
+          width    : 100%;
+          height   : 100%;
+          position : absolute;
+          top      : 0;
+          left     : 0;
+          padding  : 0;
+          margin   : 0;
+        }
+
+        .img {
+          min-width               : 50px;
+          width                   : 50px;
+          height                  : 50px;
+          border                  : 1px solid $gray;
+          -webkit-border-radius   : 50%;
+          -moz-border-radius      : 50%;
+          border-radius           : 50%;
+          background              : #FFFFFF center no-repeat;
+          -webkit-background-size : cover;
+          background-size         : cover;
+          margin-right            : 15px;
+        }
+
+        h3 {
+          font-size      : 1.2rem;
+          font-weight    : 700;
+          letter-spacing : 1px;
+          line-height    : 150%;
+        }
+
+        p {
+          font-size   : 1rem;
+          color       : #444444;
+          line-height : 110%;
+          margin      : 4px 0;
+        }
+
+        a {
+          color           : #00BFFF;
+          text-decoration : none;
+        }
+
+        .infos {
+          font-size : 14px;
+          color     : lighten($gray, 20);
+
+          span {
+            margin-right : 5px;
+          }
+
+          md-icon {
+            font-size  : 1rem;
+            width      : auto;
+            height     : auto;
+            min-width  : 0;
+            min-height : 0;
+          }
+
+          .stars {
+            color : $orange;
+            md-icon {
+              color : inherit;
+            }
+          }
+        }
+
+      }
+
+    }
+  }
+
+  //Toolbar Superior
+  md-toolbar {
+    background : $default;
+  }
+
+  //Busca Form
+  .buscaForm {
+    padding-right : 40px;
+    position      : relative;
+    width         : 100%;
+
+    .buttonAbsolut {
+      position   : absolute;
+      top        : 50%;
+      margin-top : -20px;
+      right      : -10px;
+      height     : auto;
+      width      : auto;
+      padding    : 0;
+
+    }
+
+    .inputBusca {
+
+      width     : 100%;
+      font-size : 16px;
+
+      &:before {
+        //content     : '&#xE8B6;';
+        content     : 'search';
+        font-family : 'Material Icons', serif;
+        color       : rgba(158, 158, 158, 0.5);
+        font-size   : 20px;
+        position    : absolute;
+        top         : 50%;
+        left        : 10px;
+        margin-top  : -10px;
+        width       : 20px;
+        height      : 20px;
+      }
+
+      input {
+        padding     : 5px 15px 5px 30px;
+        background  : #FFFFFF;
+        font-size   : 14px;
+        box-sizing  : border-box;
+        border      : none;
+        box-shadow  : 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+        outline     : none;
+        width       : 100%;
+        padding     : 5px 15px 5px 30px;
+        line-height : 40px;
+        height      : 40px;
+        color       : rgba(0, 0, 0, 0.87);
+      }
+
+      .md-errors-spacer {
+        display : none;
+      }
+
+    }
+    md-icon {
+      color     : $white;
+      font-size : 35px;
+      width     : 35px;
+      height    : 35px;
+    }
+  }
+
+  //Navegação das tabs
+  .md-nav-bar {
+    background : $default;
+
+    ul {
+      position  : relative;
+      display   : flex;
+      flex-flow : row wrap;
+
+      li {
+        flex       : 1;
+        flex-basis : 33%;
+        text-align : center;
+      }
+    }
+
+    .md-nav-item {
+      &:first-of-type {
+        margin-left : 0;
+      }
+
+      a {
+        padding : 12px 5px;
+      }
+    }
+
+    ._md-nav-button {
+      &.md-unselected {
+        color : $white;
+      }
+      &.md-accent {
+        color : $white;
+      }
+    }
+
+    md-nav-ink-bar {
+      background : $white;
+      height     : 5px;
+    }
+
+  }
+
+  //Toolbar de troca de endereço
+  .changeAddress {
+    background    : $white;
+    padding-right : 88px;
+    padding-left  : 14px;
+    position      : relative;
+
+    span {
+      color     : #444444;
+      display   : inline-block;
+      font-size : 14px;
+    }
+
+    md-icon {
+      animation-name            : example;
+      animation-duration        : 4s;
+      animation-iteration-count : 3;
+      animation-direction       : alternate;
+      @include animation('blink .8s linear 0s infinite alternate');
+    }
+
+    .md-button {
+      position : absolute;
+      top      : 50%;
+      right    : 5px;
+      color    : #444444;
+      margin   : -18px 0 6px 0;
+    }
+  }
+
+  .sizeTopHeader {
+    padding-top : 166px;
+
+    @include breakpoint('641px', 'min') {
+      padding-top : 175px;
+    }
+  }
+
+  @media (orientation : landscape) and (max-width : 640px) {
+    .sizeTopHeader {
+      padding-top : 149px;
+    }
+  }
+
+  .wrapperHeadBusca {
+    position : absolute;
+    top      : 0;
+    left     : 0;
+    z-index  : 8;
+    width    : 100%;
+  }
+
+  .loaderView {
+    height : 100vh;
+    width  : 100%;
+
+    .loader {
+      position : absolute;
+      top      : 50%;
+      left     : 50%;
+      margin   : -50px 0 0 -50px;
+      width    : 100px;
+      height   : 100px;
+    }
+  }
+
+  .loadMore {
+    height     : 100vh;
+    width      : 100%;
+    z-index    : 999;
+    position   : absolute;
+    top        : 0;
+    left       : 0;
+    background : rgba(0, 0, 0, .14);
+
+    .loader {
+      position : absolute;
+      top      : 50%;
+      left     : 50%;
+      margin   : -50px 0 0 -50px;
+      width    : 100px;
+      height   : 100px;
+    }
+  }
+
+}

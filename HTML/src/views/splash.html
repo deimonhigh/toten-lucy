@@ -1,0 +1,16 @@
+<section class="splash" role="loading" aria-label="Carregando dados">
+  <div class="table full">
+    <div class="tCell">
+      <div class="dib">
+        <article>
+          @@include('../assets/images/logo/logo.svg')
+        </article>
+        <article role="loading-bar" aria-label="Indicador de carregamento" class="loading">
+          <div class="whatHappens" ng-bind="loadingInfo"></div>
+          <md-progress-linear ng-if="loadingData" md-mode="determinate" value="{{ valueLoading }}"></md-progress-linear>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>

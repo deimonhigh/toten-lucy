@@ -1,0 +1,59 @@
+@mixin breakpoint($breakpoint, $break: null) {
+  @if $break != null {
+    $mediaVal : $breakpoint;
+
+    @each $type, $value in $breakpoints {
+      @if map-has-key($value, $breakpoint) {
+        $mediaVal : map-get($value, $breakpoint);
+      }
+    }
+
+    @media screen and (#{$break}-width: #{$mediaVal}) {
+      @content;
+    }
+  } @else {
+    @each $type, $value in $breakpoints {
+      @if map-has-key($value, $breakpoint) {
+        @media screen and (#{$type}-width: #{map-get($value, $breakpoint)}) {
+          @content;
+        }
+      }
+    }
+  }
+}
+
+@function lineHeight($fontSize, $lineHeight) {
+  @return #{$fontSize}/#{$lineHeight};
+}
+
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} {
+    @content;
+  }
+  @-moz-keyframes #{$animationName} {
+    @content;
+  }
+  @-o-keyframes #{$animationName} {
+    @content;
+  }
+  @keyframes #{$animationName} {
+    @content;
+  }
+}
+
+@mixin animation($animate...) {
+  $max: length($animate);
+  $animations: '';
+
+  @for $i from 1 through $max {
+    $animations: #{$animations + nth($animate, $i)};
+
+    @if $i < $max {
+      $animations: #{$animations + ", "};
+    }
+  }
+  -webkit-animation: $animations;
+  -moz-animation:    $animations;
+  -o-animation:      $animations;
+  animation:         $animations;
+}

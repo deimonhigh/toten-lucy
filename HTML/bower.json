@@ -1,0 +1,43 @@
+{
+  "name": "gopharma-app",
+  "authors": [
+    "Bruno Cunha de Souza <bruno.souza@ecs.com.br>"
+  ],
+  "description": "GoPharma App",
+  "main": "",
+  "keywords": [
+    "GoPharma",
+    "webApp",
+    "Cordova",
+    "AngularJS"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-local-storage": "^0.5.2",
+    "angular-ui-router": "ui-router#^0.4.2",
+    "jquery": "^3.2.1",
+    "angular": "~1.6.4",
+    "angular-animate": "~1.6.4",
+    "angular-material": "^1.1.3",
+    "jquery-mask-plugin": "^1.14.10",
+    "ngCordova": "^0.1.27-alpha",
+    "angular1-star-rating": "^1.2.11",
+    "angular-validation-match": "^1.9.0"
+  },
+  "resolutions": {
+    "angular": "~1.6.4",
+    "angular-animate": "~1.6.4",
+    "materialize": "~0.97.8"
+  },
+  "devDependencies": {
+    "angular-input-modified": "^2.4.1"
+  }
+}

@@ -1,0 +1,48 @@
+<div layout="column" layout-align="cente center" aria-label="Promoções">
+  @@include('../includes/header-interno.html', {
+  "title": "Eu"
+  })
+
+  <div class="endreco sizeHeader sizeFooter" layout="column" layout-align="cente center" layout-fill>
+    <section ng-if="true" class="facaLogin sizeFooter" layout="column" layout-align="cente center">
+      <div class="table fullBack">
+        <div class="tCell">
+          <div class="dib txtCenter">
+            <md-icon style="font-size: 100px; width: auto; height: auto; display: block;">mood_bad</md-icon>
+            <p class="middleText">
+              Parece que você não aderiu a nenhum programa de Benefício. <br> Gostaria de aderir?
+            </p>
+            <md-button class="md-primary md-raised" ui-sref="beneficios">
+              Quero
+            </md-button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section ng-if="false" class="facaLogin sizeFooter" layout="column" layout-align="cente center">
+      <md-virtual-repeat-container style="height: 100%">
+        <article md-virtual-repeat="i in listagemBeneficios" md-on-demand>
+          <div class="outer" layout="row" layout-align="start center">
+            <md-button aria-label="{{ i.nomeFantasia }}" ui-sref="farmacia" ng-click="selFarmacia(i)"></md-button>
+            <div class="img" ng-style="{'background-image': i.imgs }"></div>
+            <div class="promoTexto">
+              <h3 md-truncate style="max-width: calc(100vw - 100px)" ng-bind="i.nomeFantasia"></h3>
+              <p md-truncate style="max-width: calc(100vw - 100px)" ng-bind="i.logradouro"></p>
+              <div class="infos">
+              <span class="distance" ng-if="i.distancia">
+              <md-icon>place</md-icon>
+                {{ i.distancia }}km
+              </span>
+                <span class="stars" ng-if="i.avaliacaoMedia > 0">
+                <md-icon>star_border</md-icon>
+                {{ i.avaliacaoMedia }}
+              </span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </md-virtual-repeat-container>
+    </section>
+  </div>
+
+</div>
