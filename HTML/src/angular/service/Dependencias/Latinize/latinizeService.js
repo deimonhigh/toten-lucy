@@ -1,7 +1,7 @@
 ﻿(function () {
   "use strict";
 
-  angular.module("appGoPharma").service("latinizeService", latinizeService);
+  angular.module("appToten").service("latinizeService", latinizeService);
 
   latinizeService.$inject = [];
 

@@ -1,0 +1,31 @@
+<section class="login">
+  <a ui-sref="login" class="logo">
+    <h1>
+      lucy home
+    </h1>
+  </a>
+
+  <div class="table full">
+    <div class="tCell">
+      <article class="dib">
+
+        <form ng-submit="loginForm.$valid" name="loginForm">
+          <div class="form-group text-left">
+            <label>Login</label>
+            <input type="text" name="user" class="form-control" placeholder="Usuário" ng-model="dados.user">
+          </div>
+
+          <div class="form-group text-left">
+            <label>Senha</label>
+            <input type="password" name="pass" class="form-control" placeholder="Senha" ng-model="dados.pass">
+          </div>
+
+          <button class="btn mt30" ng-disabled="loginForm.$invalid" ng-click="login(dados)" type="button">
+            Login
+          </button>
+        </form>
+      </article>
+    </div>
+  </div>
+
+</section>

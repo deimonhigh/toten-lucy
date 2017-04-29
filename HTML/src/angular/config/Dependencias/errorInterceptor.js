@@ -1,5 +1,5 @@
 ﻿angular
-  .module("appGoPharma")
+  .module("appToten")
   .factory("errorInterceptor", errorInterceptor);
 
 errorInterceptor.$inject = ['$location'];

@@ -1,5 +1,5 @@
 ﻿angular
-  .module("appGoPharma")
+  .module("appToten")
   .factory("base64Factory",
            function () {
              var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";

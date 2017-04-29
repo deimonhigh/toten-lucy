@@ -5,16 +5,21 @@
 // COLORS DEFAULT
 $valid : #2ECC71;
 $error : #E74C3C;
-$orange : #FFCC80;
-$deepOrange : #FFCC80;
-$default : #FF9800;
-$defEscuro : #ff6e40;
-$gray : #808080;
+
+$default : #FF5B10;
 $white : #FFFFFF;
+$background : #F3F4F6;
+$txt : #212121;
 
 // PATHS
-$fonts : "fonts/";
+$fonts : "./fonts/";
 $img : "../imgs/";
+
+// Fonts
+$lm : "LaserMetal";
+$nw : "Novecentowide";
+$fw : "FontAwesome";
+$op : "Open Sans";
 
 // BREAKPOINTS
 $breakpoints : (max: (xs: 767px), min: (sm: 768px, md: 992px, lg: 1200px));

@@ -22,7 +22,7 @@
   }
 }
 
-@function lineHeight($fontSize, $lineHeight) {
+@function lh($fontSize, $lineHeight) {
   @return #{$fontSize}/#{$lineHeight};
 }
 

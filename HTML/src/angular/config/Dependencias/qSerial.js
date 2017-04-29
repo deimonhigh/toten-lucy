@@ -1,5 +1,5 @@
 ﻿angular
-  .module("appGoPharma")
+  .module("appToten")
   .config([
             "$provide",
             function ($provide) {

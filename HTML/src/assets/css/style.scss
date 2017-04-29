@@ -1,8 +1,9 @@
 // Imports
 // Reset
-@import "../lib/angular-material/angular-material.min";
+@import "import";
 @import "loader";
 @import "variables";
+@import "fonts";
 @import "mixins/mixins";
 @import "keyFrames";
 
@@ -12,45 +13,32 @@
   margin     : 0;
 }
 
+body {
+  background : $background;
+  font       : lh(16px, 150%) $op;
+}
+
+#loading-bar .bar {
+  background : $default;
+  height     : 5px;
+}
+
 .noPad {
   padding : 0 !important;
-}
-
-#loader {
-  width  : 100%;
-  height : 100%;
-}
-
-.sizeFooter {
-  padding-bottom : 65px;
-}
-
-.sizeHeader {
-  padding-top : 56px;
-
-  @include breakpoint('640', 'min') {
-    padding-top : 64px;
-  }
 }
 
 .table {
   display : table;
 
   &.full {
-    position : fixed;
-    z-index  : 9999;
-    width    : 100%;
-    height   : 100%;
-    top      : 0;
-    left     : 0;
+    width  : 100%;
+    height : 100%;
+    top    : 0;
+    left   : 0;
   }
 
-  &.fullBack {
+  &.fixed {
     position : fixed;
-    width    : 100%;
-    height   : 100%;
-    top      : 0;
-    left     : 0;
   }
 
   .tCell {
@@ -81,119 +69,68 @@
   }
 }
 
-.voltar {
-  min-width  : 40px;
-  background : transparent;
+.btn {
+  padding            : 12px 50px;
+  background         : $default;
+  color              : #FFFFFF;
+  text-transform     : uppercase;
+  border-radius      : 0;
+  font-weight        : 600;
+  font-family        : $nw;
+  letter-spacing     : 1px;
+  -webkit-transition : color .4s ease;
+  -moz-transition    : color .4s ease;
+  -ms-transition     : color .4s ease;
+  -o-transition      : color .4s ease;
+  transition         : color .4s ease;
+  outline            : none !important;
 
-  md-icon {
-    color : $white !important;
+  &.go {
+    &:after {
+      content : '';
+      font    : 16px $fw;
+    }
   }
 }
 
-.img-responsive {
-  width   : 100%;
-  padding : 10px;
+.mt30 {
+  margin-top : 30px;
+}
 
-  img {
-    display : block;
-    width   : 100%;
+section {
+  padding : 70px;
+}
+
+.logo {
+  text-decoration : none !important;
+  display         : block;
+  padding-left    : 10px;
+  position        : absolute;
+  top             : 40px;
+  left            : 60px;
+
+  h1 {
+    text-transform : uppercase;
+    margin         : 0;
+    padding        : 0;
+    color          : $txt;
+    font           : 600 lh(40px, 85%) $nw;
   }
+
+  &:before {
+    content    : "";
+    background : $default;
+    height     : 40px;
+    width      : 60px;
+    position   : absolute;
+    top        : 0;
+    left       : -60px;
+  }
+
 }
 
 @import "footer";
-@import "perfil";
+@import "login";
+@import "home";
+@import "categorias";
 @import "header";
-@import "splash";
-@import "promocoes";
-@import "busca";
-@import "endereco";
-@import "pesquisa";
-@import "farmacias";
-
-.dropDownBuscaProdutos {
-  z-index : 999999999999999999;
-}
-
-.rating {
-  &.disabled {
-    .star {
-      opacity : 1 !important;
-    }
-
-  }
-  .star {
-    opacity : 1;
-    i {
-      outline : none;
-      color   : $default !important;
-    }
-  }
-}
-
-md-checkbox {
-  &.md-checked {
-    .md-icon {
-      &:after {
-        border-color : rgba(255, 255, 255, 0.87) !important;
-      }
-    }
-  }
-}
-
-.white {
-  color : rgba(255, 255, 255, 0.87) !important;
-}
-
-.topWarning {
-  color      : rgba(0, 0, 0, 0.54);
-  text-align : center;
-  font-size  : 30px;
-  margin     : 20px 0 10px 0;
-}
-
-.middleText {
-  padding     : 0;
-  max-width   : 80%;
-  font-size   : 1.1rem;
-  color       : $gray;
-  text-align  : center;
-  font-weight : 300;
-  display     : inline-block;
-}
-
-.md-dialog-container {
-  z-index : 9999999999999999;
-
-  .md-dialog-content-body {
-    p {
-      font-size   : 14px;
-      font-weight : 300;
-      margin-top  : 15px;
-    }
-  }
-}
-
-.inlineButton {
-  display : inline-block !important;
-  width   : auto;
-}
-
-.gray {
-  color : #666666 !important;
-}
-
-.materialLabel {
-  display   : block;
-  margin    : 0 0 10px 5px;
-  font-size : 12px;
-  color     : rgba(0, 0, 0, 0.54);
-}
-
-.centerBlock {
-  text-align : center;
-
-  .md-button {
-    width  : 100%;
-    margin : 0 0 20px 0;
-  }
-}

@@ -1,10 +1,9 @@
 ﻿<!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR" ng-app="appToten">
 <head>
-  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src * 'unsafe-inline'; img-src 'self' data:; media-src *; script-src * http://* 'unsafe-inline' 'unsafe-eval'">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-  <title>App GoPharma</title>
+  <title>Toten Lucy</title>
   <meta name="theme-color" content="#FF9800">
   <meta name="msapplication-navbutton-color" content="#FF9800">
   <meta name="apple-mobile-web-app-status-bar-style" content="#FF9800">
@@ -12,30 +11,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
 
   <link rel="stylesheet" type="text/css" href="assets/css/style.min.css" />
-  <script src="assets/js/scripts.min.js"></script>
-  <script src="cordova.js"></script>
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="http://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i" rel="stylesheet">
 
 </head>
 <body>
-  <div id="loader" class="table" ng-if="angularNotLoaded && !SplashScreen">
-    <div class="tCell">
-      <div class="dib">
-        @@include('views/includes/loader.html')
-      </div>
-    </div>
-  </div>
-
   <ui-view class="ng-cloak"></ui-view>
 
-  @@include('views/includes/footer.html')
-
-  <script src="assets/index.js"></script>
-  <script>
-    app.initialize();
-  </script>
+  <script src="assets/js/scripts.min.js"></script>
   <script src="assets/angular/app.min.js"></script>
   <script src="assets/angular/config/configModule.min.js"></script>
   <script src="assets/angular/views/viewsModule.min.js"></script>

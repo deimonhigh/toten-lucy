@@ -1,5 +1,5 @@
 ﻿angular
-  .module("appGoPharma")
+  .module("appToten")
   .factory("autenticacaoInterceptor", [
     'localStorageService', 'config', 'base64Factory', function (localStorageService, config, base64Factory) {
       return {

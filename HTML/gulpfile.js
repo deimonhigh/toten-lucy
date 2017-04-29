@@ -21,7 +21,7 @@ var onError = function (err) {
 // Definimos FALSE se nao houver programaçao depois
 var whitespace = true;
 
-var baseDist = '../Backend/'
+var baseDist = './dist/'
 var baseSrc = './src/'
 
 // Definimos o diretorio dos arquivos que serao verificados na pasta SRC
@@ -32,20 +32,20 @@ var filesSrc = {
   imgs: baseSrc + 'assets/imgs/**/*',
   scss: baseSrc + 'assets/css/**/*.scss',
   fonts: [baseSrc + '**/*/*.eot', baseSrc + '**/*/*.woff2', baseSrc + '**/*/*.woff', baseSrc + '**/*/*.ttf', baseSrc + '**/*/*.svg', '!' + baseSrc + 'assets/images/'],
-  html: baseSrc + 'views/**/*.php',
+  html: baseSrc + 'views/**/*.html',
   index: baseSrc + 'index.html'
 };
 
 // Definimos o diretorio dos arquivos na pasta DIST
 var dist = {
-  indexJS: baseDist + 'public/assets/',
-  js: baseDist + 'public/assets/js/',
-  imgs: baseDist + 'public/assets/imgs/',
-  angular: baseDist + 'public/assets/angular/',
-  css: baseDist + 'public/assets/css/',
-  fonts: baseDist + 'public/assets/css/fonts/',
-  html: baseDist + 'resources/views/',
-  index: baseDist + '/public',
+  indexJS: baseDist + 'assets/',
+  js: baseDist + 'assets/js/',
+  imgs: baseDist + 'assets/imgs/',
+  angular: baseDist + 'assets/angular/',
+  css: baseDist + 'assets/css/',
+  fonts: baseDist + 'assets/css/fonts/',
+  html: baseDist + 'views/',
+  index: baseDist,
   mapJS: '/map/',
   mapJSAngular: '/map/',
   mapCSS: '/map/'
@@ -145,6 +145,25 @@ gulp.task('html', function () {
              .pipe(connect.reload()); // LiveReload
 });
 
+// Movemos a index para a pasta dist
+// e a minificamos
+gulp.task('index', function () {
+  console.log('\nIniciando a task de inclusao e compressao do index\n');
+  return gulp.src(filesSrc.index) // Arquivos que serao carregados, veja variável 'filesSrc.index' no início
+             .pipe(plumber({
+                             errorHandler: onError
+                           }))
+             .pipe(fileinclude())
+             .pipe(htmlmin({
+                             "collapseWhitespace": whitespace,
+                             "removeComments": true,
+                             "removeRedundantAttributes": true,
+                             "conservativeCollapse": false
+
+                           })) // Transforma para formato ilegível
+             .pipe(gulp.dest(dist.index)); // pasta de destino do arquivo(s);
+});
+
 // Movemos as imagens para a pasta dist
 gulp.task('imgs', function () {
   console.log('\nIniciando a task de inclusao das imagens\n');
@@ -202,7 +221,7 @@ gulp.task('cleanCSS', function () {
              .pipe(gulp.dest(dist.css)) // pasta de destino do arquivo(s)
 });
 
-var choiceslabel = ['SASS => s', 'Fonts => f', 'Imgs => i', 'JS => j', 'HTML => h', 'Index => x', 'Abrir no navegador => a', 'Fim => q', 'Watch => w', 'Angular => g'];
+var choiceslabel = ['SASS => s', 'Fonts => f', 'Imgs => i', 'JS => j', 'HTML => h', 'Index => x', 'Angular => g', 'Abrir no navegador => a', 'Fim => q'];
 
 function message() {
   console.log('-----------------------------');
@@ -223,8 +242,8 @@ gulp.task('type', function () {
                                       terminal: true
                                     });
 
-  var choices = ['s', 'f', 'i', 'j', 'h', 'x', 'g', 'w', 'a', 'q'];
-  var tasks = ['sass', 'fonts', 'imgs', 'js', 'html', 'index', 'angular', 'watch'];
+  var choices = ['s', 'f', 'i', 'j', 'h', 'x', 'g', 'a', 'q'];
+  var tasks = ['sass', 'fonts', 'imgs', 'js', 'html', 'index', 'angular'];
   message();
 
   rl.on('line', function (line) {
@@ -248,14 +267,15 @@ gulp.task('type', function () {
 // Tarefa de monitoraçao caso algum arquivo seja modificado, deve ser executado e deixado aberto, comando "gulp watch".
 gulp.task('watch', function () {
   console.log('\nAssistindo mudanças do projeto\n');
-  gulp.watch(baseSrc + 'public/assets/js/*.js', ['js']); // Olha por mudanças nos arquivos JS
+  gulp.watch(baseSrc + 'assets/js/*.js', ['js']); // Olha por mudanças nos arquivos JS
   gulp.watch(filesSrc.html, ['html']); // Olha por mudanças nos arquivos HTML
-  gulp.watch(baseSrc + 'public/assets/css/**/*.scss', ['sass']); // Olha por mudanças nos arquivos JS
-  gulp.watch(baseSrc + 'public/angular/**/*.js', ['angular']); // Olha por mudanças nos arquivos JS
+  gulp.watch(baseSrc + 'assets/css/**/*.scss', ['sass']); // Olha por mudanças nos arquivos JS
+  gulp.watch(baseSrc + 'angular/**/*.js', ['angular']); // Olha por mudanças nos arquivos JS
   gulp.watch(filesSrc.imgs, ['imgs']); // Olha por mudanças nos arquivos IMGS
+  gulp.watch(filesSrc.index, ['index']); // Olha por mudanças nos arquivos IMGS
 });
 
-gulp.task('build', ['sass', 'fonts', 'imgs', 'js', 'angular', 'html'], function () {
+gulp.task('build', ['sass', 'fonts', 'imgs', 'js', 'angular', 'html', 'index'], function () {
   return gulp.start(['watch', 'type', 'connect']);
 });
 

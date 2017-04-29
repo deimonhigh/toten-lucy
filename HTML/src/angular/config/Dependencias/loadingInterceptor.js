@@ -1,5 +1,5 @@
 ﻿angular
-  .module("appGoPharma")
+  .module("appToten")
   .factory("loadingInterceptor", loadingInterceptor);
 
 loadingInterceptor.$inject = ['$q', '$rootScope'];

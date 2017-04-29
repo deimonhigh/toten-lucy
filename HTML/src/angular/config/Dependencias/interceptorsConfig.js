@@ -4,7 +4,7 @@
 
 (function (angular) {
   angular
-    .module("appGoPharma")
+    .module("appToten")
     .config([
               '$httpProvider',
               function ($httpProvider) {

@@ -1,0 +1,6 @@
+**/.idea/
+**/node_modules/
+*.iml
+/Backend/vendor/
+/HTML/src/assets/lib/
+/Backend/.env

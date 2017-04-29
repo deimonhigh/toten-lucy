@@ -1,5 +1,5 @@
 ﻿angular
-  .module("appGoPharma")
+  .module("appToten")
   .factory("shareData",
            function () {
              var savedData = {}
