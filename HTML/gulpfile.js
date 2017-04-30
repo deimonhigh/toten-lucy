@@ -21,8 +21,8 @@ var onError = function (err) {
 // Definimos FALSE se nao houver programaçao depois
 var whitespace = true;
 
-var baseDist = './dist/'
-var baseSrc = './src/'
+var baseDist = './dist/';
+var baseSrc = './src/';
 
 // Definimos o diretorio dos arquivos que serao verificados na pasta SRC
 var filesSrc = {
@@ -43,7 +43,7 @@ var dist = {
   imgs: baseDist + 'assets/imgs/',
   angular: baseDist + 'assets/angular/',
   css: baseDist + 'assets/css/',
-  fonts: baseDist + 'assets/css/fonts/',
+  fonts: baseDist + 'assets/fonts/',
   html: baseDist + 'views/',
   index: baseDist,
   mapJS: '/map/',
@@ -161,7 +161,8 @@ gulp.task('index', function () {
                              "conservativeCollapse": false
 
                            })) // Transforma para formato ilegível
-             .pipe(gulp.dest(dist.index)); // pasta de destino do arquivo(s);
+             .pipe(gulp.dest(dist.index)) // pasta de destino do arquivo(s);
+             .pipe(connect.reload()); // LiveReload
 });
 
 // Movemos as imagens para a pasta dist

@@ -1,0 +1,131 @@
+#snapshot{
+  width      : 0;
+  height     : 0;
+  opacity    : 0;
+  position   : fixed;
+  top        : 0;
+  left       : 0;
+  display    : none;
+  visibility : hidden;
+}
+
+.foto {
+  text-align : left;
+  max-width  : 80%;
+  width      : 100%;
+
+  .closeModal {
+    -webkit-border-radius : 50%;
+    -moz-border-radius    : 50%;
+    border-radius         : 50%;
+    width                 : 50px;
+    height                : 50px;
+    background            : $default;
+    position              : absolute;
+    top                   : 40px;
+    right                 : 60px;
+    cursor                : pointer;
+
+    &:after {
+      content     : '\f00d';
+      font        : 36px $fw;
+      line-height : 75%;
+      margin      : -15px 0 0 -14px;
+      position    : absolute;
+      top         : 50%;
+      left        : 50%;
+      color       : #FFFFFF;
+    }
+  }
+
+  .img {
+    width          : 160px;
+    display        : inline-block;
+    vertical-align : middle;
+    svg {
+      width  : 100%;
+      height : auto;
+    }
+  }
+
+  .right {
+    display        : inline-block;
+    vertical-align : middle;
+    width          : 100%;
+    max-width      : 300px;
+    padding-left   : 20px;
+    padding-right  : 30px;
+
+    h3 {
+      font          : 600 lh(30px, 110%) $nw;
+      margin-top    : 0;
+      margin-bottom : 20px;
+      color         : #FFFFFF;
+    }
+    p {
+      font       : 400 lh(16px, 130%) $nw;
+      margin-top : 0;
+      color      : #FFFFFF;
+    }
+  }
+
+  .imgExample {
+    width     : 100%;
+    max-width : 400px;
+    display   : inline-block;
+    position  : relative;
+
+    &.OkFoto {
+      background : #FFFFFF;
+      padding    : 40px;
+
+      i {
+        font-size      : 25px;
+        vertical-align : middle;
+      }
+    }
+
+    video {
+      display : block;
+      width   : 400px;
+      height  : auto;
+    }
+
+    img {
+      display : block;
+      width   : 100%;
+    }
+  }
+
+  .grid {
+    width      : 100%;
+    height     : auto;
+    text-align : center;
+
+    .column {
+      display        : inline-block;
+      vertical-align : middle;
+      width          : auto;
+      text-align     : left;
+    }
+  }
+
+  .btn {
+    right    : 0;
+    top      : 100%;
+    position : absolute;
+
+    padding  : 12px 30px;
+
+    &.tp {
+      right : auto;
+      left  : 0;
+    }
+
+    .img {
+      width          : 30px;
+      vertical-align : middle;
+      margin-right   : 10px;
+    }
+  }
+}

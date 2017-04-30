@@ -77,6 +77,8 @@
 
           flex-flow       : column;
 
+          transition      : all .2s ease;
+
           &:nth-child(3n+3) {
             margin-right : 0;
           }
@@ -85,8 +87,17 @@
             margin-bottom : 0;
           }
 
-          &:hover, &:active {
+          &:hover {
             background : none;
+          }
+
+          &:active {
+            background : $default;
+            border     : 1px solid $default !important;
+
+            span {
+              color : #FFFFFF;
+            }
           }
 
           img {

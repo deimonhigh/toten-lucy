@@ -18,6 +18,59 @@
 <body>
   <ui-view class="ng-cloak"></ui-view>
 
+  <div ng-cloak ng-controller="fotoController">
+    <div class="tableModal full fixed black animate-if" ng-if="foto">
+      <div class="tCell">
+        <div class="dib foto">
+          <div class="closeModal" ng-click="closeModal()"></div>
+          <div class="grid">
+            <div class="column">
+              <div class="img">
+                @@include('assets/imgs/fotos/webcam.svg')
+              </div>
+              <div class="right">
+                <h3>ANEXAR<br>COMPROVANTE</h3>
+                <p>POSICIONE O COMPROVANTE DO PAGEMENTO EM FRENTE A CÂMERA</p>
+              </div>
+            </div>
+            <div class="column" ng-if="!confirmFoto">
+              <div class="imgExample">
+                <webcam channel="channel"
+                        on-streaming="onSuccess()"
+                        on-error="onError(err)"
+                        on-stream="onStream(stream)"
+                        ng-if="!picture"
+                ></webcam>
+                <button type="button" class="btn" ng-click="makeSnapshot()">
+                  <div class="img">
+                    @@include('assets/imgs/fotos/camera.svg')
+                  </div>
+                  fotografar
+                </button>
+              </div>
+            </div>
+            <div class="column" ng-if="confirmFoto">
+              <div class="imgExample OkFoto">
+                <img ng-src="{{ imgResponse }}" alt="Foto">
+                <button type="button" class="btn tp" ng-click="notOkFoto()">
+                  <div class="img">
+                    @@include('assets/imgs/fotos/camera.svg')
+                  </div>
+                  fotografar
+                </button>
+                <button type="button" class="btn" ng-click="closeModal()">
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                  confirmar
+                </button>
+              </div>
+            </div>
+            <canvas id="snapshot" width="300" height="240"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="assets/js/scripts.min.js"></script>
   <script src="assets/angular/app.min.js"></script>
   <script src="assets/angular/config/configModule.min.js"></script>

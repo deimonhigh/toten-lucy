@@ -6,8 +6,9 @@
   url($fonts + 'LaserMetal.woff2') format('woff2'),
   url($fonts + 'LaserMetal.woff') format('woff'),
   url($fonts + 'LaserMetal.ttf') format('truetype'),
-  url($fonts + 'LaserMetal.LaserMetal') format('svg');
+  url($fonts + 'LaserMetal#LaserMetal') format('svg');
 }
+
 //endregion
 
 //region NovecentowideMedium
@@ -76,4 +77,5 @@
   url($fonts + 'NovecentowideLight.svg#NovecentowideLight') format('svg');
   font-weight : 200;
 }
+
 //endregion

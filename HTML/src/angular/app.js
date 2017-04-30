@@ -5,15 +5,19 @@
     "ui.router",
     "LocalStorageModule",
     "angular-loading-bar",
-    "ngAnimate"
+    "ngAnimate",
+    "webcam"
   ]);
 
   angular.module("appToten").run(runApp);
 
-  runApp.$inject = ['$rootScope', '$window', '$sce', 'apiService', 'cfpLoadingBar'];
+  runApp.$inject = ['$rootScope', '$window', '$sce', 'cfpLoadingBar'];
 
-  function runApp($rootScope, $window, $sce, apiService, cfpLoadingBar) {
+  function runApp($rootScope, $window, $sce, cfpLoadingBar) {
     var root = $rootScope;
+
+    root.foto = false;
+    root.confirmFoto = false;
 
     //region Loading
     root.angularNotLoaded = true;
@@ -46,14 +50,14 @@
       $window.ga('send', 'event', categoria, action, label);
     };
     //endregion
-    
-    root.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+
+    root.$on('$stateChangeStart', function () {
       cfpLoadingBar.start();
     });
 
-    root.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    root.$on('$stateChangeSuccess', function () {
       cfpLoadingBar.complete();
     });
-    
+
   }
 })();

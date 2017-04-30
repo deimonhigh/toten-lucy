@@ -4,5 +4,6 @@
 //=require ../lib/angular-animate/angular-animate.min.js
 //=require ../lib/angular-loading-bar/build/loading-bar.min.js
 //=require ../lib/angular-local-storage/dist/angular-local-storage.min.js
+//=require ../lib/webcam/dist/webcam.min.js
 //=require ./estados-cidades.js
 

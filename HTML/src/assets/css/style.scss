@@ -2,6 +2,7 @@
 // Reset
 @import "import";
 @import "loader";
+@import "animation";
 @import "variables";
 @import "fonts";
 @import "mixins/mixins";
@@ -27,8 +28,12 @@ body {
   padding : 0 !important;
 }
 
-.table {
+.tableModal {
   display : table;
+
+  &.black {
+    background : rgba(0, 0, 0, .9);
+  }
 
   &.full {
     width  : 100%;
@@ -80,10 +85,42 @@ body {
   letter-spacing     : 1px;
   -webkit-transition : color .4s ease;
   -moz-transition    : color .4s ease;
-  -ms-transition     : color .4s ease;
   -o-transition      : color .4s ease;
   transition         : color .4s ease;
   outline            : none !important;
+
+  &.tp {
+    background : none;
+  }
+
+  i {
+    color              : #FFFFFF;
+    -webkit-transition : color .4s ease;
+    -moz-transition    : color .4s ease;
+    -o-transition      : color .4s ease;
+    transition         : color .4s ease;
+  }
+
+  svg {
+    * {
+      fill               : #FFFFFF;
+      -webkit-transition : fill .4s ease;
+      -moz-transition    : fill .4s ease;
+      -o-transition      : fill .4s ease;
+      transition         : fill .4s ease;
+    }
+  }
+
+  &:hover, &active {
+    svg {
+      * {
+        fill : #333333;
+      }
+    }
+    i {
+      color : #333333;
+    }
+  }
 
   &.go {
     &:after {
@@ -133,4 +170,5 @@ section {
 @import "login";
 @import "home";
 @import "categorias";
+@import "foto";
 @import "header";
