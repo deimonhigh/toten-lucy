@@ -83,14 +83,23 @@ body {
   font-weight        : 600;
   font-family        : $nw;
   letter-spacing     : 1px;
-  -webkit-transition : color .4s ease;
-  -moz-transition    : color .4s ease;
-  -o-transition      : color .4s ease;
-  transition         : color .4s ease;
+  -webkit-transition : all .4s ease;
+  -moz-transition    : all .4s ease;
+  -o-transition      : all .4s ease;
+  transition         : all .4s ease;
   outline            : none !important;
 
   &.tp {
     background : none;
+  }
+
+  &.white {
+    background : #FFFFFF;
+    color      : #333333;
+
+    &:hover, &active {
+      background : none;
+    }
   }
 
   i {
@@ -138,30 +147,41 @@ section {
   padding : 70px;
 }
 
-.logo {
-  text-decoration : none !important;
-  display         : block;
-  padding-left    : 10px;
-  position        : absolute;
-  top             : 40px;
-  left            : 60px;
+.noBtn {
+  outline    : none;
+  border     : none;
+  background : none;
+  height     : 40px;
+  width      : 40px;
+}
 
-  h1 {
-    text-transform : uppercase;
-    margin         : 0;
-    padding        : 0;
-    color          : $txt;
-    font           : 600 lh(40px, 85%) $nw;
+.grid {
+  display         : flex;
+  align-items     : flex-start;
+  justify-content : center;
+  width           : 100%;
+  flex-flow       : row;
+
+  &.middle {
+    align-items : center;
   }
 
-  &:before {
-    content    : "";
-    background : $default;
-    height     : 40px;
-    width      : 60px;
-    position   : absolute;
-    top        : 0;
-    left       : -60px;
+  @include grid(12);
+
+  .align-left {
+    justify-content : flex-start;
+  }
+
+  .align-right {
+    justify-content : flex-end;
+  }
+
+  .align-top {
+    align-self : flex-start;
+  }
+
+  .align-bottom {
+    align-self : flex-end;
   }
 
 }
@@ -171,4 +191,5 @@ section {
 @import "home";
 @import "categorias";
 @import "foto";
+@import "carrinho";
 @import "header";

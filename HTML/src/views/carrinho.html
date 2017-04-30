@@ -1,0 +1,101 @@
+<header>
+  <a ui-sref="login" class="logo">
+    <h1>
+      lucy home
+    </h1>
+  </a>
+
+  <h2>
+    meu carrinho
+  </h2>
+
+  <ul>
+    <li class="active">
+      1
+      <p>carrinho</p>
+    </li>
+    <li>
+      2
+      <p>identificação</p>
+    </li>
+    <li>
+      3
+      <p>pagamento</p>
+    </li>
+  </ul>
+</header>
+<section class="carrinho grid">
+  <article class="tableHolder">
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>foto</th>
+          <th>desc.</th>
+          <th>preço.</th>
+          <th>qtd.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in listaCompras">
+          <td>
+            <div class="img">
+              <img src="../assets/imgs/carrinho/example.png" alt="Example">
+            </div>
+          </td>
+          <td>
+            <h4>
+              CADEIRA LOUIS GHOST COM BRAÇO
+            </h4>
+            <p>vermelha</p>
+          </td>
+          <td>
+            <div class="preco">
+              R$ 350,00
+            </div>
+          </td>
+          <td>
+            <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="fa fa-plus"></i>
+                </span>
+              <input type="text" class="form-control" readonly value="1">
+              <span class="input-group-addon">
+                  <i class="fa fa-minus"></i>
+                </span>
+            </div>
+          </td>
+          <td>
+            <button class="noBtn" ng-click="remove(item)">
+              <i class="fa fa-times"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+  <article class="total">
+    <div class="field">
+      <div class="cifra">
+        <span>
+          R$
+        </span>
+      </div>
+      <div class="number">
+        32.520,25
+      </div>
+    </div>
+  </article>
+
+  <footer class="grid middle">
+    <div class="collum align-left grid-6">
+      <button class="btn white">
+        continuar comprando
+      </button>
+    </div>
+    <div class="collum align-right grid-6">
+      <button class="btn">
+        prosseguir
+      </button>
+    </div>
+  </footer>
+</section>

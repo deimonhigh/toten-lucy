@@ -3,50 +3,7 @@ footer {
   bottom     : 0;
   left       : 0;
   width      : 100%;
-  background : $white;
-
-  z-index    : 70;
-
-  .auto {
-    .md-nav-bar {
-      height       : auto !important;
-      border-width : 1px 0 1px;
-      ul {
-        display   : flex;
-        flex-flow : row wrap;
-
-        li {
-          text-align : center;
-          flex       : 1;
-          flex-basis : 33%;
-          text-align : center;
-
-          &:first-of-type {
-            margin-left : 0;
-          }
-
-          .md-button {
-            &._md-nav-button {
-              padding : 5px 16px;
-            }
-          }
-
-          ._md-nav-button-text {
-            display : block;
-
-            i {
-              &.material-icons {
-                display   : block;
-                font-size : 30px;
-              }
-            }
-            .textoNav {
-              font-size : 11px;
-            }
-          }
-        }
-      }
-
-    }
-  }
+  height     : 100px;
+  background : #EEEEEE;
+  padding    : 0 70px;
 }

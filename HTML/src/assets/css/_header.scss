@@ -1,12 +1,81 @@
 header {
-  width    : 100%;
-  position : fixed;
-  top      : 0;
-  left     : 0;
-  z-index  : 9999;
+  position     : relative;
+  margin-top   : 40px;
+  padding-left : 60px;
+  width        : 100%;
 
-  .headerTitle {
-    color     : $white;
-    font-size : 17px;
+  .logo {
+    text-decoration : none !important;
+    display         : inline-block;
+    vertical-align  : middle;
+    padding-left    : 10px;
+    position        : relative;
+
+    h1 {
+      text-transform : uppercase;
+      margin         : 0;
+      padding        : 0;
+      color          : $txt;
+      font           : 600 lh(40px, 85%) $nw;
+    }
+
+    &:before {
+      content    : "";
+      background : $default;
+      height     : 40px;
+      width      : 60px;
+      position   : absolute;
+      top        : 0;
+      left       : -60px;
+    }
+
+  }
+
+  h2 {
+    font           : 500 lh(20px, 200%) $nw;
+    color          : #999999;
+    margin         : 0 0 0 40px;
+    vertical-align : top;
+    display        : inline-block;
+  }
+
+  ul {
+    list-style : none;
+    padding    : 0 70px 0 0;
+    margin-top : -10px;
+    float      : right;
+
+    li {
+      -webkit-border-radius : 50%;
+      -moz-border-radius    : 50%;
+      border-radius         : 50%;
+      background            : #EEEEEE;
+      width                 : 50px;
+      height                : 50px;
+      display               : inline-block;
+      vertical-align        : middle;
+      position              : relative;
+      margin-left           : 80px;
+
+      text-align            : center;
+      padding-top           : 15px;
+      font                  : 600 lh(18px, 100%) $nw;
+      color                 : #DDDDDD;
+
+      &.active {
+        background : $ldefault;
+        color      : #FFFFFF;
+      }
+      p {
+        position    : absolute;
+        top         : 60px;
+        left        : 50%;
+        width       : 100px;
+        margin-left : -50px;
+        text-align  : center;
+        color       : #333333;
+        font        : 400 lh(12px, 120%) $nw;
+      }
+    }
   }
 }

@@ -39,5 +39,10 @@
         controller: "loginController"
       })
 
+      .state("carrinho", {
+          url: "/meuCarrinho",
+        templateUrl: "./views/carrinho.html",
+        controller: "carrinhoController"
+      })
   }
 })(angular);

@@ -42,18 +42,27 @@
 }
 
 @mixin animation($animate...) {
-  $max: length($animate);
-  $animations: '';
+  $max : length($animate);
+  $animations : '';
 
   @for $i from 1 through $max {
-    $animations: #{$animations + nth($animate, $i)};
+    $animations : #{$animations + nth($animate, $i)};
 
     @if $i < $max {
-      $animations: #{$animations + ", "};
+      $animations : #{$animations + ", "};
     }
   }
-  -webkit-animation: $animations;
-  -moz-animation:    $animations;
-  -o-animation:      $animations;
-  animation:         $animations;
+  -webkit-animation : $animations;
+  -moz-animation    : $animations;
+  -o-animation      : $animations;
+  animation         : $animations;
+}
+
+@mixin grid($max) {
+  @for $i from 1 through $max {
+    .grid-#{$i} {
+      flex    : $i;
+      display : flex;
+    }
+  }
 }

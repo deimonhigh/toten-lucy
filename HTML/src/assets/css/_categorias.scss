@@ -1,6 +1,6 @@
 .categorias {
   article {
-    margin-top : 35px;
+    margin-top : 30px;
 
     h2 {
       font           : 500 lh(21px, 120%) $nw;
@@ -29,7 +29,7 @@
 
     .collumn {
       max-width         : 1060px;
-      margin            : 60px auto 0 auto;
+      margin            : 30px auto 0 auto;
 
       display           : -webkit-flex;
       display           : flex;
@@ -89,15 +89,6 @@
 
           &:hover {
             background : none;
-          }
-
-          &:active {
-            background : $default;
-            border     : 1px solid $default !important;
-
-            span {
-              color : #FFFFFF;
-            }
           }
 
           img {
