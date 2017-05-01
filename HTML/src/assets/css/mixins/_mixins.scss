@@ -60,9 +60,11 @@
 
 @mixin grid($max) {
   @for $i from 1 through $max {
-    .grid-#{$i} {
-      flex    : $i;
-      display : flex;
+    > .grid-#{$i} {
+      -webkit-flex : 1 1 33.33%;
+      flex         : 1 1 unquote('#{($i * 100)/$max}%');
+      max-width    : unquote('#{($i * 100)/$max}%');
+      display      : flex;
     }
   }
 }

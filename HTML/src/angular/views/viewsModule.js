@@ -2,3 +2,4 @@
 //=require Controllers/homeController.js
 //=require Controllers/carrinhoController.js
 //=require Controllers/fotoController.js
+//=require Controllers/cadastroController.js

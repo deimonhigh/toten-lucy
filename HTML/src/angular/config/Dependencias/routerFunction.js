@@ -40,9 +40,15 @@
       })
 
       .state("carrinho", {
-          url: "/meuCarrinho",
+        url: "/meuCarrinho",
         templateUrl: "./views/carrinho.html",
         controller: "carrinhoController"
+      })
+
+      .state("cadastro", {
+        url: "/cadastro",
+        templateUrl: "./views/cadastro.html",
+        controller: "cadastroController"
       })
   }
 })(angular);

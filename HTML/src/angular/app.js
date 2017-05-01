@@ -16,6 +16,8 @@
   function runApp($rootScope, $window, $sce, cfpLoadingBar) {
     var root = $rootScope;
 
+    root.inicio = true;
+
     root.foto = false;
     root.confirmFoto = false;
 
@@ -55,7 +57,13 @@
       cfpLoadingBar.start();
     });
 
-    root.$on('$stateChangeSuccess', function () {
+    root.$on('$stateChangeSuccess', function (event, toState) {
+      if (["login", "home"].indexOf(toState.name) > -1) {
+        root.inicio = true;
+      } else {
+        root.inicio = false;
+      }
+
       cfpLoadingBar.complete();
     });
 

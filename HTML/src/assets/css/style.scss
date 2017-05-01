@@ -15,8 +15,12 @@
 }
 
 body {
-  background : $background;
+  background : #FFFFFF;
   font       : lh(16px, 150%) $op;
+
+  &.inicio {
+    background : $background;
+  }
 }
 
 #loading-bar .bar {
@@ -144,7 +148,7 @@ body {
 }
 
 section {
-  padding : 70px;
+  padding : 30px 70px 70px 70px;
 }
 
 .noBtn {
@@ -160,13 +164,34 @@ section {
   align-items     : flex-start;
   justify-content : center;
   width           : 100%;
-  flex-flow       : row;
+  flex-flow       : row wrap;
+  flex-direction  : row;
 
   &.middle {
     align-items : center;
   }
 
+  &.bottom {
+    align-items : flex-end;
+  }
+
+  &.begin {
+    justify-content : flex-start;
+  }
+
+  &.end {
+    justify-content : flex-end;
+  }
+
   @include grid(12);
+
+  .column {
+    flex-direction : column;
+  }
+
+  .row {
+    flex-direction : row;
+  }
 
   .align-left {
     justify-content : flex-start;
@@ -184,6 +209,83 @@ section {
     align-self : flex-end;
   }
 
+  .gutter {
+    padding-right : 10px;
+  }
+}
+
+.choiceButton {
+  margin-bottom : 15px;
+
+  span {
+    height         : 50px;
+    width          : 50px;
+    background     : #EEEEEE;
+    overflow       : hidden;
+    padding        : 4px;
+    vertical-align : middle;
+    cursor         : pointer;
+    display        : inline-block;
+
+    &:after {
+      content    : "\f00c";
+      font       : 30px $fw;
+      color      : $default;
+      width      : 100%;
+      height     : 100%;
+      display    : block;
+      padding    : 6px 0 0 0;
+      text-align : center;
+      opacity    : 0;
+    }
+  }
+
+  p {
+    display        : inline-block;
+    margin         : 0 0 0 10px;
+    vertical-align : middle;
+    font           : 600 lh(12px, 120%) $op;
+    width          : calc(100% - 70px);
+  }
+
+  input {
+    border   : 0 !important;
+    clip     : rect(0 0 0 0) !important;
+    height   : 1px !important;
+    margin   : -1px !important;
+    overflow : hidden !important;
+    padding  : 0 !important;
+    position : absolute !important;
+    width    : 1px !important;
+
+    &:checked ~ span {
+      &:after {
+        opacity : 1;
+      }
+    }
+    &[disabled] ~ span {
+      background : #F7F7F7;
+      border     : 1px solid #CFCFCF;
+      &:after {
+        display : none;
+      }
+    }
+  }
+}
+
+.errorBorder {
+  border     : 1px solid $error !important;
+  background : rgba($error, 0.04) !important;
+}
+
+.error {
+  font   : 14px $op;
+  margin : 5px 0;
+  color  : $error;
+}
+
+.mt25 {
+  margin-top : 25px;
 }
 
 @import "footer";
@@ -192,4 +294,5 @@ section {
 @import "categorias";
 @import "foto";
 @import "carrinho";
+@import "cadastro";
 @import "header";

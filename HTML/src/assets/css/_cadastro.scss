@@ -1,0 +1,42 @@
+.cadastro {
+  overflow       : auto;
+  width          : 100%;
+  height         : calc(100vh - 190px);
+  padding-bottom : 0;
+  .title {
+    font          : 400 lh(18px, 200%) $nw;
+    color         : #212121;
+    margin-bottom : 10px;
+  }
+
+  .form-group {
+    label {
+      font           : 600 lh(12px, 120%) $op;
+      color          : #444444;
+      text-transform : uppercase;
+
+      &.required {
+        &:after {
+          content        : '*';
+          font-size      : 10px;
+          vertical-align : text-top;
+          margin-left    : 2px;
+          color          : $default;
+        }
+      }
+    }
+
+    .form-control {
+      background            : #F5F5F5;
+      color                 : #444444;
+      -webkit-border-radius : 0;
+      -moz-border-radius    : 0;
+      border-radius         : 0;
+      border                : 0;
+      -webkit-box-shadow    : none;
+      -moz-box-shadow       : none;
+      box-shadow            : none;
+      height                : 50px;
+    }
+  }
+}
