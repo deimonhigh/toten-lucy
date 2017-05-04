@@ -9,12 +9,57 @@
     var vm = $scope;
     var root = $rootScope;
 
-    vm.listaCompras = [].concat.apply([], new Array(20)).map(function (obj, i) {
-      return i;
+    vm.listaCompras = [].concat.apply([], new Array(15)).map(function (obj, i) {
+      return {
+        "qnt": 1,
+        "price": 350.30 * (i + 1)
+      };
     });
 
-    console.log(vm.listaCompras);
+    var calcTotal = function () {
+      vm.totalProdutos = vm.listaCompras.reduce(function (previousValue, obj) {
+        return previousValue + (obj.price * obj.qnt);
+      }, 0);
+    };
 
+    vm.removerItem = function (item) {
+      vm.listaCompras = vm.listaCompras.filter(function (filtro) {
+        console.log(filtro);
+        return filtro.$$hashKey != item.$$hashKey;
+      });
+
+      calcTotal();
+    };
+
+    vm.calcTotalItem = function (item) {
+      if (item.qnt.length == 0 || item.qnt == 0) {
+        item.qnt = 0;
+
+        vm.removerItem(item)
+      }
+
+      calcTotal();
+    };
+
+    vm.minus = function (item) {
+      if (item.qnt - 1 < 0) {
+        item.qnt = 0;
+      } else {
+        item.qnt -= 1;
+      }
+
+      if (item.qnt == 0) {
+        vm.removerItem(item);
+      }
+      calcTotal();
+    };
+
+    vm.more = function (item) {
+      item.qnt += 1;
+      calcTotal();
+    };
+
+    calcTotal();
   }
 
 })

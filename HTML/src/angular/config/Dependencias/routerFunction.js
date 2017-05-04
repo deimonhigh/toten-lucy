@@ -50,5 +50,29 @@
         templateUrl: "./views/cadastro.html",
         controller: "cadastroController"
       })
+
+      .state("produtos", {
+        url: "/produtos",
+        templateUrl: "./views/produtos.html",
+        controller: "produtosController"
+      })
+
+      .state("produto", {
+        url: "/produto",
+        templateUrl: "./views/produto.html",
+        controller: "produtoController"
+      })
+
+      .state("pagamento", {
+        url: "/pagamento",
+        templateUrl: "./views/pagamento.html",
+        controller: "pagamentoController"
+      })
+
+      .state("finalizacao", {
+        url: "/finalizacao",
+        templateUrl: "./views/finalizacao.html",
+        controller: "pagamentoController"
+      })
   }
 })(angular);

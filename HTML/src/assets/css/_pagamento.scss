@@ -1,0 +1,146 @@
+.pagamento {
+  padding-top : 60px;
+
+  .obrigado {
+    flex-direction : column;
+    padding-right  : 10px;
+
+    h3 {
+      font    : 600 lh(40px, 100%) $nw;
+      color   : $default;
+      display : block;
+      margin  : 0 0 10px 0;
+    }
+
+    h4 {
+      font    : 600 lh(18px, 100%) $nw;
+      color   : #222222;
+      display : block;
+      margin  : 0 0 30px 0;
+    }
+
+    p {
+      font           : 400 lh(16px, 150%) $op;
+      color          : #999999;
+      text-transform : none;
+      padding-right  : 45px;
+    }
+  }
+
+  .blocos {
+    flex-direction : column;
+
+    ul {
+      list-style : none;
+      padding    : 0;
+
+      li {
+        font            : 600 lh(18px, 100%) $nw;
+        color           : $default;
+        display         : flex;
+        justify-content : center;
+        text-align      : center;
+        flex-direction  : column;
+        height          : 200px;
+        background      : #EEEEEE;
+        margin-bottom   : 10px;
+
+        b, span {
+          font-size     : 14px;
+          line-height   : 150%;
+          font-weight   : 500;
+          margin-bottom : 5px;
+          color         : #999999;
+        }
+
+        strong {
+          font-weight   : 600;
+          margin-bottom : 5px;
+        }
+
+        .parcelas {
+          font-weight : 500;
+          font-size   : 12px;
+
+          b {
+            color     : $default;
+            font-size : 12px;
+          }
+        }
+      }
+
+    }
+  }
+
+  .loginVendedor {
+    flex-direction : column;
+    padding        : 50px 30px 0 30px;
+
+    h3 {
+      font    : 600 lh(30px, 100%) $nw;
+      color   : #222222;
+      display : block;
+      margin  : 0 0 10px 0;
+    }
+
+    p {
+      color : #666666;
+      font  : 400 lh(14px, 150%) $op;
+    }
+
+    .formField {
+      padding-right : 150px;
+      position      : relative;
+      padding-top   : 40px;
+
+      input {
+        border-radius : 0;
+        outline       : none !important;
+        background    : none;
+        border        : 0;
+        box-shadow    : none !important;
+        border-bottom : 2px solid #222222;
+      }
+
+      .img {
+        width    : 130px;
+        position : absolute;
+        bottom   : 10px;
+        right    : 0;
+
+        img {
+          width   : 100%;
+          display : block;
+        }
+      }
+
+      label {
+        font           : 400 lh(15px, 120%) $op;
+        color          : #222222;
+        text-transform : uppercase;
+      }
+    }
+  }
+
+  .finalizacao {
+    flex-direction : column;
+    padding        : 0 30px 0 30px;
+
+    h3 {
+      font    : 600 lh(35px, 120%) $nw;
+      color   : $default;
+      display : block;
+      margin  : -10px 0 30px 0;
+    }
+
+    .img {
+      width     : 100%;
+      max-width : 400px;
+
+      img {
+        width   : 100%;
+        display : block;
+      }
+    }
+  }
+}

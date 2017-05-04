@@ -1,0 +1,97 @@
+<header>
+  <div class="logo produto">
+    <h1>
+      Cadeira Louis Ghost Com Braço
+    </h1>
+    <h2>Referência: 09965</h2>
+  </div>
+
+  <a ui-sref="carrinho" class="meuCarrinho">
+    <span>
+      meu<br>carrinho
+    </span>
+
+    <div class="img">
+      <img src="assets/imgs/header/carrinho.png" alt="Carrinho">
+      <div class="notification">12</div>
+    </div>
+  </a>
+
+</header>
+<section class="produto grid">
+  <ul class="listaImagens grid-1">
+    <li>
+      <a href="javascript:void (0);">
+        <img src="assets/imgs/produto/ex1.png" alt="Cadeira 1">
+      </a>
+    </li>
+    <li>
+      <a href="javascript:void (0);">
+        <img src="assets/imgs/produto/ex2.png" alt="Cadeira 1">
+      </a>
+    </li>
+    <li>
+      <a href="javascript:void (0);">
+        <img src="assets/imgs/produto/ex3.png" alt="Cadeira 1">
+      </a>
+    </li>
+  </ul>
+  <div class="bigImg grid-5">
+    <img src="assets/imgs/produto/ex1-grande.png" alt="Cadeira 1">
+  </div>
+  <div class="infos grid-6">
+    <div class="total">
+      <span class="anterior">R$ 300,00</span>
+      <span class="valorTotal">R$ 240,90</span>
+    </div>
+    <div class="microInfo">
+      <span>Ou em até <b>12X</b> com juros de <b>R$ 28,26</b> </span>
+      <span>Ou à vista por <b>R$ 198,00</b> com <b>10%</b> de desconto</span>
+    </div>
+
+    <div class="infoProduto">
+      <h4><strong>Cor:</strong><span class="itemSelected">Amarelo</span></h4>
+      <ul class="cores">
+        <li ng-class="{'active':item.selected}"
+            ng-click="selectColor(item)"
+            ng-style="{'background-color': item.cor}"
+            ng-repeat="item in cores"></li>
+      </ul>
+    </div>
+
+    <div class="infoProduto">
+      <h4><strong>Quantidade:</strong></h4>
+      <div class="input-group">
+        <span class="input-group-addon pointer" ng-click="more()">
+          <i class="fa fa-plus"></i>
+        </span>
+        <input type="text" class="form-control" ng-model="qnt">
+        <span class="input-group-addon pointer" ng-click="minus()">
+          <i class="fa fa-minus"></i>
+        </span>
+      </div>
+    </div>
+
+    <button class="btn">
+      <span>
+        @@include('../assets/imgs/produto/cart.svg')
+      </span>
+      ADICIONAR AO CARRINHO
+    </button>
+
+    <div class="infoProduto">
+      <h4><strong>DESCRIÇÃO:</strong></h4>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+         dolore magna aliquam erat volutpat.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer class="grid middle begin">
+  <div class="collum align-left grid-6" ui-sref="produtos">
+    <button class="btn white">
+      continuar comprando
+    </button>
+  </div>
+</footer>

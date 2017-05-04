@@ -3,6 +3,7 @@
 
   angular.module('appToten', [
     "ui.router",
+    "ngLocale",
     "LocalStorageModule",
     "angular-loading-bar",
     "ngAnimate",
@@ -19,7 +20,10 @@
     root.inicio = true;
 
     root.foto = false;
-    root.confirmFoto = false;
+
+    root.openFoto = function () {
+      root.foto = true;
+    }
 
     //region Loading
     root.angularNotLoaded = true;

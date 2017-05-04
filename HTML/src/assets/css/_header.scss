@@ -3,6 +3,7 @@ header {
   margin-top   : 40px;
   padding-left : 60px;
   width        : 100%;
+  z-index      : 2;
 
   .logo {
     text-decoration : none !important;
@@ -10,6 +11,23 @@ header {
     vertical-align  : middle;
     padding-left    : 10px;
     position        : relative;
+
+    &.produto {
+      h1 {
+        font-size : 25px;
+      }
+
+      h2 {
+        display : block;
+        font    : 400 lh(14px, 100%) $lt;
+        color   : #999999;
+        margin  : 5px 0 0 0;
+      }
+    }
+
+    h2 {
+      display : none;
+    }
 
     h1 {
       text-transform : uppercase;
@@ -46,26 +64,41 @@ header {
     float      : right;
 
     li {
-      -webkit-border-radius : 50%;
-      -moz-border-radius    : 50%;
-      border-radius         : 50%;
-      background            : #EEEEEE;
-      width                 : 50px;
-      height                : 50px;
-      display               : inline-block;
-      vertical-align        : middle;
-      position              : relative;
-      margin-left           : 80px;
+      display        : inline-block;
+      vertical-align : middle;
+      position       : relative;
+      margin-left    : 80px;
 
-      text-align            : center;
-      padding-top           : 15px;
-      font                  : 600 lh(18px, 100%) $nw;
-      color                 : #DDDDDD;
+      text-align     : center;
+      font           : 600 lh(18px, 100%) $nw;
+      color          : #DDDDDD;
 
       &.active {
-        background : $ldefault;
-        color      : #FFFFFF;
+        button {
+          background : $ldefault;
+          color      : #FFFFFF;
+        }
       }
+
+      button {
+        -webkit-border-radius : 50%;
+        -moz-border-radius    : 50%;
+        border-radius         : 50%;
+        background            : #EEEEEE;
+        width                 : 50px;
+        height                : 50px;
+        vertical-align        : middle;
+        position              : relative;
+
+        outline               : none !important;
+
+        border                : 0;
+
+        text-align            : center;
+        color                 : #DDDDDD;
+
+      }
+
       p {
         position    : absolute;
         top         : 60px;
@@ -75,6 +108,49 @@ header {
         text-align  : center;
         color       : #333333;
         font        : 400 lh(10px, 120%) $nw;
+      }
+    }
+  }
+
+  .meuCarrinho {
+    background      : #DDDDDD;
+    font            : 500 lh(15px, 120%) $nw;
+    color           : #222222;
+    margin-right    : 80px;
+    text-transform  : uppercase;
+    text-decoration : none;
+    float           : right;
+    height          : 65px;
+    padding         : 5px 30px;
+
+    display         : flex;
+    align-items     : center;
+
+    span {
+      display : inline-block;
+    }
+
+    .img {
+      position    : relative;
+      margin-left : 20px;
+      display     : inline-block;
+
+      img {
+
+      }
+
+      .notification {
+        position      : absolute;
+        top           : -12px;
+        right         : -17px;
+        height        : 23px;
+        width         : 23px;
+        background    : $default;
+        border-radius : 50%;
+        padding       : 6px 0 0 0;
+        text-align    : center;
+        font          : 700 lh(11px, 100%) $op;
+        color         : #FFFFFF;
       }
     }
   }

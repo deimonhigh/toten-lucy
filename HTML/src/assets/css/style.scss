@@ -40,10 +40,11 @@ body {
   }
 
   &.full {
-    width  : 100%;
-    height : 100%;
-    top    : 0;
-    left   : 0;
+    width   : 100%;
+    height  : 100%;
+    top     : 0;
+    left    : 0;
+    z-index : 9999999;
   }
 
   &.fixed {
@@ -101,8 +102,8 @@ body {
     background : #FFFFFF;
     color      : #333333;
 
-    &:hover, &active {
-      background : none;
+    &:hover, &:active, &:focus {
+      background : none;  
     }
   }
 
@@ -124,7 +125,7 @@ body {
     }
   }
 
-  &:hover, &active {
+  &:hover, &:active, &:focus {
     svg {
       * {
         fill : #333333;
@@ -147,8 +148,19 @@ body {
   margin-top : 30px;
 }
 
+.mt-75 {
+  margin-top : -75px;
+}
+
 section {
-  padding : 30px 70px 70px 70px;
+  padding   : 30px 40px 40px 40px;
+  max-width : 1300px;
+  margin    : auto;
+
+  &.full {
+    max-width : 100%;
+    padding   : 30px 70px 70px 70px;
+  }
 }
 
 .noBtn {
@@ -157,6 +169,11 @@ section {
   background : none;
   height     : 40px;
   width      : 40px;
+
+  &.full {
+    width  : auto;
+    height : auto;
+  }
 }
 
 .grid {
@@ -288,6 +305,10 @@ section {
   margin-top : 25px;
 }
 
+.pointer {
+  cursor : pointer;
+}
+
 @import "footer";
 @import "login";
 @import "home";
@@ -296,3 +317,5 @@ section {
 @import "carrinho";
 @import "cadastro";
 @import "header";
+@import "produtos";
+@import "pagamento";

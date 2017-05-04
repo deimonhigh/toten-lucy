@@ -5,6 +5,7 @@
 //=require ../lib/angular-loading-bar/build/loading-bar.min.js
 //=require ../lib/angular-local-storage/dist/angular-local-storage.min.js
 //=require ../lib/jquery-mask-plugin/dist/jquery.mask.min.js
+//=require ../lib/angular-i18n/angular-locale_pt-br.js
 //=require ../lib/webcam/dist/webcam.min.js
 //=require ./estados-cidades.js
 

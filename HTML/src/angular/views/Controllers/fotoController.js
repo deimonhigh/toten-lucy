@@ -9,18 +9,18 @@
     var vm = $scope;
     var root = $rootScope;
 
-    var _video  = null;
-    
+    var _video = null;
+
     vm.closeModal = function () {
       root.foto = false;
     };
 
     vm.okFoto = function () {
-      root.confirmFoto = true;
+      vm.confirmFoto = true;
     };
 
     vm.notOkFoto = function () {
-      root.confirmFoto = false;
+      vm.confirmFoto = false;
     };
 
     vm.patOpts = {

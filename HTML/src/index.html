@@ -10,15 +10,22 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
+  <script type="text/javascript">
+    if (document.location.protocol != "https:") {
+      document.location = document.URL.replace(/^http:/i, "https:");
+    }
+  </script>
+
   <link rel="stylesheet" type="text/css" href="assets/css/style.min.css" />
 
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
 
 </head>
 <body ng-class="{'inicio': inicio}">
   <ui-view class="ng-cloak"></ui-view>
 
-  <div ng-cloak ng-controller="fotoController">
+  <div ng-controller="fotoController" ng-cloak>
     <div class="tableModal full fixed black animate-if" ng-if="foto">
       <div class="tCell">
         <div class="dib foto">

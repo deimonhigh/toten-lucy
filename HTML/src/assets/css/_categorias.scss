@@ -1,6 +1,6 @@
 .categorias {
   article {
-    margin-top : 30px;
+    //margin-top : 30px;
 
     h2 {
       font           : 500 lh(21px, 120%) $nw;
@@ -59,25 +59,15 @@
         li {
           cursor          : pointer;
 
-          width           : 30%;
-          height          : 190px;
-
           text-align      : center;
 
-          margin-right    : 4.5%;
-          margin-bottom   : 4.5%;
-
-          background      : #999999;
-
-          border          : 2px solid #999999;
+          padding         : 0 0 5% 5%;
 
           display         : flex;
           align-items     : center;
           justify-content : center;
 
           flex-flow       : column;
-
-          transition      : all .2s ease;
 
           &:nth-child(3n+3) {
             margin-right : 0;
@@ -87,8 +77,30 @@
             margin-bottom : 0;
           }
 
-          &:hover {
-            background : none;
+          a {
+            //background      : #999999;
+            background      : #FFFFFF;
+
+            text-decoration : none;
+
+            display         : flex;
+            align-items     : center;
+            justify-content : center;
+
+            width           : 100%;
+            flex-direction  : column;
+
+            border          : 2px solid #999999;
+            height          : 190px;
+            transition      : all .2s ease;
+
+            &:hover {
+              background : $default;
+              
+              span{
+                color      : #FFFFFF;
+              }
+            }
           }
 
           img {

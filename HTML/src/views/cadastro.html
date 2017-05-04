@@ -1,5 +1,5 @@
 <header>
-  <a ui-sref="login" class="logo">
+  <a ui-sref="home" class="logo">
     <h1>
       lucy home
     </h1>
@@ -11,16 +11,22 @@
 
   <ul>
     <li>
-      1
-      <p>carrinho</p>
+      <button ui-sref="carrinho">
+        1
+        <p>carrinho</p>
+      </button>
     </li>
     <li class="active">
-      2
-      <p>identificação</p>
+      <button disabled>
+        2
+        <p>identificação</p>
+      </button>
     </li>
     <li>
-      3
-      <p>pagamento</p>
+      <button disabled>
+        3
+        <p>pagamento</p>
+      </button>
     </li>
   </ul>
 </header>
@@ -64,10 +70,10 @@
                    class="form-control"
                    required
                    ng-class="{'errorBorder': cadastroForm.nome.$invalid && cadastroForm.nome.$touched}">
-          </div>
-          <div class="error"
-               ng-if="cadastroForm.nome.$invalid && cadastroForm.nome.$touched">
-            O campo Nome/Razão Social é obrigatório.
+            <div class="error"
+                 ng-if="cadastroForm.nome.$invalid && cadastroForm.nome.$touched">
+              O campo Nome/Razão Social é obrigatório.
+            </div>
           </div>
         </div>
       </div>
@@ -88,10 +94,10 @@
                    required
                    ng-class="{'errorBorder': cadastroForm.cep.$invalid && cadastroForm.cep.$touched}"
             >
-          </div>
-          <div class="error"
-               ng-if="(cadastroForm.cep.$invalid) && cadastroForm.cep.$touched">
-            O campo CEP é obrigatório.
+            <div class="error"
+                 ng-if="(cadastroForm.cep.$invalid) && cadastroForm.cep.$touched">
+              O campo CEP é obrigatório.
+            </div>
           </div>
         </div>
         <div class="grid-3 gutter column">
@@ -104,11 +110,12 @@
                    required
                    ng-class="{'errorBorder': cadastroForm.endereco.$invalid && cadastroForm.endereco.$touched}"
             >
+            <div class="error"
+                 ng-if="cadastroForm.endereco.$invalid && cadastroForm.endereco.$touched">
+              O campo Endereço é obrigatório.
+            </div>
           </div>
-          <div class="error"
-               ng-if="cadastroForm.endereco.$invalid && cadastroForm.endereco.$touched">
-            O campo Endereço é obrigatório.
-          </div>
+
         </div>
         <div class="grid-1 gutter column">
           <div class="form-group">
@@ -118,12 +125,14 @@
                    ng-model="dados.numero"
                    class="form-control"
                    required
-                   ng-class="{'errorBorder': cadastroForm.numero.$invalid && cadastroForm.numero.$touched}">
+                   ng-class="{'errorBorder': cadastroForm.numero.$invalid && cadastroForm.numero.$touched}"
+            >
+            <div class="error"
+                 ng-if="(cadastroForm.numero.$invalid) && cadastroForm.numero.$touched">
+              O campo Número é obrigatório.
+            </div>
           </div>
-          <div class="error"
-               ng-if="(cadastroForm.numero.$invalid) && cadastroForm.numero.$touched">
-            O campo Endereço é obrigatório.
-          </div>
+
         </div>
         <div class="grid-3 gutter column">
           <div class="form-group">
@@ -140,10 +149,10 @@
                    class="form-control"
                    required
                    ng-class="{'errorBorder': cadastroForm.bairro.$invalid && cadastroForm.bairro.$touched}">
-          </div>
-          <div class="error"
-               ng-if="cadastroForm.bairro.$invalid && cadastroForm.bairro.$touched">
-            O campo Endereço é obrigatório.
+            <div class="error"
+                 ng-if="cadastroForm.bairro.$invalid && cadastroForm.bairro.$touched">
+              O campo Bairro é obrigatório.
+            </div>
           </div>
         </div>
       </div>
@@ -161,10 +170,10 @@
             >
               <option value selected>Selecione um estado</option>
             </select>
-          </div>
-          <div class="error"
-               ng-if="cadastroForm.uf.$invalid && cadastroForm.uf.$touched">
-            O campo Endereço é obrigatório.
+            <div class="error"
+                 ng-if="cadastroForm.uf.$invalid && cadastroForm.uf.$touched">
+              O campo Estado é obrigatório.
+            </div>
           </div>
         </div>
         <div class="grid-3 gutter column">
@@ -180,10 +189,10 @@
             >
               <option value>Selecione uma cidade</option>
             </select>
-          </div>
-          <div class="error"
-               ng-if="cadastroForm.cidade.$invalid && cadastroForm.cidade.$touched">
-            O campo Endereço é obrigatório.
+            <div class="error"
+                 ng-if="cadastroForm.cidade.$invalid && cadastroForm.cidade.$touched">
+              O campo Cidade é obrigatório.
+            </div>
           </div>
         </div>
         <div class="grid-3 gutter column">
@@ -220,10 +229,10 @@
                    class="form-control"
                    ng-required="!dados.enderecoCerto"
                    ng-class="{'errorBorder': cadastroForm.outroCep.$invalid && cadastroForm.outroCep.$touched}">
-          </div>
-          <div class="error"
-               ng-if="cadastroForm.outroCep.$invalid && cadastroForm.outroCep.$touched">
-            O campo Endereço é obrigatório.
+            <div class="error"
+                 ng-if="cadastroForm.outroCep.$invalid && cadastroForm.outroCep.$touched">
+              O campo CEP é obrigatório.
+            </div>
           </div>
         </div>
         <div class="grid-3 gutter column">
@@ -236,10 +245,10 @@
                    ng-required="!dados.enderecoCerto"
                    ng-class="{'errorBorder': cadastroForm.outroEndereco.$invalid && cadastroForm.outroEndereco.$touched}"
             >
-          </div>
-          <div class="error"
-               ng-if="cadastroForm.outroEndereco.$invalid && cadastroForm.outroEndereco.$touched">
-            O campo Endereço é obrigatório.
+            <div class="error"
+                 ng-if="cadastroForm.outroEndereco.$invalid && cadastroForm.outroEndereco.$touched">
+              O campo Endereço é obrigatório.
+            </div>
           </div>
         </div>
         <div class="grid-1 gutter column">
@@ -252,12 +261,13 @@
                    ng-required="!dados.enderecoCerto"
                    ng-class="{'errorBorder': cadastroForm.outroNumero.$invalid && cadastroForm.outroNumero.$touched}"
             >
-          </div>
-          <div class="error"
-               ng-if="cadastroForm.outroNumero.$invalid && cadastroForm.outroNumero.$touched">
-            O campo Endereço é obrigatório.
+            <div class="error"
+                 ng-if="cadastroForm.outroNumero.$invalid && cadastroForm.outroNumero.$touched">
+              O campo Número é obrigatório.
+            </div>
           </div>
         </div>
+        
         <div class="grid-3 gutter column">
           <div class="form-group">
             <label>complemento</label>
@@ -274,10 +284,10 @@
                    ng-required="!dados.enderecoCerto"
                    ng-class="{'errorBorder': cadastroForm.outroBairro.$invalid && cadastroForm.outroBairro.$touched}"
             >
-          </div>
-          <div class="error"
-               ng-if="cadastroForm.outroBairro.$invalid && cadastroForm.outroBairro.$touched">
-            O campo Endereço é obrigatório.
+            <div class="error"
+                 ng-if="cadastroForm.outroBairro.$invalid && cadastroForm.outroBairro.$touched">
+              O campo Bairro é obrigatório.
+            </div>
           </div>
         </div>
       </div>
@@ -295,10 +305,10 @@
             >
               <option value selected>Selecione um estado</option>
             </select>
-          </div>
-          <div class="error"
-               ng-if="cadastroForm.outroNumero.$invalid && cadastroForm.outroNumero.$touched">
-            O campo Endereço é obrigatório.
+            <div class="error"
+                 ng-if="cadastroForm.outroNumero.$invalid && cadastroForm.outroNumero.$touched">
+              O campo Estado é obrigatório.
+            </div>
           </div>
         </div>
         <div class="grid-3 gutter column">
@@ -314,10 +324,10 @@
             >
               <option value>Selecione uma cidade</option>
             </select>
-          </div>
-          <div class="error"
-               ng-if="cadastroForm.outroCidade.$invalid && cadastroForm.outroCidade.$touched">
-            O campo Endereço é obrigatório.
+            <div class="error"
+                 ng-if="cadastroForm.outroCidade.$invalid && cadastroForm.outroCidade.$touched">
+              O campo Cidade é obrigatório.
+            </div>
           </div>
         </div>
       </div>
@@ -337,10 +347,10 @@
                    class="form-control"
                    required
                    ng-class="{'errorBorder': cadastroForm.telefone.$invalid && cadastroForm.telefone.$touched}">
-          </div>
-          <div class="error"
-               ng-if="cadastroForm.telefone.$invalid && cadastroForm.telefone.$touched">
-            O campo Endereço é obrigatório.
+            <div class="error"
+                 ng-if="cadastroForm.telefone.$invalid && cadastroForm.telefone.$touched">
+              O campo Telefone é obrigatório.
+            </div>
           </div>
         </div>
         <div class="grid-3 gutter column">
@@ -353,10 +363,10 @@
                    class="form-control"
                    required
                    ng-class="{'errorBorder': cadastroForm.celular.$invalid && cadastroForm.celular.$touched}">
-          </div>
-          <div class="error"
-               ng-if="cadastroForm.celular.$invalid && cadastroForm.celular.$touched">
-            O campo Endereço é obrigatório.
+            <div class="error"
+                 ng-if="cadastroForm.celular.$invalid && cadastroForm.celular.$touched">
+              O campo Celular é obrigatório.
+            </div>
           </div>
         </div>
       </div>
@@ -371,7 +381,10 @@
     </button>
   </div>
   <div class="align-right grid-6">
-    <button class="btn" ng-disabled="cadastroForm.$invalid">
+    <button class="btn" ng-if="false" ng-disabled="cadastroForm.$invalid">
+      prosseguir
+    </button>
+    <button class="btn" ui-sref="pagamento" ng-click="openFoto()">
       prosseguir
     </button>
   </div>

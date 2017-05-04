@@ -30,6 +30,11 @@
         tr {
           border-bottom : 10px solid #F3F4F6;
           background    : #DDDDDD;
+
+          &:last-child {
+            border-bottom : 0;
+          }
+
           td {
             border         : 0;
             text-transform : uppercase;
@@ -68,6 +73,14 @@
 
             p {
               font-weight : 400;
+
+              &.noResult {
+                color         : #FFFFFF;
+                padding       : 15px;
+                margin-bottom : 0;
+                font-weight   : 700;
+              }
+
             }
 
             .preco {

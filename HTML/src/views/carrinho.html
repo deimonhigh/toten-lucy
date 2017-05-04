@@ -1,5 +1,5 @@
 <header>
-  <a ui-sref="login" class="logo">
+  <a ui-sref="home" class="logo">
     <h1>
       lucy home
     </h1>
@@ -11,16 +11,22 @@
 
   <ul>
     <li class="active">
-      1
-      <p>carrinho</p>
+      <button disabled>
+        1
+        <p>carrinho</p>
+      </button>
     </li>
     <li>
-      2
-      <p>identificação</p>
+      <button disabled>
+        2
+        <p>identificação</p>
+      </button>
     </li>
     <li>
-      3
-      <p>pagamento</p>
+      <button disabled>
+        3
+        <p>pagamento</p>
+      </button>
     </li>
   </ul>
 </header>
@@ -31,11 +37,12 @@
         <tr>
           <th>foto</th>
           <th>desc.</th>
-          <th>preço.</th>
+          <th>preço</th>
+          <th>total</th>
           <th>qtd.</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody ng-if="listaCompras.length > 0">
         <tr ng-repeat="item in listaCompras">
           <td>
             <div class="img">
@@ -49,25 +56,35 @@
             <p>vermelha</p>
           </td>
           <td>
-            <div class="preco">
-              R$ 350,00
-            </div>
+            <div class="preco" ng-bind="item.price | currency:'R$'"></div>
+          </td>
+          <td>
+            <div class="preco" ng-bind="(item.price * item.qnt) | currency:'R$'"></div>
           </td>
           <td>
             <div class="input-group">
-                <span class="input-group-addon">
+                <span class="input-group-addon pointer" ng-click="more(item)">
                   <i class="fa fa-plus"></i>
                 </span>
-              <input type="text" class="form-control" readonly value="1">
-              <span class="input-group-addon">
+              <input type="text" class="form-control" ng-change="calcTotalItem(item)" ng-model="item.qnt">
+              <span class="input-group-addon pointer" ng-click="minus(item)">
                   <i class="fa fa-minus"></i>
                 </span>
             </div>
           </td>
           <td>
-            <button class="noBtn" ng-click="remove(item)">
+            <button class="noBtn" ng-click="removerItem(item)">
               <i class="fa fa-times"></i>
             </button>
+          </td>
+        </tr>
+      </tbody>
+      <tbody ng-if="listaCompras.length == 0">
+        <tr>
+          <td colspan="5">
+            <p class="noResult">
+              Nenhum produto adicionado ao carrinho!
+            </p>
           </td>
         </tr>
       </tbody>
@@ -80,9 +97,7 @@
           R$
         </span>
       </div>
-      <div class="number">
-        32.520,25
-      </div>
+      <div class="number" ng-bind="totalProdutos | currency"></div>
     </div>
   </article>
 </section>
@@ -94,7 +109,7 @@
     </button>
   </div>
   <div class="collum align-right grid-6">
-    <button class="btn">
+    <button class="btn" ng-disabled="listaCompras.length == 0" ui-sref="cadastro">
       prosseguir
     </button>
   </div>

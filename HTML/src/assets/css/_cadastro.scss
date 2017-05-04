@@ -1,8 +1,8 @@
 .cadastro {
   overflow       : auto;
   width          : 100%;
-  height         : calc(100vh - 190px);
-  padding-bottom : 0;
+  padding-bottom : 190px;
+
   .title {
     font          : 400 lh(18px, 200%) $nw;
     color         : #212121;
