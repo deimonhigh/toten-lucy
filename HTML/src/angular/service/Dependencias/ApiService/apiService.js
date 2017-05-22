@@ -2,16 +2,17 @@
   "use strict";
 
   angular.module("appToten").service("apiService", apiService);
-  apiService.$inject = ['$http', 'localStorageService', '$q', '$httpParamSerializer', 'base64Factory', 'config', '$timeout'];
+  apiService.$inject = ['$http', 'localStorageService', '$q', 'base64Factory', 'config', '$timeout'];
 
-  function apiService($http, localStorageService, $q, $httpParamSerializer, base64Factory, config, $timeout) {
+  function apiService($http, localStorageService, $q, base64Factory, config, $timeout) {
     //region STORAGE
     var _getStorage = function (storage) {
-      return localStorageService.get(storage) ? JSON.parse(base64Factory.decode(localStorageService.get(storage))) : false;
+      var storage = localStorageService.get(storage);
+      return storage ? JSON.parse(atob(storage)) : false;
     };
 
     var _setStorage = function (storage, data) {
-      localStorageService.set(storage, base64Factory.encode(JSON.stringify(data)));
+      localStorageService.set(storage, btoa(JSON.stringify(data)));
     };
 
     var _delStorage = function (storage) {
@@ -20,9 +21,7 @@
 
     var _clearStorage = function () {
       localStorageService.keys().map(function (chave) {
-        if (chave != 'auth') {
-          localStorageService.remove(chave);
-        }
+        localStorageService.remove(chave);
       });
     };
     //endregion
@@ -93,10 +92,19 @@
     //endregion
 
     //region Token
-    var _token = function () {
+    var _token = function (dados) {
       var deferred = $q.defer();
 
-      $http.post(urls.auth, $httpParamSerializer(config.accessToken), config.header)
+      var enviar = {
+        "grant_type": config.grant_type,
+        "client_id": config.client_id,
+        "client_secret": config.client_secret,
+        "scope": config.scope,
+        "username": dados.user,
+        "password": dados.pass
+      }
+
+      $http.post(config.apiUrl + 'oauth/token', enviar, config.header)
            .then(function (retorno) {
              deferred.resolve(retorno.data);
            }, function (erro) {

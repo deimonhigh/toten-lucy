@@ -1,19 +1,18 @@
 ﻿angular
   .module("appToten")
   .factory("autenticacaoInterceptor", [
-    'localStorageService', 'config', 'base64Factory', function (localStorageService, config, base64Factory) {
+    'localStorageService', 'config', 'base64Factory', '$location', function (localStorageService, config, base64Factory, $location) {
       return {
         request: function (requisicao) {
 
           try {
 
-            var storage = localStorageService.get('autenticacao');
+            var storage = localStorageService.get('auth');
 
             if (
-              storage == null &&
-              ((requisicao.url.indexOf("apigopharma") > -1 && requisicao.url.indexOf('token') == -1) || requisicao.url.indexOf('.html') > -1)
+              storage == null || requisicao.url.indexOf('.html') > -1
             ) {
-              throw "No token"
+              throw "Invalid"
             }
 
             var autorizacaoDados = JSON.parse(base64Factory.decode(storage));
@@ -25,14 +24,13 @@
                 var diferencaMinutos = (new Date(autorizacaoDados.expires) - new Date());
 
                 if (diferencaMinutos <= 0) {
-                  location.reload();
+                  $location.reload();
                 }
               }
 
             }
 
             return requisicao;
-
           }
           catch (e) {
             if (requisicao.url.indexOf("apigopharma") == -1) {

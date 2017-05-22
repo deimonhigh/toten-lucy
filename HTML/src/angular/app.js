@@ -12,9 +12,9 @@
 
   angular.module("appToten").run(runApp);
 
-  runApp.$inject = ['$rootScope', '$window', '$sce', 'cfpLoadingBar'];
+  runApp.$inject = ['$rootScope', '$window', '$sce', 'cfpLoadingBar', 'apiService'];
 
-  function runApp($rootScope, $window, $sce, cfpLoadingBar) {
+  function runApp($rootScope, $window, $sce, cfpLoadingBar, apiService) {
     var root = $rootScope;
 
     root.inicio = true;
@@ -24,6 +24,8 @@
     root.openFoto = function () {
       root.foto = true;
     }
+    
+    apiService.clearStorage();
 
     //region Loading
     root.angularNotLoaded = true;

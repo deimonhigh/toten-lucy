@@ -52,7 +52,7 @@ var dist = {
 };
 
 // LiveReload
-var portNumber = 5555;
+var portNumber = 8888;
 gulp.task('connect', function () {
   console.log('\nIniciando o servidor na porta ' + portNumber + '\n');
   connect.server({

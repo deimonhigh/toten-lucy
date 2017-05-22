@@ -10,13 +10,15 @@
     var root = $rootScope;
 
     vm.login = function (dados) {
-      $state.go('home');
-      return;
-      apiService.get('usuario/login', dados).then(function (res) {
-        if (res.status == 0) {
+      apiService
+        .token(dados)
+        .then(function (res) {
+          apiService.setStorage('auth', res);
           $state.go('home');
-        }
-      })
+          
+        }, function (err) {
+          console.log(err);
+        })
     }
   }
 

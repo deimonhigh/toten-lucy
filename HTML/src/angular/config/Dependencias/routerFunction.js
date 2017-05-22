@@ -23,8 +23,7 @@
 
       .state("home", {
         url: "/home",
-        templateUrl: "./views/home.html",
-        controller: "homeController"
+        templateUrl: "./views/home.html"
       })
 
       .state("login", {
