@@ -11,8 +11,9 @@ class Cliente extends Model
   protected $fillable = [
       "documento",
       "nome",
-      "enderecoId",
-      "mesmoEndereco",
+      "telefone",
+      "celular",
+      "enderecooriginal",
   ];
 
   protected $hidden = [
@@ -20,4 +21,8 @@ class Cliente extends Model
       "updated_at"
   ];
 
+  public function enderecos()
+  {
+    return $this->hasMany('App\Http\Controllers\Model\Endereco', 'idCliente', 'id');
+  }
 }

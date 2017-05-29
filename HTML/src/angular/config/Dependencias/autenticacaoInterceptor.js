@@ -6,7 +6,6 @@
         request: function (requisicao) {
 
           try {
-
             var storage = localStorageService.get('auth');
 
             if (
@@ -18,16 +17,9 @@
             var autorizacaoDados = JSON.parse(base64Factory.decode(storage));
 
             if (autorizacaoDados) {
-              if (requisicao.url.indexOf("apigopharma") > -1 && requisicao.url.indexOf('token') == -1) {
-                requisicao.headers["Authorization"] = autorizacaoDados.token;
-              } else {
-                var diferencaMinutos = (new Date(autorizacaoDados.expires) - new Date());
-
-                if (diferencaMinutos <= 0) {
-                  $location.reload();
-                }
+              if (requisicao.url.indexOf("api") > -1 && requisicao.url.indexOf('oauth') == -1) {
+                requisicao.headers["Authorization"] = "Bearer " + autorizacaoDados.access_token;
               }
-
             }
 
             return requisicao;

@@ -103,7 +103,7 @@ body {
     color      : #333333;
 
     &:hover, &:active, &:focus {
-      background : none;  
+      background : none;
     }
   }
 
@@ -319,3 +319,7 @@ section {
 @import "header";
 @import "produtos";
 @import "pagamento";
+
+.noFlex {
+  display : inline-block !important;
+}

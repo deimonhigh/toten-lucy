@@ -1,8 +1,6 @@
 <header>
   <a ui-sref="home" class="logo">
-    <h1>
-      lucy home
-    </h1>
+    <h1 ng-bind="temaStorage.empresa"></h1>
   </a>
 
   <h2>
@@ -46,6 +44,7 @@
                    name="documento"
                    ng-model="dados.documento"
                    class="form-control"
+                   ng-blur="procurarCliente(dados.documento)"
                    required
                    ng-class="{'errorBorder': cadastroForm.documento.$invalid && cadastroForm.documento.$touched}"
             >
@@ -225,6 +224,7 @@
             <label class="required">cep</label>
             <input type="text"
                    name="outroCep"
+                   cep
                    ng-model="dados.outro.cep"
                    class="form-control"
                    ng-required="!dados.enderecoCerto"
@@ -267,7 +267,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="grid-3 gutter column">
           <div class="form-group">
             <label>complemento</label>
@@ -297,7 +297,7 @@
             <label class="required">uf</label>
             <select name="outroUf"
                     ng-model="dados.outro.uf"
-                    ng-change="procuraCidades(dados.outro.uf)"
+                    ng-change="procuraCidadesOutro(dados.outro.uf)"
                     class="form-control"
                     ng-required="!dados.enderecoCerto"
                     ng-options="item as item.nome for item in estados track by item.sigla"
@@ -319,7 +319,7 @@
                     ng-disabled="cadastroForm.outroUf.$invalid"
                     ng-required="!dados.enderecoCerto"
                     class="form-control"
-                    ng-options="item as item.nome for item in cidades track by item.cidade"
+                    ng-options="item as item.nome for item in cidadesOutro track by item.cidade"
                     ng-class="{'errorBorder': cadastroForm.outroCidade.$invalid && cadastroForm.outroCidade.$touched}"
             >
               <option value>Selecione uma cidade</option>
@@ -381,10 +381,7 @@
     </button>
   </div>
   <div class="align-right grid-6">
-    <button class="btn" ng-if="false" ng-disabled="cadastroForm.$invalid">
-      prosseguir
-    </button>
-    <button class="btn" ui-sref="pagamento" ng-click="openFoto()">
+    <button class="btn" ng-disabled="cadastroForm.$invalid" ng-click="salvarDados()">
       prosseguir
     </button>
   </div>

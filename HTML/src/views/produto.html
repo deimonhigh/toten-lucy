@@ -1,9 +1,7 @@
 <header>
   <div class="logo produto">
-    <h1>
-      Cadeira Louis Ghost Com Braço
-    </h1>
-    <h2>Referência: 09965</h2>
+    <h1 ng-bind="produto.nomeproduto"></h1>
+    <h2>Referência: {{ produto.codigoproduto }}</h2>
   </div>
 
   <a ui-sref="carrinho" class="meuCarrinho">
@@ -13,45 +11,44 @@
 
     <div class="img">
       <img src="assets/imgs/header/carrinho.png" alt="Carrinho">
-      <div class="notification">12</div>
+      <div class="notification" ng-bind="itensCarrinho"></div>
     </div>
   </a>
 
 </header>
 <section class="produto grid">
   <ul class="listaImagens grid-1">
-    <li>
+    <li ng-repeat="item in produto.imagens" ng-click="changeImg(item)">
       <a href="javascript:void (0);">
-        <img src="assets/imgs/produto/ex1.png" alt="Cadeira 1">
-      </a>
-    </li>
-    <li>
-      <a href="javascript:void (0);">
-        <img src="assets/imgs/produto/ex2.png" alt="Cadeira 1">
-      </a>
-    </li>
-    <li>
-      <a href="javascript:void (0);">
-        <img src="assets/imgs/produto/ex3.png" alt="Cadeira 1">
+        <img ng-src="{{ item.url }}" alt="{{ produto.nomeproduto }}">
       </a>
     </li>
   </ul>
-  <div class="bigImg grid-5">
-    <img src="assets/imgs/produto/ex1-grande.png" alt="Cadeira 1">
+  <div class="bigImg grid-5 noFlex">
+    <img ng-src="{{ imagemGrande.url }}" alt="{{ produto.nomeproduto }}" style="max-width: 100%">
   </div>
   <div class="infos grid-6">
-    <div class="total">
-      <span class="anterior">R$ 300,00</span>
-      <span class="valorTotal">R$ 240,90</span>
+    <div class="total" ng-if="produto.precopromocao > 0">
+      <span class="anterior" ng-bind="produto.preco | currency"></span>
+      <span class="valorTotal" ng-bind="produto.precopromocao | currency"></span>
     </div>
-    <div class="microInfo">
-      <span>Ou em até <b>12X</b> com juros de <b>R$ 28,26</b> </span>
-      <span>Ou à vista por <b>R$ 198,00</b> com <b>10%</b> de desconto</span>
+    <div class="total" ng-if="produto.precopromocao == 0">
+      <span class="valorTotal" ng-bind="produto.preco | currency"></span>
+    </div>
+    <div class="microInfo" ng-if="produto.precopromocao > 0">
+      <span>Ou em até <b ng-bind="temasItem.maxParcelas + 'X'"></b> com juros de <b ng-bind="produto.precopromocao | currency"></b> </span>
+      <span>Ou à vista por <b>R$ 0,00</b> com <b ng-bind="temasItem.juros + '%'"></b> de desconto</span>
+    </div>
+
+    <div class="microInfo" ng-if="produto.precopromocao == 0">
+      <span>Ou em até <b ng-bind="temasItem.maxParcelas + 'X'"></b> com juros de <b ng-bind="produto.preco | currency"></b> </span>
+      <span>Ou à vista por <b>R$ 0,00</b> com <b ng-bind="temasItem.juros + '%'"></b> de desconto</span>
     </div>
 
     <div class="infoProduto">
-      <h4><strong>Cor:</strong><span class="itemSelected">Amarelo</span></h4>
-      <ul class="cores">
+      <h4 ng-if="produto.cor.length > 0"><strong>Cor:</strong><span class="itemSelected" ng-bind="produto.cor"></span>
+      </h4>
+      <ul class="cores" ng-if="false">
         <li ng-class="{'active':item.selected}"
             ng-click="selectColor(item)"
             ng-style="{'background-color': item.cor}"
@@ -72,7 +69,7 @@
       </div>
     </div>
 
-    <button class="btn">
+    <button class="btn" ng-click="addCarrinho(produto)">
       <span>
         @@include('../assets/imgs/produto/cart.svg')
       </span>
@@ -81,8 +78,7 @@
 
     <div class="infoProduto">
       <h4><strong>DESCRIÇÃO:</strong></h4>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-         dolore magna aliquam erat volutpat.</p>
+      <p ng-if="produto.descricao.length > 0" ng-bind="produto.descricao"></p>
     </div>
 
   </div>

@@ -10,7 +10,7 @@
                     <div class="stat" style="max-width: 100%">
                         <div class="row">
                             <div class="col-xs-3">
-                                <img src="{{ url('admin/images/is-money.png') }}"
+                                <img src="{{ url('adminpanel/images/is-money.png') }}"
                                      alt="" />
                             </div>
                             <div class="col-xs-8">
@@ -46,7 +46,7 @@
                     <div class="stat" style="max-width: 100%">
                         <div class="row">
                             <div class="col-xs-3">
-                                <img src="{{ url('admin/images/is-money.png') }}"
+                                <img src="{{ url('adminpanel/images/is-money.png') }}"
                                      alt="" />
                             </div>
                             <div class="col-xs-8">
@@ -77,7 +77,7 @@
                     <div class="stat" style="max-width: 100%">
                         <div class="row">
                             <div class="col-xs-3">
-                                <img src="{{ url('admin/images/is-money.png') }}"
+                                <img src="{{ url('adminpanel/images/is-money.png') }}"
                                      alt="" />
                             </div>
                             <div class="col-xs-8">
@@ -112,8 +112,8 @@
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="col-xs-12">
                                 <small class="stat-label">Atualização de Produtos</small>
-                                <h4>@if(!$datas || is_null($datas->pedido))"Não
-                                                                           atualizado" @else {{ $datas->pedido }} @endif</h4>
+                                <h4>@if(!$datas || is_null($datas->produtos))"Não
+                                                                           atualizado" @else {{ $datas->produtos }} @endif</h4>
                             </div>
                         </div><!-- row -->
 
@@ -128,8 +128,8 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <small class="stat-label">Atualização de Pedidos</small>
-                                <h4>@if(!$datas || is_null($datas->pedido))"Não
-                                                                           atualizado" @else {{ $datas->produtos }} @endif</h4>
+                                <h4>@if(!$datas || is_null($datas->pedidos))"Não
+                                                                             atualizado" @else {{ $datas->pedidos }} @endif</h4>
                             </div>
                         </div><!-- row -->
                     </div><!-- stat -->

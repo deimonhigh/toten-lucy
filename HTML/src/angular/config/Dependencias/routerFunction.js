@@ -35,7 +35,7 @@
       .state("categorias", {
         url: "/categorias",
         templateUrl: "./views/categorias.html",
-        controller: "loginController"
+        controller: "categoriaController"
       })
 
       .state("carrinho", {
@@ -51,7 +51,7 @@
       })
 
       .state("produtos", {
-        url: "/produtos",
+        url: "/produtos/:categoria",
         templateUrl: "./views/produtos.html",
         controller: "produtosController"
       })

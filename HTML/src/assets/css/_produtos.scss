@@ -7,7 +7,7 @@
     flex-flow       : row wrap;
 
     align-items     : flex-start;
-    justify-content : center;
+    justify-content : flex-start;
 
     li {
       cursor     : pointer;
@@ -27,7 +27,7 @@
         font       : 600 lh(12px, 100%) $nw;
         color      : #919191;
 
-        &:hover {
+        &:hover, &.active {
           background : $default;
           color      : #FFFFFF;
         }
@@ -50,7 +50,7 @@
     li {
       position : relative;
       display  : block;
-      margin   : 0 auto;
+      //margin   : 0 auto;
 
       padding  : 20px;
 
@@ -129,6 +129,8 @@
     list-style     : none;
     padding        : 0 10px;
     flex-direction : column;
+    max-height     : 420px;
+    overflow       : auto;
 
     li {
       display       : block;

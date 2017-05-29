@@ -1,8 +1,6 @@
 <header>
   <a ui-sref="home" class="logo">
-    <h1>
-      lucy home
-    </h1>
+    <h1 ng-bind="temaStorage.empresa"></h1>
   </a>
 
   <h2>
@@ -10,7 +8,7 @@
   </h2>
 
   <ul>
-    <li class="active">
+    <li>
       <button disabled>
         1
         <p>carrinho</p>
@@ -22,7 +20,7 @@
         <p>identificação</p>
       </button>
     </li>
-    <li>
+    <li class="active">
       <button disabled>
         3
         <p>pagamento</p>
@@ -33,7 +31,7 @@
 <section class="pagamento grid">
   <div class="grid-3 obrigado">
     <h3>OBRIGADO!</h3>
-    <h4>SHEILA SOUZA</h4>
+    <h4 ng-bind="cliente.nome"></h4>
     <p>Estamos muito felizes por você estar adiquirindo estes belísimos móveis, temos certeza que sua casa ou escritório
        vai ficar ainda mais bonito.</p>
   </div>

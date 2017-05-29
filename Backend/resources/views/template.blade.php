@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="{{ url('admin/images/favicon.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ url('adminpanel/images/favicon.png') }}" type="image/png">
 
     <title>Toten Lucy</title>
 
-    <link href="{{ url('admin/css/style.default.css') }}" rel="stylesheet">
-    <link href="{{ url('admin/css/style.inverse.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url('admin/css/colorpicker.css') }}" />
+    <link href="{{ url('adminpanel/css/style.default.css') }}" rel="stylesheet">
+    <link href="{{ url('adminpanel/css/style.inverse.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url('adminpanel/css/colorpicker.css') }}" />
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="{{ url('admin/js/html5shiv.js') }}"></script>
-    <script src="{{ url('admin/js/respond.min.js') }}"></script>
+    <script src="{{ url('adminpanel/js/html5shiv.js') }}"></script>
+    <script src="{{ url('adminpanel/js/respond.min.js') }}"></script>
     <![endif]-->
 
     <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet">

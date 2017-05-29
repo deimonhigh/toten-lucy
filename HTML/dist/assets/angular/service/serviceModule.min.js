@@ -104,7 +104,7 @@
         "password": dados.pass
       }
 
-      $http.post(config.apiUrl + 'oauth/token', enviar, config.header)
+      $http.post(config.apiToken, enviar, config.header)
            .then(function (retorno) {
              deferred.resolve(retorno.data);
            }, function (erro) {

@@ -9,6 +9,9 @@
     var vm = $scope;
     var root = $rootScope;
 
+    vm.cliente = apiService.getStorage('cliente');
+
+    console.log(vm.cliente);
   }
 
 })

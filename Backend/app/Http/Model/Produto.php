@@ -16,6 +16,8 @@ class Produto extends Model
       "descricao",
       "cor",
       "categoriaId",
+      "preco",
+      "precopromocao",
   ];
 
   protected $hidden = [
@@ -27,5 +29,11 @@ class Produto extends Model
   {
     return $this->belongsToMany('App\Http\Controllers\Model\Categoria', 'categoria_produto', 'produto_id', 'codigocategoria_id');
   }
+
+  public function imagens()
+  {
+    return $this->hasMany('App\Http\Controllers\Model\Imagemproduto');
+  }
+
 
 }

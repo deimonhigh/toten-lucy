@@ -3,35 +3,57 @@
   angular.module('appToten')
          .directive('cep', cep);
 
-  cep.$inject = [];
+  cep.$inject = ['$timeout'];
 
-  function cep() {
+  function cep($timeout) {
     return {
       restrict: 'A',
       require: 'ngModel',
-      link: function (scope, element, attrs, ngModel) {
-        $(element).mask('00000-000', {reverse: true});
+      scope: {
+        ngModel: '=ngModel'
+      },
+      link: function (scope, element, attrs, ngModelCtrl) {
 
-        ngModel.$setValidity('cep', true);
+        ngModelCtrl.$formatters.push(function (value) {
+          return formatter(value);
+        });
 
-        ngModel.$parsers.push(function (value) {
+        ngModelCtrl.$parsers.push(function (value) {
           if (value) {
-            return value.toString().replace(/[^0-9]/g, '');
+            var transformedInput = value.replace(/[^0-9]/g, '');
+            ngModelCtrl.$setViewValue(formatter(transformedInput.substring(0, 8)));
+            ngModelCtrl.$render();
+
+            $timeout(function () {
+              if (ngModelCtrl.$viewValue) {
+                setCaretPosition(element[0], ngModelCtrl.$viewValue.length);
+              }
+            });
+
+            return value.replace(/[^0-9]/g, "");
           }
         });
-
-        ngModel.$parsers.push(function (value) {
-          if (value && value.length >= 8) {
-            ngModel.$setValidity('cep', true);
-            return value;
-          } else {
-            ngModel.$setValidity('cep', false);
-            return undefined;
-          }
-        });
-
       }
     };
+
+    function setCaretPosition(el) {
+      if (typeof el.selectionStart == "number") {
+        el.selectionStart = el.selectionEnd = el.value.length;
+      } else if (typeof el.createTextRange != "undefined") {
+        el.focus();
+        var range = el.createTextRange();
+        range.collapse(false);
+        range.select();
+      }
+    }
+
+    function formatter(value) {
+      if (value) {
+        value = value.toString().replace(/D/g, "");
+        value = value.replace(/^(\d{5})(\d)/, "$1-$2");
+        return value;
+      }
+    }
 
   }
 

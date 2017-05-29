@@ -9,16 +9,13 @@
     var vm = $scope;
     var root = $rootScope;
 
-    vm.listaCompras = [].concat.apply([], new Array(15)).map(function (obj, i) {
-      return {
-        "qnt": 1,
-        "price": 350.30 * (i + 1)
-      };
-    });
+    console.log();
+
+    vm.listaCompras = apiService.getStorage('carrinho') || [];
 
     var calcTotal = function () {
       vm.totalProdutos = vm.listaCompras.reduce(function (previousValue, obj) {
-        return previousValue + (obj.price * obj.qnt);
+        return previousValue + (obj.preco * obj.qnt);
       }, 0);
     };
 

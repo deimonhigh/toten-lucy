@@ -53,9 +53,9 @@
                                         <th>Categoria importada</th>
                                     </tr>
                                 </thead>
-                                @if(count($dados) > 0)
+                                @if($dados)
                                     <tbody>
-                                        @foreach($dados as $keyParent => $valParent)
+                                        @foreach($Admincategoria as $keyParent => $valParent)
                                             @foreach($valParent->categorias as $key => $val)
                                                 <tr @if($keyParent % 2 == 0) class="active" @endif>
                                                     @if($key == 0)

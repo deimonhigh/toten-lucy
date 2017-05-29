@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="{{ url('admin/images/favicon.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ url('adminpanel/images/favicon.png') }}" type="image/png">
 
     <title>Toten Lucy</title>
 
-    <link href="{{ url('admin/css/style.default.css') }}" rel="stylesheet">
-    <link href="{{ url('admin/css/style.inverse.css') }}" rel="stylesheet">
+    <link href="{{ url('adminpanel/css/style.default.css') }}" rel="stylesheet">
+    <link href="{{ url('adminpanel/css/style.inverse.css') }}" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="{{ url('admin/js/html5shiv.js') }}"></script>
-    <script src="{{ url('admin/js/respond.min.js') }}"></script>
+    <script src="{{ url('adminpanel/js/html5shiv.js') }}"></script>
+    <script src="{{ url('adminpanel/js/respond.min.js') }}"></script>
     <![endif]-->
 </head>
 
@@ -36,7 +36,7 @@
 
                             <form method="post" class="center-block" action="{{ route('login') }}">
                                 <h4 class="nomargin">
-                                    <img src="{{ url('admin//images/logo.png') }}"
+                                    <img src="{{ url('adminpanel//images/logo.png') }}"
                                          alt="Lucy Home"
                                          class="img-responsive center-block mb30">
                                 </h4>
@@ -74,10 +74,10 @@
             </div>
         </div><!-- signin -->
 
-        <script src="{{ url('admin//js/jquery-1.11.1.min.js') }}"></script>
-        <script src="{{ url('admin//js/jquery.sparkline.min.js') }}"></script>
-        <script src="{{ url('admin//js/retina.min.js') }}"></script>
-        <script src="{{ url('admin//js/custom.js') }}"></script>
+        <script src="{{ url('adminpanel//js/jquery-1.11.1.min.js') }}"></script>
+        <script src="{{ url('adminpanel//js/jquery.sparkline.min.js') }}"></script>
+        <script src="{{ url('adminpanel//js/retina.min.js') }}"></script>
+        <script src="{{ url('adminpanel//js/custom.js') }}"></script>
     </section>
 </body>
 </html>

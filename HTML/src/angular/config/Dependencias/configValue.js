@@ -1,9 +1,11 @@
 ﻿angular
   .module("appToten")
   .constant("config", {
-    "apiUrl": "http://localhost:8000/",
+    "baseUrl": "http://toten.localhost/",
+    "apiToken": "http://toten.localhost/oauth/token",
+    "apiUrl": "http://toten.localhost/api/",
     "grant_type": "password",
-    "client_id": 3,
-    "client_secret": "XmIu9RTb22nQEFZCdhXpsyk2WV94xKzYsO9TOVbx",
+    "client_id": 4,
+    "client_secret": "DBhbCCm5UkmxdQHJUhPiYfc9Zqj0rvW0GTcZFpGT",
     "scope": "*"
   });

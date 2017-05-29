@@ -6,3 +6,4 @@
 //=require Controllers/produtosController.js
 //=require Controllers/produtoController.js
 //=require Controllers/pagamentoController.js
+//=require Controllers/categoriaController.js

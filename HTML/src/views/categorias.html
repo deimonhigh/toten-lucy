@@ -1,8 +1,6 @@
 <header>
   <a ui-sref="home" class="logo">
-    <h1>
-      lucy home
-    </h1>
+    <h1 ng-bind="temaStorage.empresa"></h1>
   </a>
 </header>
 
@@ -13,43 +11,12 @@
 
     <div class="collumn">
       <ul class="grid">
-        <li class="grid-4">
-          <a ui-sref="produtos">
-            <img src="assets/imgs/categoria/cadeiras.png" alt="Banquetas">
-            <span>banquetas</span>
+        <li class="grid-4" ng-repeat="item in categorias">
+          <a ui-sref="produtos({categoria:item.id})">
+            <img ng-src="{{ item.imagem }}" alt="{{ item.descricao }}">
+            <span ng-bind="item.descricao"></span>
           </a>
         </li>
-        <li class="grid-4">
-          <a ui-sref="produtos">
-            <img src="assets/imgs/categoria/poltronas.png" alt="Poltronas">
-            <span>Poltronas</span>
-          </a>
-        </li>
-        <li class="grid-4">
-          <a ui-sref="produtos">
-            <img src="assets/imgs/categoria/sala.png" alt="Luminárias">
-            <span>Luminárias</span>
-          </a>
-        </li>
-        <li class="grid-4">
-          <a ui-sref="produtos">
-            <img src="assets/imgs/categoria/cadeiras.png" alt="Banquetas">
-            <span>banquetas</span>
-          </a>
-        </li>
-        <li class="grid-4">
-          <a ui-sref="produtos">
-            <img src="assets/imgs/categoria/cadeiras.png" alt="Cadeiras">
-            <span>Cadeiras</span>
-          </a>
-        </li>
-        <li class="grid-4">
-          <a ui-sref="produtos">
-            <img src="assets/imgs/categoria/cadeiras.png" alt="Banquetas">
-            <span>banquetas</span>
-          </a>
-        </li>
-
       </ul>
 
       <a ui-sref="produto" class="destaque">

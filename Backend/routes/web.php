@@ -10,7 +10,15 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes();
+//region Autorização
+$this->get('admin/login', 'Auth\LoginController@showLoginForm');
+$this->post('login', 'Auth\LoginController@login')->name('login');
+$this->post('logout', 'Auth\LoginController@logout')->name('logout');
+//endregion
+
+Route::get('admin/', function () {
+  return redirect('admin/login');
+});
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   //region Dashboard
@@ -47,6 +55,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/detalhes/{id}', 'Admin\AdminProdutosController@detalhes')->name('produtosDetalhe');
     Route::get('/importarProdutos', 'Admin\AdminProdutosController@importarProdutos');
     Route::get('/importarProdutosView', 'Admin\AdminProdutosController@importarProdutosView')->name('importarProdutos');
+    Route::get('/findFiles', 'Admin\AdminProdutosController@findFiles');
   });
   //endregion
 
@@ -85,7 +94,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/importarCategoriasView', 'Admin\AdminCategoriasController@importarCategoriasView')->name('importarCategoriasView');
   });
   //endregion
-
 });
 
 

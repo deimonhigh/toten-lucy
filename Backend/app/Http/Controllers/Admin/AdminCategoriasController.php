@@ -23,9 +23,7 @@ class AdminCategoriasController extends BaseController
     //endregion
 
     $data['dados'] = Admincategoria::all();
-    $data['dadosImportados'] = Categoria::where('id', function ($query) {
-      $query->select('id')->from('admincategoria_categoria');
-    });
+    $data['dadosImportados'] = Categoria::all();
 
     return view('categorias.listagem', $data);
   }
@@ -138,14 +136,20 @@ class AdminCategoriasController extends BaseController
     //endregion
 
     $data['Admincategoria'] = Admincategoria::all();
+
+    $count = 0;
+    foreach ($data['Admincategoria'] as $item) {
+      if (count($item->categorias) > 0) {
+        $count++;
+      }
+    }
+
     $data['categoriasImportadas'] = Categoria::whereNotIn('id', function ($q) {
-      $q->select('id')->from('admincategorias');
+      $q->select('categoria_id')->from('admincategoria_categoria');
     })->get();
 
 
-    $data['dados'] = Admincategoria::all();
-
-//    var_dump($data['dados']);
+    $data['dados'] = $count > 0;
 
     return view('categorias.relacionar', $data);
   }

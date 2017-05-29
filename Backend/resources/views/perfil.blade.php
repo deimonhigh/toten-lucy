@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <form action="{{ url('admin/perfil/cadastrar') }}" method="post" class="validate">
+                <form action="{{ url('adminpanel/perfil/cadastrar') }}" method="post" class="validate">
                     {{ csrf_field() }}
                     <div class="panel-heading">
                         <h4 class="panel-title">Meu perfil</h4>

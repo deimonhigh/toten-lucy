@@ -37,12 +37,6 @@
                                                    href="{{ url(route('produtosDetalhe', ['id' => $data->id])) }}">
                                                     <i class="fa fa-search"></i>
                                                 </a>
-
-                                                <a class="btn btn-default"
-                                                   title="Upload de fotos"
-                                                   href="{{ url(route('produtosDetalhe', ['id' => $data->id])) }}">
-                                                    <i class="fa fa-photo"></i>
-                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>

@@ -3,44 +3,96 @@
   angular.module('appToten')
          .directive('telefone', telefone);
 
-  telefone.$inject = [];
+  telefone.$inject = ['$timeout'];
 
-  function telefone() {
+  function telefone($timeout) {
     return {
       restrict: 'A',
       require: 'ngModel',
-      link: function (scope, element, attrs, ngModel) {
-        var SPMaskBehavior = function (val) {
-              return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
-            },
-            spOptions      = {
-              onKeyPress: function (val, e, field, options) {
-                field.mask(SPMaskBehavior.apply({}, arguments), options);
-              }
-            };
+      scope: {
+        ngModel: '=ngModel'
+      },
+      link: function (scope, element, attrs, ngModelCtrl) {
+        ngModelCtrl.$setValidity('cpf', true);
 
-        $(element).mask(SPMaskBehavior, spOptions);
-
-        ngModel.$setValidity('telefone', true);
-
-        ngModel.$parsers.push(function (value) {
-          if (value) {
-            return value.toString().replace(/[^0-9]/g, '');
-          }
+        ngModelCtrl.$formatters.push(function (value) {
+          return maskTelefone(value);
         });
 
-        ngModel.$parsers.push(function (value) {
-          if (value && value.length >= 10) {
-            ngModel.$setValidity('telefone', true);
-            return value;
-          } else {
-            ngModel.$setValidity('telefone', false);
-            return undefined;
+        ngModelCtrl.$parsers.push(function (value) {
+          if (value) {
+            var transformedInput = value.replace(/[^0-9]/g, '');
+            ngModelCtrl.$setViewValue(maskTelefone(transformedInput.substring(0, 11)));
+            ngModelCtrl.$render();
+
+            $timeout(function () {
+              if (ngModelCtrl.$viewValue) {
+                setCaretPosition(element[0], ngModelCtrl.$viewValue.length);
+              }
+            });
+
+            return value.replace(/[^0-9]/g, "");
           }
         });
       }
     };
 
+    function setCaretPosition(el) {
+      if (typeof el.selectionStart == "number") {
+        el.selectionStart = el.selectionEnd = el.value.length;
+      } else if (typeof el.createTextRange != "undefined") {
+        el.focus();
+        var range = el.createTextRange();
+        range.collapse(false);
+        range.select();
+      }
+    }
+
+    function formatterDefault(value) {
+      if (value) {
+        value = value.replace(/\D/g, "");
+        value = value.replace(/^(\d{2})(\d)/g, "($1) $2");
+        value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+
+        return value;
+      }
+    }
+
+    function formatterNoDdd(value) {
+      if (value) {
+        value = value.replace(/\D/g, "");
+        value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+
+        return value;
+      }
+    }
+
+    function formatterGeral(value) {
+      if (value) {
+        value = value.replace(/\D/g, "");
+        value = value.replace(/^(\d{4})(\d)/, "$1-$2");
+        value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+
+        return value;
+      }
+    }
+
+    function maskTelefone(value) {
+      if (value) {
+        var len = value.replace(/\D/g, "").length;
+
+        if (len > 9 && len <= 11 && value.indexOf('0800') == -1) {
+          return formatterDefault(value);
+        } else if (len <= 9) {
+          return formatterNoDdd(value);
+        }
+        if (len == 11 && value.indexOf('0800') > -1) {
+          return formatterGeral(value);
+        }
+      } else {
+        return value
+      }
+    }
   }
 
 })(angular);

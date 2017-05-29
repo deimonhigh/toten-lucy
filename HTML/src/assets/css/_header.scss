@@ -22,6 +22,8 @@ header {
         font    : 400 lh(14px, 100%) $lt;
         color   : #999999;
         margin  : 5px 0 0 0;
+        padding : 0;
+        border  : 0;
       }
     }
 
@@ -52,9 +54,11 @@ header {
   h2 {
     font           : 500 lh(20px, 200%) $nw;
     color          : #999999;
-    margin         : 0 0 0 40px;
+    margin         : 5px 0 0 40px;
     vertical-align : top;
     display        : inline-block;
+    border-left    : 1px solid #DDDDDD;
+    padding        : 0 0 0 30px;
   }
 
   ul {
@@ -72,6 +76,23 @@ header {
       text-align     : center;
       font           : 600 lh(18px, 100%) $nw;
       color          : #DDDDDD;
+
+      &:after {
+        content    : "";
+        display    : block;
+        top        : 25px;
+        position   : absolute;
+        right      : -65px;
+        height     : 1px;
+        width      : 50px;
+        background : #DDDDDD;
+      }
+
+      &:last-child {
+        &:after {
+          display : none;
+        }
+      }
 
       &.active {
         button {
@@ -92,10 +113,10 @@ header {
 
         outline               : none !important;
 
-        border                : 0;
+        border                : 1px solid #DDDDDD;
 
         text-align            : center;
-        color                 : #DDDDDD;
+        color                 : #444444;
 
       }
 

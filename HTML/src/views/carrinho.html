@@ -1,8 +1,6 @@
 <header>
   <a ui-sref="home" class="logo">
-    <h1>
-      lucy home
-    </h1>
+    <h1 ng-bind="temaStorage.empresa"></h1>
   </a>
 
   <h2>
@@ -46,20 +44,18 @@
         <tr ng-repeat="item in listaCompras">
           <td>
             <div class="img">
-              <img src="../assets/imgs/carrinho/example.png" alt="Example">
+              <img ng-src="{{ item.imagens[0].url }}" alt="{{ item.nomeproduto }}">
             </div>
           </td>
           <td>
-            <h4>
-              CADEIRA LOUIS GHOST COM BRAÇO
-            </h4>
-            <p>vermelha</p>
+            <h4 ng-bind="item.nomeproduto"></h4>
+            <p ng-bind="item.cor" ng-if="item.cor.length > 0"></p>
           </td>
           <td>
-            <div class="preco" ng-bind="item.price | currency:'R$'"></div>
+            <div class="preco" ng-bind="item.preco | currency:'R$'"></div>
           </td>
           <td>
-            <div class="preco" ng-bind="(item.price * item.qnt) | currency:'R$'"></div>
+            <div class="preco" ng-bind="(item.preco * item.qnt) | currency:'R$'"></div>
           </td>
           <td>
             <div class="input-group">
