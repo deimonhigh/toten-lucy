@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Model\Cliente;
 use App\Http\Controllers\Model\Endereco;
+use App\Http\Controllers\Model\Pedido;
 use App\Http\Controllers\RestController as BaseController;
 use Illuminate\Http\Request;
 
@@ -60,7 +61,17 @@ class ApiClientesController extends BaseController
         $newEndereco->save();
       }
 
-      return $this->Ok($request->all());
+      $newPedido = new Pedido();
+      $newPedido->idCliente = $idCliente->id;
+      $newPedido->total = 0;
+      $newPedido->comprovante = '';
+      $newPedido->save();
+      
+      $json = $request->all();
+
+      $json['idPedido'] = $newPedido->id;
+      
+      return $this->Ok($json);
     }
     catch (\Exception $e) {
       if ($this->isModelNotFoundException($e)) {

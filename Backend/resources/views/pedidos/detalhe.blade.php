@@ -13,18 +13,18 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <h5>Nome</h5>
-                            <p><strong>{{ $dados->nome }}</strong></p>
+                            <p><strong>{{ $dados->cliente->nome }}</strong></p>
                         </div>
                         <div class="col-sm-6">
                             <h5>Documento CPF/CNPJ</h5>
-                            <p><strong>{{ $dados->documento }}</strong></p>
+                            <p><strong>{{ $dados->cliente->documento }}</strong></p>
                         </div>
                     </div>
 
-                    @if($enderecos && count($enderecos) > 0)
+                    @if($dados->cliente->enderecos && count($dados->cliente->enderecos) > 0)
                         <h3 class="bbottom">Endereço(s)</h3>
-                        @foreach($enderecos as $endereco)
-                            <h4>Endereço 1</h4>
+                        @foreach($dados->cliente->enderecos as $key => $endereco)
+                            <h4>Endereço {{ $key + 1 }}</h4>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <h5>CEP</h5>
@@ -69,6 +69,9 @@
                                     </p>
                                 </div>
                             </div>
+                            @if($key != 1)
+                                <hr>
+                            @endif
                         @endforeach
                     @endif
                 </div><!-- panel-body -->

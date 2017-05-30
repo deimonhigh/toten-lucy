@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+$this->get('/', function (){
+  return view('index');
+});
 //region Autorização
 $this->get('admin/login', 'Auth\LoginController@showLoginForm');
 $this->post('login', 'Auth\LoginController@login')->name('login');
@@ -62,6 +65,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   //region Pedidos
   Route::group(['prefix' => 'pedidos'], function () {
     Route::get('/', 'Admin\AdminPedidosController@index')->name('pedidos');
+    Route::get('/detalhes/{id}', 'Admin\AdminPedidosController@detalhes')->name('pedidoDetalhe');
     Route::post('/cadastrar', 'Admin\AdminPedidosController@cadastrar');
   });
   //endregion

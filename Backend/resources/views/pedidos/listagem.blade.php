@@ -24,18 +24,18 @@
                                     <tbody>
                                         <tr>
                                             <td>{{ $data->id }}</td>
-                                            <td>{{ $data->nome }}</td>
-                                            <td>{{ $data->documento }}</td>
+                                            <td>{{ $data->cliente->nome }}</td>
+                                            <td>{{ $data->cliente->documento }}</td>
                                             <td>
                                                 @if($data->status)
-                                                    "Enviado para KPL"
+                                                    Enviado para KPL
                                                 @else
-                                                    "Não enviado"
+                                                    Não enviado
                                                 @endif
                                             </td>
                                             <td>
                                                 <a class="btn btn-default"
-                                                   href="{{ url(route('clientesDetalhe', ['id' => $data->id])) }}">
+                                                   href="{{ url(route('pedidoDetalhe', ['id' => $data->id])) }}">
                                                     <i class="fa fa-search"></i>
                                                 </a>
                                             </td>

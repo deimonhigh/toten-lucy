@@ -95,7 +95,7 @@ class AdminVendedoresController extends BaseController
             'nome' => $request->get('nome'),
             'identificacao' => $request->get('identificacao'),
             'senha' => Hash::make($request->get('senha')),
-            'idcliente' => Auth::id()
+            'usuario_id' => Auth::id()
         ]
     );
 

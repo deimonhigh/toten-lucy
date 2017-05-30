@@ -15,7 +15,7 @@ class Vendedor extends Model
       "nome",
       "identificacao",
       "senha",
-      "idcliente"
+      "usuario_id"
   ];
 
   protected $hidden = [

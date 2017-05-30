@@ -35,6 +35,10 @@ Route::group(['middleware' => 'auth:api'], function () {
   Route::group(['prefix' => 'categorias'], function () {
     Route::get('/', 'Api\ApiCategoriasController@all');
   });
+
+  Route::group(['prefix' => 'pedidos'], function () {
+    Route::post('/save', 'Api\ApiPedidosController@save');
+  });
 });
 
 
