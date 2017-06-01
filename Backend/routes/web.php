@@ -30,8 +30,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
   //region Configurações
   Route::group(['prefix' => 'configuracao'], function () {
-    Route::get('/', 'Admin\AdminTemaController@index')->name('config');
-    Route::post('/cadastrar', 'Admin\AdminTemaController@cadastrar');
+    Route::get('/', 'Admin\AdminConfigController@index')->name('config');
+    Route::get('/parcelas', 'Admin\AdminConfigController@parcelas')->name('parcelas');
+    Route::post('/cadastrar', 'Admin\AdminConfigController@cadastrar');
+    Route::post('/cadastrar/parcelas', 'Admin\AdminConfigController@cadastrarParcelas')->name('cadastrarParcelas');
   });
   //endregion
 

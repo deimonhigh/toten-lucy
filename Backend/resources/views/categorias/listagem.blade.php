@@ -69,6 +69,7 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Id KPL</th>
                                     <th>Descricao</th>
                                 </tr>
                             </thead>
@@ -77,6 +78,7 @@
                                     <tbody>
                                         <tr>
                                             <td>{{ $data->id }}</td>
+                                            <td>{{ $data->codigocategoria }}</td>
                                             <td>{{ $data->descricao }}</td>
                                         </tr>
                                     </tbody>

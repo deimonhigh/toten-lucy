@@ -21,6 +21,27 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>Data de solicitação do pedido</h5>
+                            <p><strong>{{ date('d/m/Y', strtotime($dados->created_at)) }}</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h5>Comprovante</h5>
+                            <p>
+                                <a href="{{ asset(str_replace('public', 'storage', $dados->comprovante)) }}" download>
+                                    <img src="{{ asset(str_replace('public', 'storage', $dados->comprovante)) }}"
+                                         class="img-responsive"
+                                         alt="{{ $dados->cliente->nome }}"
+                                         style="width: 100%; margin-top: 20px;">
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
                     @if($dados->cliente->enderecos && count($dados->cliente->enderecos) > 0)
                         <h3 class="bbottom">Endereço(s)</h3>
                         @foreach($dados->cliente->enderecos as $key => $endereco)

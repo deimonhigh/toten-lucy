@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <form action="{{ url('adminpanel/perfil/cadastrar') }}" method="post" class="validate">
+                <form action="{{ url('admin/perfil/cadastrar') }}" method="post" class="validate">
                     {{ csrf_field() }}
                     <div class="panel-heading">
                         <h4 class="panel-title">Meu perfil</h4>
@@ -14,7 +14,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label">Nome da empresa</label>
+                                    <label class="control-label">Nome do usuário</label>
                                     <input type="text"
                                            name="name"
                                            class="form-control"
@@ -30,11 +30,10 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label" style="width: 100%;">Cor de identificação</label>
+                                    <label class="control-label" style="width: 100%;">E-mail</label>
                                     <input type="text"
                                            name="email"
                                            class="form-control"
-                                           id="colorpicker"
                                            required
                                            value="@if(isset($dados->email)) {{$dados->email}} @elseif(old('email')) {{old('email')}} @endif"
                                     />

@@ -13,7 +13,19 @@ class UsersTableSeeder extends Seeder
   {
     DB::table('users')->insert([
         'name' => "Bruno Souza",
-        'email' => 'brnosouza@gmail.com',
+        'email' => 'bruno@agenciadominio.com.br',
+        'password' => \Illuminate\Support\Facades\Hash::make('12345678'),
+    ]);
+
+    DB::table('users')->insert([
+        'name' => "Alexsander",
+        'email' => 'alex@agenciadominio.com.br',
+        'password' => \Illuminate\Support\Facades\Hash::make('12345678'),
+    ]);
+
+    DB::table('users')->insert([
+        'name' => "Toten-Lucy",
+        'email' => 'loja1@teste.com',
         'password' => \Illuminate\Support\Facades\Hash::make('12345678'),
     ]);
   }

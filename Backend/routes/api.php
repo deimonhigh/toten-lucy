@@ -15,9 +15,9 @@ use Illuminate\Http\Request;
 
 Route::get('begin', 'Controller@begin');
 
-Route::group(['middleware' => 'auth:api'], function () {
-  Route::resource('tema', 'Api\ApiThemeController', ['only' => ['show']]);
+Route::resource('tema', 'Api\ApiConfigController', ['only' => ['show']]);
 
+Route::group(['middleware' => 'auth:api'], function () {
   Route::group(['prefix' => 'vendedores'], function () {
     Route::post('/validate', 'Api\ApiVendedorController@validate');
   });
