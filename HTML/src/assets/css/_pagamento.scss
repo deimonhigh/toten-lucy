@@ -74,11 +74,11 @@
 
   .loginVendedor {
     flex-direction : column;
-    padding        : 50px 30px 0 30px;
+    padding        : 50px 0 0 30px;
 
     h3 {
       font    : 600 lh(30px, 100%) $nw;
-      color   : #222222;
+      color   : $default;
       display : block;
       margin  : 0 0 10px 0;
     }
@@ -89,9 +89,25 @@
     }
 
     .formField {
-      padding-right : 150px;
+      padding-right : 130px;
       position      : relative;
       padding-top   : 40px;
+
+      select {
+        height                : 50px;
+        -webkit-border-radius : 0;
+        -moz-border-radius    : 0;
+        border-radius         : 0;
+      }
+
+      .input-group-addon {
+        background     : none;
+        color          : $default;
+        font           : 400 lh(15px, 120%) $op;
+        text-transform : uppercase;
+        cursor         : pointer;
+        border         : 0;
+      }
 
       input {
         border-radius : 0;
@@ -143,4 +159,98 @@
       }
     }
   }
+  .resumoCompra {
+    position : relative;
+
+    .tableHolder {
+      width    : 100%;
+      display  : inline-block;
+      height   : 450px;
+      overflow : auto;
+
+      table {
+        border       : 1px solid #DDDDDD;
+        border-width : 1px 0;
+        tbody {
+          tr {
+            border-bottom : 1px solid #DDDDDD;
+            background    : #FFFFFF;
+
+            td {
+              border         : 0;
+              text-transform : uppercase;
+              font           : 600 lh(14px, 100%) $lt;
+              color          : #777777;
+              vertical-align : middle;
+
+              span {
+                padding : 10px 5px 5px 5px;
+                display : block;
+                strong {
+                  color : $default;
+                }
+              }
+
+              &:nth-child(1) {
+                width : 30px;
+                color : $default;
+              }
+
+              .preco {
+                color : lighten($default, 15);
+              }
+            }
+          }
+        }
+      }
+
+    }
+
+    h2 {
+      font           : 600 lh(30px, 150%) $nw;
+      text-transform : uppercase;
+      color          : $default;
+
+      b {
+        font-size   : 24px;
+        color       : #232323;
+        margin-left : 20px;
+      }
+    }
+
+    .total {
+      display  : block;
+      position : absolute;
+      bottom   : 0;
+      left     : 0;
+      width    : 100%;
+
+      div {
+        width   : 100%;
+        &.field {
+          width        : 100%;
+          height       : 60px;
+          text-align   : right;
+          font         : 600 lh(20px, 100%) $nw;
+          padding-left : 75px;
+          position     : relative;
+        }
+        display : inline-block;
+
+        &.cifra {
+          text-align : right;
+          display    : block;
+          width      : 100%;
+          color      : #999999;
+        }
+
+        &.number {
+          padding-top : 10px;
+          width       : 100%;
+          color       : $default;
+        }
+      }
+    }
+  }
+
 }

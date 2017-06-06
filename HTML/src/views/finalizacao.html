@@ -8,7 +8,7 @@
   </h2>
 
   <ul>
-    <li class="active">
+    <li>
       <button disabled>
         1
         <p>carrinho</p>
@@ -20,7 +20,7 @@
         <p>identificação</p>
       </button>
     </li>
-    <li>
+    <li class="active">
       <button disabled>
         3
         <p>pagamento</p>
@@ -31,7 +31,7 @@
 <section class="pagamento grid">
   <div class="grid-3 obrigado">
     <h3>OBRIGADO!</h3>
-    <h4>SHEILA SOUZA</h4>
+    <h4 ng-bind="cliente.nome"></h4>
     <p>Estamos muito felizes por você estar adiquirindo estes belísimos móveis, temos certeza que sua casa ou escritório
        vai ficar ainda mais bonito.</p>
   </div>
@@ -39,25 +39,25 @@
     <ul>
       <li class="pedido">
         <b>número do pedido</b>
-        0001.5678.090-09
+        {{ idPedido }}
       </li>
       <li class="total">
         <span>valor total do pedido</span>
-        <strong>R$ 5.389,90</strong>
-        <span class="parcelas">em até <b>6X</b> no cartão</span>
+        <strong ng-bind="totalCarrinho | currency"></strong>
+        <span class="parcelas">em até <b ng-bind="temaStorage.maxParcelas + 'X'"></b> no cartão</span>
       </li>
     </ul>
   </div>
   <div class="grid-6 finalizacao">
     <h3>PEDIDO<br>REALIZADO</h3>
     <div class="img">
-      <img src="assets/imgs/fotos/example.png" alt="Comprovante do Pedido">
+      <img ng-src="{{ comprovante }}" alt="Comprovante do Pedido">
     </div>
   </div>
 </section>
 <footer class="grid middle end">
   <div class="collum align-right grid-6">
-    <button class="btn" ui-sref="home">
+    <button class="btn" ui-sref="home" ng-click="limparSessao()">
       finalizar seção
     </button>
   </div>

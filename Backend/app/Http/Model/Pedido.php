@@ -21,7 +21,7 @@ class Pedido extends Model
 
   public function cliente()
   {
-    return $this->hasOne('App\Http\Controllers\Model\Cliente', 'id', 'idcliente');
+    return $this->hasOne('App\Http\Controllers\Model\Cliente');
   }
 
 }

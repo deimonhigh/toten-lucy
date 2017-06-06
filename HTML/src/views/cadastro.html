@@ -75,6 +75,55 @@
             </div>
           </div>
         </div>
+        <div class="grid-4 gutter column">
+          <div class="form-group">
+            <label class="required">email</label>
+            <input type="text"
+                   name="email"
+                   ng-model="dados.email"
+                   class="form-control"
+                   required
+                   ng-class="{'errorBorder': cadastroForm.email.$invalid && cadastroForm.email.$touched}">
+            <div class="error"
+                 ng-if="cadastroForm.email.$invalid && cadastroForm.email.$touched">
+              O campo E-mail é obrigatório.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid begin">
+        <div class="form-group grid-12" style="margin-bottom: 0;">
+          <label class="required">
+            Sexo
+          </label>
+        </div>
+        <div class="grid-2 gutter column">
+          <label class="choiceButton circle">
+            <input type="radio" name="sexo" value="M" ng-model="dados.sexo">
+            <span></span>
+            <p>
+              Masculino
+            </p>
+          </label>
+        </div>
+        <div class="grid-2 gutter column">
+          <label class="choiceButton circle">
+            <input type="radio" name="sexo" value="F" ng-model="dados.sexo">
+            <span></span>
+            <p>
+              Feminino
+            </p>
+          </label>
+        </div>
+        <div class="grid-2 gutter column">
+          <label class="choiceButton circle">
+            <input type="radio" name="sexo" value="E" ng-model="dados.sexo">
+            <span></span>
+            <p>
+              Empresa
+            </p>
+          </label>
+        </div>
       </div>
     </article>
     <article>

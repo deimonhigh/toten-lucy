@@ -3,16 +3,18 @@
   angular.module('appToten')
          .controller('fotoController', fotoController);
 
-  fotoController.$inject = ['$scope', '$rootScope'];
+  fotoController.$inject = ['$scope', '$rootScope', 'apiService'];
 
-  function fotoController($scope, $rootScope) {
+  function fotoController($scope, $rootScope, apiService) {
     var vm = $scope;
     var root = $rootScope;
 
     var _video = null;
 
     vm.closeModal = function () {
+      root.$broadcast('confirmarImg');
       root.foto = false;
+      vm.confirmFoto = false;
     };
 
     vm.okFoto = function () {
@@ -30,9 +32,6 @@
       h: 400
     };
 
-    // Setup a channel to receive a video property
-    // with a reference to the video element
-    // See the HTML binding in main.html
     vm.channel = {};
 
     vm.onError = function (err) {
@@ -59,14 +58,12 @@
         vm.confirmFoto = true;
 
         vm.imgResponse = patCanvas.toDataURL();
-
+        apiService.setStorage('comprovante', vm.imgResponse);
       }
     };
 
     var getVideoData = function getVideoData(x, y, w, h) {
       var hiddenCanvas = document.createElement('canvas');
-
-      console.log(_video.height);
 
       hiddenCanvas.width = _video.width;
       hiddenCanvas.height = _video.height;

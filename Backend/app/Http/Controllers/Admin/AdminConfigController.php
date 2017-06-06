@@ -48,6 +48,50 @@ class AdminConfigController extends BaseController
     return view('configuracoes.parcelas', $data);
   }
 
+  public function banner()
+  {
+    //region Breadcrumb
+    $data['icon'] = "fa-gear";
+    $data['parent'] = "Dashboard";
+    $data['current'] = "Configurações";
+    $data['comment'] = "Banner Promocional";
+    $data['url'] = "/admin/dashboard";
+    $data['menu'] = "config";
+    $data['submenu'] = "banner";
+    //endregion
+
+    $data['dados'] = Configuracao::where('userId', Auth::id())->first();
+
+    return view('configuracoes.banner', $data);
+  }
+
+  public function cadastrarBanner(Request $request)
+  {
+
+    $this->validate($request, [
+        'banner' => 'image',
+        'produto'=> 'required'
+    ]);
+
+    $insert = [
+        'produto_id' => $request->get('produto_id'),
+    ];
+
+    \Storage::deleteDirectory('public/banners');
+
+    if ($request->hasFile('banner')) {
+      $insert['banner'] = $request->file('banner')->store('banners', 'public');
+    } else {
+      $insert['banner'] = null;
+    }
+
+    Configuracao::updateOrCreate(
+        ['id' => 1],
+        $insert
+    );
+
+    return redirect(route('config'));
+  }
 
   public function cadastrar(Request $request)
   {

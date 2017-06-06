@@ -64,6 +64,8 @@ class AdminProdutosController extends BaseController
     foreach ($rows as $row):
       $categoriasIncluir = [];
 
+      var_dump($row);
+
       if ($row->CategoriasDoSite->ResultadoOperacao->Tipo != 'tdreSucessoSemDados'):
         if (gettype($row->CategoriasDoSite->Rows->DadosCategoriasDoSite) == 'object') {
           array_push($categoriasIncluir, $row->CategoriasDoSite->Rows->DadosCategoriasDoSite->CodigoCategoria);

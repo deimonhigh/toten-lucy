@@ -11,9 +11,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
 
   <!--<script type="text/javascript">-->
-  <!--if (document.location.protocol != "https:") {-->
-  <!--document.location = document.URL.replace(/^http:/i, "https:");-->
-  <!--}-->
+    <!--if (document.location.protocol != "https:") {-->
+      <!--document.location = document.URL.replace(/^http:/i, "https:");-->
+    <!--}-->
   <!--</script>-->
 
   <link rel="stylesheet" type="text/css" href="assets/css/style.min.css" />
@@ -60,7 +60,7 @@
             </div>
             <div class="column" ng-if="confirmFoto">
               <div class="imgExample OkFoto">
-                <img ng-src="{{ imgResponse }}" alt="Foto">
+                <img ng-src="@{{ imgResponse }}" alt="Foto">
                 <button type="button" class="btn tp" ng-click="notOkFoto()">
                   <div class="img">
                     @@include('assets/imgs/fotos/camera.svg')

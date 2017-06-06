@@ -1,5 +1,0 @@
-{
-    "require": {
-        "laravel/passport": "^2.0"
-    }
-}

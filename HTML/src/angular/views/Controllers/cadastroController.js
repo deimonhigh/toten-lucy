@@ -20,6 +20,7 @@
 
     vm.dados = {};
     vm.dados.enderecoCerto = true;
+    vm.dados.sexo = "M";
     vm.dados.outro = {};
 
     vm.listaCompras = [].concat.apply([], new Array(20)).map(function (obj, i) {
@@ -88,6 +89,7 @@
           vm.dados.telefone = res.result.telefone;
           vm.dados.celular = res.result.celular;
           vm.dados.id = res.result.id;
+          vm.dados.sexo = res.result.sexo;
 
           if (res.result.enderecos.length == 1) {
             vm.dados.enderecoCerto = true;

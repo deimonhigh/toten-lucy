@@ -25,6 +25,8 @@
         return filtro.$$hashKey != item.$$hashKey;
       });
 
+      apiService.setStorage('carrinho', vm.listaCompras);
+
       calcTotal();
     };
 
@@ -48,12 +50,36 @@
       if (item.qnt == 0) {
         vm.removerItem(item);
       }
+
+      helperCarrinho(item, item.qnt);
+
       calcTotal();
     };
 
     vm.more = function (item) {
       item.qnt += 1;
+      helperCarrinho(item, item.qnt);
       calcTotal();
+    };
+
+    var helperCarrinho = function (item, qnt) {
+      var exist = vm.listaCompras.filter(function (obj) {
+        return obj.codigobarras == item.codigobarras;
+      });
+
+      if (exist.length > 0) {
+        vm.carrinho = vm.listaCompras.map(function (obj) {
+          if (obj.codigobarras) {
+            obj.qnt = qnt;
+          }
+          return obj;
+        });
+        apiService.setStorage('carrinho', vm.listaCompras);
+      } else {
+        item.qnt = qnt;
+        vm.listaCompras.push(item);
+        apiService.setStorage('carrinho', vm.listaCompras);
+      }
     };
 
     calcTotal();

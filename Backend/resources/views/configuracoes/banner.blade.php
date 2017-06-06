@@ -49,6 +49,34 @@
                             </div><!-- col-sm-6 -->
                         </div><!-- row -->
 
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group" style="position: relative;">
+                                    <label class="control-label" style="display: block;">Banner de promoção</label>
+
+                                    @if ($dados->banner)
+                                        <button type="submit" style="position: absolute;top: 30px;right: 0;" class="btn btn-default">
+                                            <i class="fa fa-close"></i> Remover
+                                        </button>
+                                        <div class="col-sm-6"
+                                             style="float: none; margin: 20px auto;">
+                                            <img src="{{ url('storage/' . $dados->banner) }}"
+                                                 alt="{{ $dados->empresa }}"
+                                                 class="img-responsive">
+                                        </div>
+                                    @endif
+
+                                    <input type="file"
+                                           name="banner"
+                                           class="form-control"
+                                    />
+                                    @if ($errors->has('banner'))
+                                        <label class="error">{{ $errors->first('banner') }}</label>
+                                    @endif
+                                </div>
+                            </div><!-- col-sm-6 -->
+                        </div><!-- row -->
+
                     </div><!-- panel-body -->
                     <div class="panel-footer">
                         <button type="submit" class="btn btn-primary">Salvar</button>

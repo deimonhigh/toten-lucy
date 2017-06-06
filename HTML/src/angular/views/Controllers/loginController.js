@@ -14,21 +14,28 @@
         .token(dados)
         .then(function (res) {
           apiService.setStorage('auth', res);
-
-          apiService
-            .get('tema/1')
-            .then(function (res) {
-              apiService.setStorage('tema', res.result);
-              root.$broadcast('temaLoaded');
-              $state.go('home');
-            }, function (err) {
-              alert(err.error);
-            });
+          tema();
         }, function (err) {
           console.log(err);
           alert('Usuário ou senha inválidos.')
-        })
+        });
     }
+
+    var tema = function () {
+      if (!apiService.getStorage('auth')) {
+        tema();
+        return;
+      }
+      apiService
+        .get('tema/1')
+        .then(function (res) {
+          apiService.setStorage('tema', res.result);
+          root.$broadcast('temaLoaded');
+          $state.go('home');
+        }, function (err) {
+          alert(err.error);
+        });
+    };
   }
 
 })
