@@ -377,14 +377,6 @@ jQuery(document).ready(function () {
     e.stopPropagation();
   });
 
-  // This is not actually changing color of btn-primary
-  // This is like you are changing it to use btn-orange instead of btn-primary
-  // This is for demo purposes only
-  var c = jQuery.cookie('change-skin');
-  if (c && c == 'greyjoy') {
-    $('.btn-primary').removeClass('btn-primary').addClass('btn-orange');
-    $('.rdio-primary').addClass('rdio-default').removeClass('rdio-primary');
-    $('.text-primary').removeClass('text-primary').addClass('text-orange');
-  }
-
+  // Select2
+  jQuery(".select2").select2({width: '100%'});
 });

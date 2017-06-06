@@ -41,6 +41,8 @@ class ApiClientesController extends BaseController
               "documento" => $request->get('documento'),
               "nome" => $request->get('nome'),
               "telefone" => $request->get('telefone'),
+              "email" => $request->get('email'),
+              "sexo" => $request->get('sexo'),
               "celular" => $request->get('celular'),
           ]
       );
@@ -66,11 +68,11 @@ class ApiClientesController extends BaseController
       $newPedido->total = 0;
       $newPedido->comprovante = '';
       $newPedido->save();
-      
+
       $json = $request->all();
 
       $json['idPedido'] = $newPedido->id;
-      
+
       return $this->Ok($json);
     }
     catch (\Exception $e) {

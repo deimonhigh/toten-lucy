@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <form action="{{ url('admin/configuracao/cadastrar') }}"
+                <form action="{{ url(route('cadastrarBanner')) }}"
                       method="post"
                       class="validate"
                       enctype="multipart/form-data">
@@ -19,49 +19,18 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="control-label">Nome da empresa</label>
-                                    <input type="text"
-                                           name="empresa"
-                                           class="form-control"
-                                           required
-                                           value="@if(isset($dados->empresa)) {{$dados->empresa}} @elseif(old('empresa')) {{old('empresa')}} @endif" />
-                                    @if ($errors->has('empresa'))
-                                        <label class="error">{{ $errors->first('empresa') }}</label>
-                                    @endif
-                                </div>
-                            </div><!-- col-sm-6 -->
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="control-label" style="width: 100%;">Cor de identificação</label>
-                                    <input type="text"
-                                           name="cor"
-                                           style="background-color: {{ $dados->cor }}; color: #fff;"
-                                           class="form-control"
-                                           id="colorpicker"
-                                           required
-                                           value="@if(isset($dados->cor)) {{$dados->cor}} @elseif(old('cor')) {{old('cor')}} @endif"
-                                    />
-                                    @if ($errors->has('cor'))
-                                        <label class="error">{{ $errors->first('cor') }}</label>
-                                    @endif
-                                </div>
-                            </div><!-- col-sm-6 -->
-                        </div><!-- row -->
-
-                        <div class="row">
-                            <div class="col-sm-6">
                                 <div class="form-group" style="position: relative;">
                                     <label class="control-label" style="display: block;">Banner de promoção</label>
-
-                                    @if ($dados->banner)
-                                        <button type="submit" style="position: absolute;top: 30px;right: 0;" class="btn btn-default">
+                                    @if (isset($dados->banner))
+                                        <button type="submit"
+                                                style="position: absolute;top: 30px;right: 0;"
+                                                class="btn btn-default" name="action" value="remove">
                                             <i class="fa fa-close"></i> Remover
                                         </button>
                                         <div class="col-sm-6"
                                              style="float: none; margin: 20px auto;">
-                                            <img src="{{ url('storage/' . $dados->banner) }}"
-                                                 alt="{{ $dados->empresa }}"
+                                            <img src="{{ asset('storage/' . $dados->banner) }}"
+                                                 alt="Banner promocional"
                                                  class="img-responsive">
                                         </div>
                                     @endif
@@ -75,11 +44,26 @@
                                     @endif
                                 </div>
                             </div><!-- col-sm-6 -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Produto do banner</label>
+                                    <select name="produto" class="select2" data-placeholder="Escolha um produto">
+                                        <option value=""></option>
+                                        @foreach($produtos as $produto)
+                                            <option value="{{ $produto->id }}"
+                                                    @if($dados->produto_id == $produto->id) selected @endif >{{ $produto->nomeproduto }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('produto'))
+                                        <label class="error">{{ $errors->first('produto') }}</label>
+                                    @endif
+                                </div>
+                            </div>
                         </div><!-- row -->
 
                     </div><!-- panel-body -->
                     <div class="panel-footer">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <button type="submit" name="action" value="save" class="btn btn-primary">Salvar</button>
                     </div>
                 </form>
             </div>

@@ -58,35 +58,6 @@
             </a>
         </li>
 
-        <li class="nav-parent @if($menu == 'categorias') active @endif">
-            <a href="javascript:void (0);">
-                <i class="fa fa-tags"></i>
-                <span>Categorias</span>
-            </a>
-            <ul class="children" @if($menu == 'categorias') style="display: block;" @endif>
-                <li @if($submenu == 'listagem') class="active" @endif>
-                    <a href="{{ url(route('listagemCategoria')) }}">
-                        <i class="fa fa-caret-right"></i>
-                        Listagem
-                    </a>
-                </li>
-
-                <li @if($submenu == 'cadastrar') class="active" @endif>
-                    <a href="{{ url(route('categoriasCadastro')) }}">
-                        <i class="fa fa-caret-right"></i>
-                        Cadastrar
-                    </a>
-                </li>
-
-                <li @if($submenu == 'relacionar') class="active" @endif>
-                    <a href="{{ url(route('categoriasRelacao')) }}">
-                        <i class="fa fa-caret-right"></i>
-                        Relacionar
-                    </a>
-                </li>
-            </ul>
-        </li>
-
         <li class="nav-parent @if($menu == 'config') active @endif">
             <a href="javascript:void (0);">
                 <i class="fa fa-address-card"></i>
@@ -96,7 +67,13 @@
                 <li @if($submenu == 'tema') class="active" @endif>
                     <a href="{{ url(route('config')) }}">
                         <i class="fa fa-caret-right"></i>
-                        Tema
+                        Identificação
+                    </a>
+                </li>
+                <li @if($submenu == 'banner') class="active" @endif>
+                    <a href="{{ url(route('banner')) }}">
+                        <i class="fa fa-caret-right"></i>
+                        Banner promocional
                     </a>
                 </li>
                 <li @if($submenu == 'parcelas') class="active" @endif>
@@ -107,7 +84,6 @@
                 </li>
             </ul>
         </li>
-
     </ul>
 
 </div><!-- leftpanelinner -->

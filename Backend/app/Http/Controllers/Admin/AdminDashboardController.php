@@ -36,17 +36,17 @@ class AdminDashboardController extends BaseController
 
     if (!is_null($datas) && $datas->produtos) {
       $newDate = new Carbon($datas->produtos);
-      $datas->produtos = $newDate->format('d/m/Y');
+      $datas->produtos = $newDate->format('d/m/Y h:i:s');
     }
 
     if (!is_null($datas) && $datas->clientes) {
       $newDate = new Carbon($datas->clientes);
-      $datas->clientes = $newDate->format('d/m/Y');
+      $datas->clientes = $newDate->format('d/m/Y h:i:s');
     }
 
     if (!is_null($datas) && $datas->pedidos) {
       $newDate = new Carbon($datas->pedidos);
-      $datas->pedidos = $newDate->format('d/m/Y');
+      $datas->pedidos = $newDate->format('d/m/Y h:i:s');
     }
 
     $data['datas'] = $datas;

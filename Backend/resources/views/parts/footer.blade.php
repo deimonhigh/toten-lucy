@@ -12,6 +12,7 @@
 <script src="{{ url('adminpanel/js/raphael-2.1.0.min.js') }}"></script>
 
 <script src="{{ url('adminpanel/js/colorpicker.js') }}"></script>
+<script src="{{ url('adminpanel/js/select2.min.js') }}"></script>
 
 <script src="{{ url('adminpanel/js/custom.js') }}"></script>
 

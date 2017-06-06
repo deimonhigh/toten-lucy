@@ -14,7 +14,6 @@ class AlterTableVendedoresAddFk extends Migration
   public function up()
   {
     Schema::table('vendedores', function (Blueprint $table) {
-      $table->dropColumn('idcliente');
       $table->unsignedInteger('usuario_id', false);
       // Add FK
       $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade');

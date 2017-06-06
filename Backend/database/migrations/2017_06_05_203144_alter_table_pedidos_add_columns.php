@@ -15,7 +15,7 @@ class AlterTablePedidosAddColumns extends Migration
   {
     Schema::table('pedidos', function (Blueprint $table) {
       $table->smallInteger('parcelas', false);
-      $table->rename('idcliente', 'cliente_id');
+      $table->renameColumn('idcliente', 'cliente_id');
     });
   }
 
@@ -28,7 +28,7 @@ class AlterTablePedidosAddColumns extends Migration
   {
     Schema::table('pedidos', function (Blueprint $table) {
       $table->dropColumn('parcelas');
-      $table->rename('cliente_id', 'idcliente');
+      $table->renameColumn('cliente_id', 'idcliente');
     });
   }
 }

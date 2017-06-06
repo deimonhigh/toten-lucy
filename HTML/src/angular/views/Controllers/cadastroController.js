@@ -23,10 +23,6 @@
     vm.dados.sexo = "M";
     vm.dados.outro = {};
 
-    vm.listaCompras = [].concat.apply([], new Array(20)).map(function (obj, i) {
-      return i;
-    });
-
     vm.estados = cidadesEstados.estados.map(function (obj) {
       return {
         "sigla": obj.sigla,
@@ -90,6 +86,7 @@
           vm.dados.celular = res.result.celular;
           vm.dados.id = res.result.id;
           vm.dados.sexo = res.result.sexo;
+          vm.dados.email = res.result.email;
 
           if (res.result.enderecos.length == 1) {
             vm.dados.enderecoCerto = true;
@@ -151,6 +148,8 @@
       enviarParaSalvar.nome = enviar.nome;
       enviarParaSalvar.telefone = enviar.telefone;
       enviarParaSalvar.celular = enviar.celular;
+      enviarParaSalvar.email = enviar.email;
+      enviarParaSalvar.sexo = enviar.sexo;
 
       var endereco1 = {
         "cep": enviar.cep,

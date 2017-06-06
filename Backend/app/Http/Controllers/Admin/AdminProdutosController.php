@@ -49,60 +49,107 @@ class AdminProdutosController extends BaseController
 
   public function importarProdutos()
   {
+    //region Salva Produtos
     $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
     $function = 'ProdutosDisponiveis';
-    $arguments = array(
+    $arguments = [
         'ProdutosDisponiveis' => [
             'ChaveIdentificacao' => '77AD990B-6138-4065-9B86-8D30119C09D3'
         ]
-    );
+    ];
 
     $result = $client->__soapCall($function, $arguments);
 
-    $rows = $result->ProdutosDisponiveisResult->Rows->DadosProdutos;
+    $protocoloProduto = [];
 
-    foreach ($rows as $row):
-      $categoriasIncluir = [];
+    if (isset($result->ProdutosDisponiveisResult->Rows)):
+      $rows = $result->ProdutosDisponiveisResult->Rows->DadosProdutos;
 
-      var_dump($row);
+      foreach ($rows as $row):
+        $categoriasIncluir = [];
 
-      if ($row->CategoriasDoSite->ResultadoOperacao->Tipo != 'tdreSucessoSemDados'):
-        if (gettype($row->CategoriasDoSite->Rows->DadosCategoriasDoSite) == 'object') {
-          array_push($categoriasIncluir, $row->CategoriasDoSite->Rows->DadosCategoriasDoSite->CodigoCategoria);
-        } else {
-          foreach ($row->CategoriasDoSite->Rows->DadosCategoriasDoSite as $categoria):
-            array_push($categoriasIncluir, $categoria->CodigoCategoria);
-          endforeach;
+        array_push($protocoloProduto, [
+            'ProtocoloProduto' => $row->ProtocoloProduto
+        ]);
+
+        if ($row->CategoriasDoSite->ResultadoOperacao->Tipo != 'tdreSucessoSemDados'):
+          if (gettype($row->CategoriasDoSite->Rows->DadosCategoriasDoSite) == 'object') {
+            array_push($categoriasIncluir, $row->CategoriasDoSite->Rows->DadosCategoriasDoSite->CodigoCategoria);
+          } else {
+            foreach ($row->CategoriasDoSite->Rows->DadosCategoriasDoSite as $categoria):
+              array_push($categoriasIncluir, $categoria->CodigoCategoria);
+            endforeach;
+          }
+        endif;
+
+        $cor = array_filter($row->DescritorPreDefinido->Rows->DadosDescritorPreDefinido, function ($obj) {
+          return trim($obj->GrupoNome) == "COR";
+        });
+
+        $cor = reset($cor);
+
+        $produto = Produto::updateOrCreate(
+            ['codigobarras' => $row->CodigoBarras],
+            [
+                'codigobarras' => $row->CodigoBarras,
+                'codigoprodutoabaco' => $row->CodigoProdutoAbacos,
+                'codigoprodutopai' => $row->CodigoProdutoPai,
+                'codigoproduto' => $row->CodigoProduto,
+                'nomeproduto' => $row->NomeProduto,
+                'descricao' => $row->Descricao,
+                'preco' => $row->PrecoTabela2,
+                'precopromocao' => $row->PrecoPromocao2,
+                'cor' => $cor ? $cor->Descricao : null
+            ]
+        );
+
+        $produto->categorias()->detach();
+        if ($categoriasIncluir) {
+          $produto->categorias()->attach($categoriasIncluir);
         }
-      endif;
 
-      $cor = array_filter($row->DescritorPreDefinido->Rows->DadosDescritorPreDefinido, function ($obj) {
-        return trim($obj->GrupoNome) == "COR";
-      });
 
-      $cor = reset($cor);
+      endforeach;
 
-      $produto = Produto::updateOrCreate(
-          ['codigobarras' => $row->CodigoBarras],
-          [
-              'codigobarras' => $row->CodigoBarras,
-              'codigoprodutoabaco' => $row->CodigoProdutoAbacos,
-              'codigoprodutopai' => $row->CodigoProdutoPai,
-              'codigoproduto' => $row->CodigoProduto,
-              'nomeproduto' => $row->NomeProduto,
-              'descricao' => $row->Descricao,
-              'preco' => $row->PrecoTabela2,
-              'precopromocao' => $row->PrecoPromocao2,
-              'cor' => $cor ? $cor->Descricao : null
+      //region Confirma Produtos
+      $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
+      $function = 'ConfirmaRecebimentoProdutoLote';
+      $arguments = [
+          'ConfirmaRecebimentoProdutoLote' => [
+              'ChaveIdentificacao' => '77AD990B-6138-4065-9B86-8D30119C09D3',
+              'ListaDeNumerosDeProtocoloRows' => [
+                  'ListaDeNumerosDeProtocolo' => $protocoloProduto
+              ]
           ]
-      );
+      ];
+      $client->__soapCall($function, $arguments);
+      //endregion
+    endif;
+    //endregion
 
-      $produto->categorias()->detach();
-      if ($categoriasIncluir) {
-        $produto->categorias()->attach($categoriasIncluir);
-      }
+    //region Atualiza os Preços
+    $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
+    $function = 'PrecosDisponiveis';
+    $arguments = [
+        'PrecosDisponiveis' => [
+            'ChaveIdentificacao' => '77AD990B-6138-4065-9B86-8D30119C09D3'
+        ]
+    ];
+    $result = $client->__soapCall($function, $arguments);
 
-    endforeach;
+    $listaPreco = $result->PrecosDisponiveisResult->Rows->DadosPreco;
+
+    foreach ($listaPreco as $item) {
+      $produto = Produto::where('codigoprodutoabaco', $item->CodigoProdutoAbacos)->first();
+      if ($produto):
+        $produto->preco = $item->PrecoTabela;
+        $produto->precopromocao = $item->PrecoPromocional;
+        $produto->save();
+      endif;
+    }
+    //endregion
+
+    $this->findFiles();
 
     $atualizacao = Atualizacao::firstOrNew(['id' => 1]);
     $atualizacao->produtos = Carbon::now();

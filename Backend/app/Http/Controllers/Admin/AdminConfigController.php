@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller as BaseController;
 use App\Http\Controllers\Model\Configuracao;
+use App\Http\Controllers\Model\Produto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,7 @@ class AdminConfigController extends BaseController
     $data['icon'] = "fa-gear";
     $data['parent'] = "Dashboard";
     $data['current'] = "Configurações";
-    $data['comment'] = "Tema";
+    $data['comment'] = "Identificação";
     $data['url'] = "/admin/dashboard";
     $data['menu'] = "config";
     $data['submenu'] = "tema";
@@ -61,23 +62,26 @@ class AdminConfigController extends BaseController
     //endregion
 
     $data['dados'] = Configuracao::where('userId', Auth::id())->first();
+    $data['produtos'] = Produto::all();
 
     return view('configuracoes.banner', $data);
   }
 
   public function cadastrarBanner(Request $request)
   {
-
     $this->validate($request, [
         'banner' => 'image',
-        'produto'=> 'required'
+        'produto' => 'required'
     ]);
 
     $insert = [
-        'produto_id' => $request->get('produto_id'),
+        'produto_id' => $request->get('produto'),
+        'userId' => Auth::id()
     ];
 
-    \Storage::deleteDirectory('public/banners');
+    if ($request->get('action') == 'remove'){
+      \Storage::deleteDirectory('public/banners');
+    }
 
     if ($request->hasFile('banner')) {
       $insert['banner'] = $request->file('banner')->store('banners', 'public');
@@ -90,7 +94,7 @@ class AdminConfigController extends BaseController
         $insert
     );
 
-    return redirect(route('config'));
+    return redirect(route('banner'));
   }
 
   public function cadastrar(Request $request)

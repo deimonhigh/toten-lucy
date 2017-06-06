@@ -26,6 +26,7 @@ class Configuracao extends Model
       "parcela11",
       "parcela12",
       "cor",
+      "produto_id",
       "userId",
   ];
 
