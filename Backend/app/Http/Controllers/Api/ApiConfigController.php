@@ -11,6 +11,11 @@ class ApiConfigController extends BaseController
   {
     try {
       $retorno = Configuracao::findOrFail($tema);
+
+      if ($retorno->banner){
+        $retorno->banner = url('storage/' . $retorno->banner);
+      }
+
       return $this->Ok($retorno);
     }
     catch (\Exception $e) {

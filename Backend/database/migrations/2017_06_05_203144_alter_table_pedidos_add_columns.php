@@ -14,7 +14,7 @@ class AlterTablePedidosAddColumns extends Migration
   public function up()
   {
     Schema::table('pedidos', function (Blueprint $table) {
-      $table->smallInteger('parcelas', false);
+      $table->smallInteger('parcelas', false)->nullable();
       $table->renameColumn('idcliente', 'cliente_id');
     });
   }

@@ -85,6 +85,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   });
   //endregion
 
+  //region Vendedores
+  Route::group(['prefix' => 'usuarios'], function () {
+    Route::get('/', 'Admin\AdminUsuariosController@index')->name('usuarios');
+    Route::get('/detalhes/{id}', 'Admin\AdminUsuariosController@detalhes')->name('usuariosDetalhe');
+    Route::get('/cadastro', 'Admin\AdminUsuariosController@cadastro')->name('usuariosCadastro');
+    Route::get('/editar/{id}', 'Admin\AdminUsuariosController@editar')->name('usuariosEditar');
+    Route::get('/deletar/{id}', 'Admin\AdminUsuariosController@excluir')->name('usuariosDeletar');
+    Route::post('/cadastrar', 'Admin\AdminUsuariosController@cadastrar')->name('usuariosCadastrar');
+  });
+  //endregion
+
   //region Categorias
   Route::group(['prefix' => 'categorias'], function () {
     Route::get('/', 'Admin\AdminCategoriasController@index')->name('listagemCategoria');

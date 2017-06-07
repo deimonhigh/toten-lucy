@@ -78,7 +78,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <h5>Endereço principal</h5>
+                                    <h5>Endereço de entrega</h5>
                                     <p>
                                         <strong>
                                             @if($endereco->enderecooriginal)

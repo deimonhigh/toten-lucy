@@ -58,9 +58,30 @@
             </a>
         </li>
 
-        <li class="nav-parent @if($menu == 'config') active @endif">
+        <li class="nav-parent @if($menu == 'vendedores') active @endif">
             <a href="javascript:void (0);">
                 <i class="fa fa-address-card"></i>
+                <span>Vendedores</span>
+            </a>
+            <ul class="children" @if($menu == 'vendedores') style="display: block;" @endif>
+                <li @if($submenu == 'listagem') class="active" @endif>
+                    <a href="{{ url(route('vendedores')) }}">
+                        <i class="fa fa-caret-right"></i>
+                        Listagem
+                    </a>
+                </li>
+                <li @if($submenu == 'cadastro') class="active" @endif>
+                    <a href="{{ url(route('vendedoresCadastro')) }}">
+                        <i class="fa fa-caret-right"></i>
+                        Cadastrar
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-parent @if($menu == 'config') active @endif">
+            <a href="javascript:void (0);">
+                <i class="fa fa-gear"></i>
                 <span>Configurações</span>
             </a>
             <ul class="children" @if($menu == 'config') style="display: block;" @endif>
@@ -84,6 +105,28 @@
                 </li>
             </ul>
         </li>
+
+        <li class="nav-parent @if($menu == 'usuarios') active @endif">
+            <a href="javascript:void (0);">
+                <i class="fa fa-user"></i>
+                <span>Usuários</span>
+            </a>
+            <ul class="children" @if($menu == 'usuarios') style="display: block;" @endif>
+                <li @if($submenu == 'listagem') class="active" @endif>
+                    <a href="{{ url(route('usuarios')) }}">
+                        <i class="fa fa-caret-right"></i>
+                        Listagem
+                    </a>
+                </li>
+                <li @if($submenu == 'cadastro') class="active" @endif>
+                    <a href="{{ url(route('usuariosCadastro')) }}">
+                        <i class="fa fa-caret-right"></i>
+                        Cadastrar
+                    </a>
+                </li>
+            </ul>
+        </li>
+
     </ul>
 
 </div><!-- leftpanelinner -->

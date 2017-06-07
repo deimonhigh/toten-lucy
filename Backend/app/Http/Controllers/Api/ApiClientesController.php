@@ -33,6 +33,11 @@ class ApiClientesController extends BaseController
   public function save(Request $request)
   {
     try {
+
+      $rtt = $this->saveClienteKpl((object)$request->all());
+
+
+      return $this->Ok($rtt);
       $idCliente = Cliente::updateOrCreate(
           [
               'id' => $request->get('id')
@@ -47,7 +52,7 @@ class ApiClientesController extends BaseController
           ]
       );
 
-      Endereco::where('idCliente', $idCliente['id'])->delete();
+      Endereco::where('idcliente', $idCliente['id'])->delete();
 
       foreach ($request->get('enderecos') as $item) {
         $newEndereco = new Endereco();
@@ -59,12 +64,12 @@ class ApiClientesController extends BaseController
         $newEndereco->cidade = $item['cidade'];
         $newEndereco->uf = $item['uf'];
         $newEndereco->enderecooriginal = $item['enderecoOriginal'];
-        $newEndereco->idCliente = $idCliente->id;
+        $newEndereco->idcliente = $idCliente->id;
         $newEndereco->save();
       }
 
       $newPedido = new Pedido();
-      $newPedido->idCliente = $idCliente->id;
+      $newPedido->cliente_id = $idCliente->id;
       $newPedido->total = 0;
       $newPedido->comprovante = '';
       $newPedido->save();
@@ -80,6 +85,26 @@ class ApiClientesController extends BaseController
         return $this->modelNotFound();
       }
       return $this->nonOk($e->getMessage());
+    }
+  }
+
+  protected function saveClienteKpl($cliente)
+  {
+    try {
+      return Cliente::where('documento', $cliente->documento)->first();
+    }
+    catch (\Exception $e) {
+      $insertKpl = [];
+      $insertKpl['CadastrarCliente'] = [];
+      $insertKpl['CadastrarCliente']['ChaveIdentificacao'] = '77AD990B-6138-4065-9B86-8D30119C09D3';
+      $insertKpl['CadastrarCliente']['ListaDeClientes'] = [
+          'DadosClientes' => [
+              "Email" => $cliente->email,
+              "CPFouCNPJ" => $cliente->documento,
+          ]
+      ];
+
+      return $cliente;
     }
   }
 }

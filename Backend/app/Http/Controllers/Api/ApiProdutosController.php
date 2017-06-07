@@ -10,16 +10,12 @@ class ApiProdutosController extends BaseController
 {
   public function all()
   {
-    $produtos = Produto::where(function ($q) {
-      $q->has('imagens');
-    })->get();
+    $produtos = Produto::with('imagens')->get();
 
     foreach ($produtos as $prod) {
-      $prod->categorias = $prod->categorias;
       foreach ($prod->imagens as $item) {
         $item->url = url($item->path);
       }
-
     }
 
     return $this->Ok($produtos);
@@ -31,22 +27,65 @@ class ApiProdutosController extends BaseController
 
       $itens = $request->get('itens');
 
-      $produtos = Produto::where(function ($q) use ($itens) {
-        $q->has('imagens');
+      $produtos = Produto::with('imagens')->where(function ($q) use ($itens) {
         $q->whereHas('categorias', function ($query) use ($itens) {
           $query->whereIn('codigocategoria', $itens);
         });
       })->get();
 
       foreach ($produtos as $prod) {
-        $prod->categorias = $prod->categorias;
         foreach ($prod->imagens as $item) {
           $item->url = url($item->path);
         }
-
       }
 
       return $this->Ok($produtos);
+    }
+    catch (\Exception $e) {
+      if ($this->isModelNotFoundException($e)) {
+        return $this->modelNotFound();
+      }
+      return $this->nonOk();
+    }
+  }
+
+  public function find($id)
+  {
+    try {
+      $produto = Produto::with('imagens')->find($id);
+
+      foreach ($produto->imagens as $item) {
+        $item->url = url($item->path);
+      }
+
+      return $this->Ok($produto);
+    }
+    catch (\Exception $e) {
+      if ($this->isModelNotFoundException($e)) {
+        return $this->modelNotFound();
+      }
+      return $this->nonOk();
+    }
+  }
+
+  public function relacionados(Request $request)
+  {
+    try {
+      $codigoProduto = (string)$request->get('produtocodigo');
+      $produto = preg_replace('/\..*/', '', $codigoProduto);
+
+      $result = Produto::with('imagens')->where(function ($q) use ($produto, $codigoProduto) {
+        $q->where('codigoproduto', 'LIKE', $produto . '%');
+        $q->where('codigoproduto', '!=', $codigoProduto);
+      })->get();
+
+      foreach ($result as $item) {
+        foreach ($item->imagens as $img) {
+          $img->url = url($img->path);
+        }
+      }
+
+      return $this->Ok($result);
     }
     catch (\Exception $e) {
       if ($this->isModelNotFoundException($e)) {

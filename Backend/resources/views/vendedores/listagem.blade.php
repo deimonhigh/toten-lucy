@@ -51,7 +51,7 @@
                             @else
                                 <tbody>
                                     <tr>
-                                        <td colspan="4">Nenhum produto cadastrado no momento.</td>
+                                        <td colspan="4">Nenhum vendedor cadastrado no momento.</td>
                                     </tr>
                                 </tbody>
                             @endif

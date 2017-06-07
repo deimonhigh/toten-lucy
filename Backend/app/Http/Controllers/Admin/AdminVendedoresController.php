@@ -31,7 +31,7 @@ class AdminVendedoresController extends BaseController
   {
     $data = [];
     //region Breadcrumb
-    $data['icon'] = "fa-money";
+    $data['icon'] = "fa-address-card";
     $data['parent'] = "Lucy Toten";
     $data['current'] = "Vendedores";
     $data['comment'] = "Detalhes";
@@ -49,7 +49,7 @@ class AdminVendedoresController extends BaseController
   {
     $data = [];
     //region Breadcrumb
-    $data['icon'] = "fa-money";
+    $data['icon'] = "fa-address-card";
     $data['parent'] = "Lucy Toten";
     $data['current'] = "Vendedores";
     $data['comment'] = "Detalhes";
@@ -66,7 +66,7 @@ class AdminVendedoresController extends BaseController
   {
     $data = [];
     //region Breadcrumb
-    $data['icon'] = "fa-money";
+    $data['icon'] = "fa-address-card";
     $data['parent'] = "Lucy Toten";
     $data['current'] = "Vendedores";
     $data['comment'] = "Detalhes";

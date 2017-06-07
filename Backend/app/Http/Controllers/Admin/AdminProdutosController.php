@@ -42,6 +42,10 @@ class AdminProdutosController extends BaseController
 
     $data['dados'] = Produto::find($id);
 
+    $data['dados']->imagens = array_filter($data['dados']->imagens->toArray(), function ($obj) {
+      return strpos($obj['path'], 'noImg') == FALSE;
+    });
+
 //    var_dump($data['dados']->imagens);
 
     return view('produtos.detalhe', $data);
@@ -173,7 +177,6 @@ class AdminProdutosController extends BaseController
 
     foreach ($produtos as $produto) {
       $path = storage_path($basePath . str_replace('.', '_', $produto->codigoproduto));
-
       if (is_dir($path)) {
         if ($handle = opendir($path)) {
           while (false !== ($file = readdir($handle))) {
@@ -192,11 +195,17 @@ class AdminProdutosController extends BaseController
 
             }
           }
-
           closedir($handle);
         }
-      }
+      } else {
+        $pushToProdutos = [];
+        $pushToProdutos['produto_id'] = $produto->id;
+        $pushToProdutos['path'] = 'storage\default\noImg.png';
+        $pushToProdutos['created_at'] = Carbon::now();
+        $pushToProdutos['updated_at'] = Carbon::now();
 
+        array_push($insert, $pushToProdutos);
+      }
     }
 
     Imagemproduto::insert($insert);

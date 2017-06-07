@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Clientes</h4>
+                    <h4 class="panel-title">Produtos</h4>
                     <p>Aqui você visualiza as informações do produto cadastrado.</p>
                 </div>
                 <div class="panel-body">
@@ -71,37 +71,45 @@
                     </div>
 
                 </div><!-- panel-body -->
-                @if($dados->imagens && count($dados->imagens) > 0)
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Imagens</h4>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row filemanager">
-                            @foreach($dados->imagens as $image)
-                                <div class="col-xs-6 col-sm-4 col-md-3 document">
-                                    <div class="thmb">
-                                        <div class="thmb-prev">
-                                            <img src="{{ asset($image->path) }}"
-                                                 class="img-responsive"
-                                                 alt=""
-                                                 style="margin: 0 auto; padding: 5px;" />
-                                        </div>
-                                        <small class="text-muted">
-                                            Adicionada em: {{ date('d/m/Y', strtotime($image->updated_at)) }}
-                                        </small>
-                                    </div><!-- thmb -->
-                                </div><!-- col-xs-6 -->
-                            @endforeach
-                        </div><!-- row -->
+
+                @if(!isset($dados->imagens) || count($dados->imagens) == 0)
+                    <div class="panel-footer">
+                        <button class="btn btn-default" onclick="window.history.back(-1);">Voltar</button>
                     </div>
                 @endif
-
-                <div class="panel-footer">
-                    <button class="btn btn-default" onclick="window.history.back(-1);">Voltar</button>
-                </div>
             </div>
         </div>
-
     </div><!-- row -->
+    @if(isset($dados->imagens) && count($dados->imagens) > 0)
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                <h4 class="panel-title">Imagens</h4>
+            </div>
+            <div class="panel-body">
+                <div class="row filemanager">
+                    @foreach($dados->imagens as $image)
+                        <div class="col-xs-6 col-sm-4 col-md-3 document">
+                            <div class="thmb">
+                                <div class="thmb-prev">
+                                    <img src="{{ asset($image['path']) }}"
+                                         class="img-responsive"
+                                         alt=""
+                                         style="margin: 0 auto; padding: 5px;" />
+                                </div>
+                                <small class="text-muted">
+                                    Adicionada em: {{ date('d/m/Y', strtotime($image['updated_ata'])) }}
+                                </small>
+                            </div><!-- thmb -->
+                        </div><!-- col-xs-6 -->
+                    @endforeach
+                </div><!-- row -->
+            </div>
+
+            <div class="panel-footer">
+                <button class="btn btn-default" onclick="window.history.back(-1);">Voltar</button>
+            </div>
+        </div>
+    @endif
 @endsection
 

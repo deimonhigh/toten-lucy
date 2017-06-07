@@ -30,6 +30,8 @@ Route::group(['middleware' => 'auth:api'], function () {
   Route::group(['prefix' => 'produtos'], function () {
     Route::get('/', 'Api\ApiProdutosController@all');
     Route::post('/filtro', 'Api\ApiProdutosController@filtro');
+    Route::post('/relacionados', 'Api\ApiProdutosController@relacionados');
+    Route::get('/{id}', 'Api\ApiProdutosController@find');
   });
 
   Route::group(['prefix' => 'categorias'], function () {

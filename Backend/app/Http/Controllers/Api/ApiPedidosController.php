@@ -14,15 +14,16 @@ class ApiPedidosController extends BaseController
   {
     try {
       $request = (object)$request->all();
-
+      
       $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->img));
 
       $now = str_replace(':', '-', str_replace(' ', '-', ((string)Carbon::now())));
       Storage::put("/public/comprovantes/{$request->idcliente}-{$now}.png", $data);
 
       $pedido = Pedido::find($request->idPedido);
-      $pedido->idcliente = $request->idcliente;
+      $pedido->cliente_id = $request->idcliente;
       $pedido->total = $request->total;
+      $pedido->parcelas = $request->parcelas;
       $pedido->comprovante = "/public/comprovantes/{$request->idcliente}-{$now}.png";
       $pedido->save();
 
