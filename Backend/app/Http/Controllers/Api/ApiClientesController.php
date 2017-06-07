@@ -34,10 +34,10 @@ class ApiClientesController extends BaseController
   {
     try {
 
-      $rtt = $this->saveClienteKpl((object)$request->all());
+      $clienteKpl = $this->saveClienteKpl((object)$request->all());
 
 
-      return $this->Ok($rtt);
+      return $this->Ok($clienteKpl);
       $idCliente = Cliente::updateOrCreate(
           [
               'id' => $request->get('id')
@@ -49,6 +49,7 @@ class ApiClientesController extends BaseController
               "email" => $request->get('email'),
               "sexo" => $request->get('sexo'),
               "celular" => $request->get('celular'),
+              "codigo_cliente" => $clienteKpl->CadastrarClienteResult->Rows[0]->DadosClientesResultado->Codigo,
           ]
       );
 
@@ -90,21 +91,75 @@ class ApiClientesController extends BaseController
 
   protected function saveClienteKpl($cliente)
   {
-    try {
-      return Cliente::where('documento', $cliente->documento)->first();
-    }
-    catch (\Exception $e) {
-      $insertKpl = [];
-      $insertKpl['CadastrarCliente'] = [];
-      $insertKpl['CadastrarCliente']['ChaveIdentificacao'] = '77AD990B-6138-4065-9B86-8D30119C09D3';
-      $insertKpl['CadastrarCliente']['ListaDeClientes'] = [
-          'DadosClientes' => [
-              "Email" => $cliente->email,
-              "CPFouCNPJ" => $cliente->documento,
-          ]
-      ];
+    $endereco = [];
+    $enderecoEntrega = [];
 
-      return $cliente;
+    foreach ($cliente->enderecos as $item) {
+      if ($item['enderecoOriginal'] && count($cliente->enderecos) > 1) {
+        $enderecoEntrega['Cep'] = (string)$item['cep'];
+        $enderecoEntrega['Logradouro'] = $item['endereco'];
+        $enderecoEntrega['NumeroLogradouro'] = (string)$item['numero'];
+        $enderecoEntrega['Bairro'] = $item['bairro'];
+        if (isset($item['complemento'])) {
+          $enderecoEntrega['ComplementoEndereco'] = $item['complemento'];
+        }
+        $enderecoEntrega['Municipio'] = $item['cidade'];
+        $enderecoEntrega['Estado'] = $item['uf'];
+        $enderecoEntrega['TipoLocalEntrega'] = $this->tipoLocalEntrega($cliente->sexo);
+      } else {
+        $endereco['Cep'] = (string)$item['cep'];
+        $endereco['Logradouro'] = $item['endereco'];
+        $endereco['NumeroLogradouro'] = (string)$item['numero'];
+        $endereco['Bairro'] = $item['bairro'];
+        if (isset($item['complemento'])) {
+          $endereco['ComplementoEndereco'] = $item['complemento'];
+        }
+        $endereco['Municipio'] = $item['cidade'];
+        $endereco['Estado'] = $item['uf'];
+        $endereco['TipoLocalEntrega'] = $this->tipoLocalEntrega($cliente->sexo);
+      }
     }
+
+    if (count($cliente->enderecos) == 1) {
+      $enderecoEntrega = $endereco;
+    }
+
+    $insertKpl = [];
+    $insertKpl['CadastrarCliente'] = [];
+    $insertKpl['CadastrarCliente']['ChaveIdentificacao'] = '77AD990B-6138-4065-9B86-8D30119C09D3';
+    $insertKpl['CadastrarCliente']['ListaDeClientes'] = [
+        'DadosClientes' => [
+            "Email" => $cliente->email,
+            "CPFouCNPJ" => $cliente->documento,
+            "TipoPessoa" => $this->tipoPessoa($cliente->sexo),
+            "Nome" => $cliente->nome,
+            "Sexo" => $this->tipoSexo($cliente->sexo),
+            "Endereco" => $endereco,
+            "EndEntrega" => $enderecoEntrega,
+            "ClienteEstrangeiro" => 'N'
+        ]
+    ];
+
+    $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
+    $function = 'CadastrarCliente';
+
+    $result = $client->__soapCall($function, $insertKpl);
+
+    return $result;
+  }
+
+  protected function tipoPessoa($sexo)
+  {
+    return $sexo == 'E' ? 'tpeJuridica' : 'tpeFisica';
+  }
+
+  protected function tipoSexo($sexo)
+  {
+    return $sexo == 'E' ? 'tseEmpresa' : $sexo == 'M' ? 'tseMasculino' : 'tseFeminino';
+  }
+
+  protected function tipoLocalEntrega($sexo)
+  {
+    return $sexo == 'E' ? 'tleeComercial' : 'tleeResidencial';
   }
 }
