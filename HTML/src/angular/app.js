@@ -38,7 +38,7 @@
       root.foto = true;
     };
 
-//    apiService.delStorage('carrinho');
+    apiService.delStorage('carrinho');
 
     root.itensCarrinho = apiService.getStorage('carrinho') ? apiService.getStorage('carrinho').length : 0;
 
@@ -55,7 +55,7 @@
       .then(function (res) {
         apiService.setStorage('tema', res.result);
         root.$broadcast('temaLoaded');
-//        $state.go('home');
+        $state.go('home');
       }, function (err) {
         alert(err.error);
       });
@@ -79,16 +79,6 @@
 
     root.trustUrl = function (url) {
       return $sce.trustAsResourceUrl(url);
-    };
-    //endregion
-
-    //region Track GA
-    root.trackPageView = function (pageTrack) {
-      $window.ga('send', 'pageview', pageTrack);
-    };
-
-    root.trackAction = function (categoria, action, label) {
-      $window.ga('send', 'event', categoria, action, label);
     };
     //endregion
 

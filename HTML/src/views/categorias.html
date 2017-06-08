@@ -19,7 +19,7 @@
         </li>
       </ul>
 
-      <a ui-sref="produto" class="destaque" ng-if="temaStorage.banner">
+      <a ui-sref="produto({id: temaStorage.produto_id})" class="destaque" ng-if="temaStorage.banner">
         <img ng-src="{{ temaStorage.banner }}" alt="Destaque">
       </a>
     </div>
