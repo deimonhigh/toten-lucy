@@ -23,7 +23,7 @@ class AdminUsuariosController extends BaseController
     $data['submenu'] = "listagem";
     //endregion
 
-    $data['dados'] = User::paginate(15);
+    $data['dados'] = User::where('id', '!=', Auth::id())->paginate(15);
 
     return view('usuarios.listagem', $data);
   }
@@ -41,7 +41,7 @@ class AdminUsuariosController extends BaseController
     $data['submenu'] = "";
     //endregion
 
-    $data['dados'] = User::find($id);
+    $data['dados'] = User::findOrFail($id);
 
     return view('usuarios.detalhe', $data);
   }
@@ -76,7 +76,7 @@ class AdminUsuariosController extends BaseController
     $data['submenu'] = "cadastro";
     //endregion
 
-    $data['dados'] = User::find($id);
+    $data['dados'] = User::findOrFail($id);
 
     return view('usuarios.cadastro', $data);
   }

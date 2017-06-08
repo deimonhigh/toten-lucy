@@ -116,15 +116,7 @@
                                                                            atualizado" @else {{ $datas->produtos }} @endif</h4>
                             </div>
                         </div><!-- row -->
-
-                        <div class="row" style="margin-bottom: 10px;">
-                            <div class="col-xs-12">
-                                <small class="stat-label">Atualização de Clientes</small>
-                                <h4>@if(!$datas || is_null($datas->clientes))"Não
-                                                                             atualizado" @else {{ $datas->clientes }} @endif</h4>
-                            </div>
-                        </div><!-- row -->
-
+                        
                         <div class="row">
                             <div class="col-xs-12">
                                 <small class="stat-label">Atualização de Pedidos</small>

@@ -40,7 +40,7 @@ class AdminProdutosController extends BaseController
     $data['submenu'] = "listagem";
     //endregion
 
-    $data['dados'] = Produto::find($id);
+    $data['dados'] = Produto::findOrFail($id);
 
     $data['dados']->imagens = array_filter($data['dados']->imagens->toArray(), function ($obj) {
       return strpos($obj['path'], 'noImg') == FALSE;

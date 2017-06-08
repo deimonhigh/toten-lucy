@@ -57,7 +57,7 @@ class AdminCategoriasController extends BaseController
     $data['submenu'] = "cadastrar";
     //endregion
 
-    $data['dados'] = Admincategoria::find($id);
+    $data['dados'] = Admincategoria::findOrFail($id);
     $data['dados']->imagem = asset('/storage/' . $data['dados']->imagem);
 
     return view('categorias.cadastro', $data);

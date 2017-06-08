@@ -39,7 +39,7 @@ class AdminPedidosController extends BaseController
     //endregion
 
     $data['config'] = Configuracao::find(1)->toArray();
-    $data['dados'] = Pedido::find($id);
+    $data['dados'] = Pedido::findOrFail($id);
 
     $juros = $data['config']['parcela' . $data['dados']->parcelas] / 100;
     $data['dados']->totalComJuros = $data['dados']->total + ($data['dados']->total * $juros);

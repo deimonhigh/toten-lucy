@@ -72,6 +72,7 @@
     vm.$on('confirmarImg', function () {
       var formaPagamento = apiService.getStorage('formaPagamento');
       vm.comprovante = apiService.getStorage('comprovante');
+      vm.cliente = apiService.getStorage('cliente');
       
       var send = {};
       send.idcliente = vm.cliente.id;
@@ -81,6 +82,7 @@
 
       send.produtos = vm.listaCompras.map(function (obj) {
         return {
+          "produto_id" : obj.id,
           "codigoproduto" : obj.codigoproduto,
           "qnt" : obj.qnt,
           "preco" : obj.preco,

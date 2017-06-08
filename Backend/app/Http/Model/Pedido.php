@@ -13,6 +13,7 @@ class Pedido extends Model
       "total",
       "parcelas",
       "comprovante",
+      "status",
   ];
 
   protected $hidden = [

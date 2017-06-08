@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Model\Atualizacao;
 use App\Http\Controllers\Model\Cliente;
 use App\Http\Controllers\Model\Pedido;
 use App\Http\Controllers\Model\Pedidosproduto;
@@ -44,7 +45,13 @@ class ApiPedidosController extends BaseController
       $pedido->total = $request->total;
       $pedido->parcelas = $request->parcelas;
       $pedido->comprovante = "/public/comprovantes/{$request->idcliente}-{$now}.png";
+      $pedido->status = TRUE;
       $pedido->save();
+
+
+      $update = Atualizacao::findOrNew(1);
+      $update->pedidos = Carbon::now();
+      $update->save();
 
       $request->url = $url;
       $request->cliente = $cliente;

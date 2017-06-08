@@ -40,7 +40,7 @@ class AdminVendedoresController extends BaseController
     $data['submenu'] = "";
     //endregion
 
-    $data['dados'] = Vendedor::find($id);
+    $data['dados'] = Vendedor::findOrFail($id);
 
     return view('vendedores.detalhe', $data);
   }
@@ -75,7 +75,7 @@ class AdminVendedoresController extends BaseController
     $data['submenu'] = "cadastro";
     //endregion
 
-    $data['dados'] = Vendedor::find($id);
+    $data['dados'] = Vendedor::findOrFail($id);
 
     return view('vendedores.cadastro', $data);
   }

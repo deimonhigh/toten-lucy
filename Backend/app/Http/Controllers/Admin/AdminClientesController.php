@@ -47,7 +47,7 @@ class AdminClientesController extends BaseController
     $data['submenu'] = "";
     //endregion
 
-    $data['dados'] = Cliente::find($id);
+    $data['dados'] = Cliente::findOrFail($id);
     $data['enderecos'] = Endereco::where('idcliente', $id)->get();
 
     return view('clientes.detalhe', $data);
