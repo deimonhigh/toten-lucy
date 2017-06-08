@@ -19,13 +19,8 @@
         </li>
       </ul>
 
-      <a ui-sref="produto" class="destaque">
-        <img src="assets/imgs/categoria/example.png" alt="Destaque">
-        <div class="price">
-          <span>à vista</span>
-          <span class="big">R$ 299,00</span>
-          <span>ou 6x de R$ 55,50</span>
-        </div>
+      <a ui-sref="produto" class="destaque" ng-if="temaStorage.banner">
+        <img ng-src="{{ temaStorage.banner }}" alt="Destaque">
       </a>
     </div>
 

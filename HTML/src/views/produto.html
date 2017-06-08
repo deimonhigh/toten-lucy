@@ -36,13 +36,15 @@
       <span class="valorTotal" ng-bind="produto.preco | currency"></span>
     </div>
     <div class="microInfo" ng-if="produto.precopromocao > 0">
-      <span>Ou em até <b ng-bind="temasItem.maxParcelas + 'X'"></b> com juros de <b ng-bind="produto.precopromocao | currency"></b> </span>
-      <span>Ou à vista por <b>R$ 0,00</b> com <b ng-bind="temasItem.juros + '%'"></b> de desconto</span>
+      <span>Ou em até <b>12X</b> com juros de <b ng-bind="(produto.precopromocao + (produto.precopromocao * temasItem.parcela12) / 100).toFixed(2) | currency"></b> </span>
+      <span>Ou à vista por <b ng-bind="(produto.precopromocao + (produto.precopromocao * temasItem.parcela1) / 100).toFixed(2) | currency"></b> com <b
+          ng-bind="temasItem.parcela1 + '%'"></b> de desconto</span>
     </div>
 
     <div class="microInfo" ng-if="produto.precopromocao == 0">
-      <span>Ou em até <b ng-bind="temasItem.maxParcelas + 'X'"></b> com juros de <b ng-bind="produto.preco | currency"></b> </span>
-      <span>Ou à vista por <b>R$ 0,00</b> com <b ng-bind="temasItem.juros + '%'"></b> de desconto</span>
+      <span>Ou em até <b>12X</b> com juros de <b ng-bind="(produto.preco + (produto.preco * temasItem.parcela12) / 100).toFixed(2) | currency"></b> </span>
+      <span>Ou à vista por <b ng-bind="(produto.preco + (produto.preco * temasItem.parcela1) / 100).toFixed(2) | currency"></b> com <b
+          ng-bind="temasItem.parcela1 + '%'"></b> de desconto</span>
     </div>
 
     <div class="infoProduto">
@@ -82,6 +84,20 @@
     </div>
 
   </div>
+</section>
+<section class="full produtosRelacionados" ng-if="produtosRelacionados.length > 0">
+  <h2>Produtos relacionados</h2>
+  <ul class="grid listagem align-left">
+    <li class="grid-3" ng-repeat="item in produtosRelacionados">
+      <a ui-sref="produto({id: item.id})">
+        <button class="btn lupa">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+        <img ng-src="{{ item.imagens[0].url }}" alt="{{ item.nomeproduto }}">
+        <div class="title" ng-bind="item.nomeproduto"></div>
+      </a>
+    </li>
+  </ul>
 </section>
 
 <footer class="grid middle begin">

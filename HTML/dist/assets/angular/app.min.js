@@ -36,16 +36,16 @@
 
     root.openFoto = function () {
       root.foto = true;
-    }
+    };
 
-    apiService.delStorage('carrinho');
+//    apiService.delStorage('carrinho');
 
     root.itensCarrinho = apiService.getStorage('carrinho') ? apiService.getStorage('carrinho').length : 0;
 
     root.$watch(function () {
-      return localStorageService.get('carrinho')
+      return localStorageService.get('carrinho');
     }, function (newVal) {
-      if (newVal != undefined) {
+      if (newVal) {
         root.itensCarrinho = JSON.parse(atob(newVal)).length;
       }
     });
@@ -55,7 +55,7 @@
       .then(function (res) {
         apiService.setStorage('tema', res.result);
         root.$broadcast('temaLoaded');
-        $state.go('home');
+//        $state.go('home');
       }, function (err) {
         alert(err.error);
       });
@@ -79,7 +79,7 @@
 
     root.trustUrl = function (url) {
       return $sce.trustAsResourceUrl(url);
-    }
+    };
     //endregion
 
     //region Track GA

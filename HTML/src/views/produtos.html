@@ -31,7 +31,7 @@
   <div class="grid-9">
     <ul class="grid listagem align-left" ng-if="produtos.length > 0">
       <li class="grid-3" ng-repeat="item in produtos">
-        <a ng-click="selecionarProduto(item);" href="javascript:void(0);">
+        <a ui-sref="produto({id: item.id})">
           <button class="btn lupa">
             <i class="fa fa-search" aria-hidden="true"></i>
           </button>
@@ -47,13 +47,13 @@
               <span class="valorTotal" ng-bind="item.preco | currency"></span>
             </div>
             <div class="grid-5 parcelas">
-              <span class="parcelamento" ng-bind="temaStorage.maxParcelas + 'x'"></span>
+              <span class="parcelamento">12x</span>
               <span class="totalParcela"
                     ng-if="item.precopromocao > 0"
-                    ng-bind="(item.precopromocao / temaStorage.maxParcelas) | currency"></span>
+                    ng-bind="((item.precopromocao + item.precopromocao * (temaStorage.parcela12 / 100)) / 12) | currency"></span>
               <span class="totalParcela"
                     ng-if="item.precopromocao == 0"
-                    ng-bind="(item.preco / temaStorage.maxParcelas) | currency"></span>
+                    ng-bind="((item.preco  + item.precopromocao * (temaStorage.parcela12 / 100)) / 12) | currency"></span>
             </div>
           </div>
 

@@ -9,8 +9,10 @@
     var vm = $scope;
     var root = $rootScope;
     vm.dadosVendedor = {};
-    vm.editarPagamentoFlag = true;
+    vm.formaPagamento = {};
+    vm.editarPagamentoFlag = false;
     vm.cliente = apiService.getStorage('cliente');
+    vm.formaPagamentoStorage = apiService.getStorage('formaPagamento');
     vm.comprovante = apiService.getStorage('comprovante');
 
     var getComprovante = function () {
@@ -21,7 +23,7 @@
       if (!vm.comprovante) {
         getComprovante();
       }
-    }
+    };
 
     vm.listaCompras = apiService.getStorage('carrinho') || [];
 
@@ -57,21 +59,63 @@
 
     vm.editarPagamento = function () {
       vm.editarPagamentoFlag = !vm.editarPagamentoFlag;
-    }
+
+      apiService.setStorage('formaPagamento', vm.formaPagamento);
+
+      if (vm.editarPagamentoFlag && vm.formaPagamento.total) {
+        $timeout(function () {
+          vm.totalCarrinho = vm.formaPagamento.total;
+        });
+      }
+    };
 
     vm.$on('confirmarImg', function () {
+      var formaPagamento = apiService.getStorage('formaPagamento');
+      vm.comprovante = apiService.getStorage('comprovante');
+      
       var send = {};
       send.idcliente = vm.cliente.id;
-      send.total = vm.totalCarrinho;
+      send.total = vm.formaPagamentoStorage.total;
       send.idPedido = vm.cliente.idPedido;
       send.img = vm.comprovante;
+
+      send.produtos = vm.listaCompras.map(function (obj) {
+        return {
+          "codigoproduto" : obj.codigoproduto,
+          "qnt" : obj.qnt,
+          "preco" : obj.preco,
+        };
+      });
+
+      send.parcelas = formaPagamento.parcelas;
 
       apiService.post('pedidos/save', send).then(function (res) {
         console.log(res);
       }, function (err) {
-        console.log(err);
+        alert(err.error);
       })
     });
+
+    vm.listaPagamentos = [
+      {
+        "index": 0,
+        "parcelas": 0,
+        "descricao": 'À vista | R$ ' + angular.copy(vm.totalCarrinho).toFixed(2).replace('.', ','),
+        "total": angular.copy(vm.totalCarrinho)
+      }
+    ];
+
+    for (var i = 1; i < 13; i++) {
+      var comJuros = vm.totalCarrinho + vm.totalCarrinho * (root.temaStorage['parcela' + i] / 100);
+      var pagamento = {
+        "index": i + 1,
+        "parcelas": i,
+        "descricao": 'Cartão de crédito | ' + i + 'x de R$ ' + (comJuros / i).toFixed(2).replace('.', ','),
+        "total": comJuros
+      };
+
+      vm.listaPagamentos.push(pagamento);
+    }
   }
 
 })

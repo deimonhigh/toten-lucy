@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Model\Cliente;
 use App\Http\Controllers\Model\Pedido;
 use App\Http\Controllers\RestController as BaseController;
 use Carbon\Carbon;
@@ -19,6 +20,12 @@ class ApiPedidosController extends BaseController
 
       $now = str_replace(':', '-', str_replace(' ', '-', ((string)Carbon::now())));
       Storage::put("/public/comprovantes/{$request->idcliente}-{$now}.png", $data);
+
+      $url = url("/storage/comprovantes/{$request->idcliente}-{$now}.png");
+
+      $cliente = Cliente::find($request->idcliente);
+
+      $this->savePedidosKpl($request, $cliente, $url);
 
       $pedido = Pedido::find($request->idPedido);
       $pedido->cliente_id = $request->idcliente;
@@ -38,25 +45,51 @@ class ApiPedidosController extends BaseController
 
   }
 
-  protected function savePedidosKpl($pedido)
+  protected function savePedidosKpl($pedido, $cliente, $url)
   {
     $insertKpl = [];
     $insertKpl['InserirPedido'] = [];
     $insertKpl['InserirPedido']['ChaveIdentificacao'] = '77AD990B-6138-4065-9B86-8D30119C09D3';
     $insertKpl['InserirPedido']['ListaDePedidos'] = [
         'DadosPedidos' => [
-            "NumeroDoPedido" => $pedido->email,
-            "Email" => $pedido->email,
-            "CPFouCNPJ" => $pedido->documento,
-            "TipoPessoa" => $this->tipoPessoa($pedido->sexo),
-            "Nome" => $pedido->nome,
-            "Sexo" => $this->tipoSexo($pedido->sexo),
-            "ClienteEstrangeiro" => 'N'
+            "NumeroDoPedido" => $pedido->idPedido,
+            "Email" => $cliente->email,
+            "CPFouCNPJ" => $cliente->documento,
+            "CodigoCliente" => $cliente->codigo_cliente,
+            "CondicaoPagamento" => $this->condicaoPagamento($pedido->parcelas),
+            "ValorPedido" => $pedido->total,
+            "CampoUsoLivre" => $url,
+            "DataVenda" => Carbon::now(),
+            "EmitirNotaSimbolica" => FALSE,
+            "Lote" => "LOTE DE PEDIDO",
+
         ]
     ];
 
+    $insertKpl['DadosPedidos']['FormasDePagamento'] = [];
+    $insertKpl['FormasDePagamento']['DadosPedidosFormaPgto'] = [
+        "PreAutorizadaNaPlataforma" => TRUE
+    ];
+
+    $insertKpl['Itens'] = [];
+
+    foreach ($pedido->produtos as $item) {
+      $item = (object)$item;
+      $temp = [];
+      $temp['DadosPedidosItem'] = [
+          "CodigoProduto" => $item->codigoproduto,
+          "QuantidadeProduto" => $item->qnt,
+          "PrecoUnitario" => $item->preco,
+          "Brinde" => FALSE,
+          "OptouNFPaulista" => "tbneNao",
+          "CartaoPresenteBrinde" => FALSE,
+      ];
+
+      array_push($insertKpl['Itens'], $temp);
+    }
+
     $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
-    $function = 'CadastrarCliente';
+    $function = 'InserirPedido';
 
     $result = $client->__soapCall($function, $insertKpl);
 

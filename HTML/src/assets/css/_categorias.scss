@@ -28,7 +28,7 @@
     }
 
     .collumn {
-      max-width         : 1060px;
+      //max-width         : 1060px;
       margin            : 30px auto 0 auto;
 
       display           : -webkit-flex;
@@ -52,7 +52,7 @@
         flex-flow       : row wrap;
 
         align-items     : flex-start;
-        justify-content : center;
+        justify-content : flex-start;
 
         padding         : 0 30px 0 0;
 
@@ -61,7 +61,7 @@
 
           text-align      : center;
 
-          padding         : 0 0 5% 5%;
+          padding         : 0 5% 5% 0;
 
           display         : flex;
           align-items     : center;
@@ -96,9 +96,9 @@
 
             &:hover {
               background : $default;
-              
-              span{
-                color      : #FFFFFF;
+
+              span {
+                color : #FFFFFF;
               }
             }
           }

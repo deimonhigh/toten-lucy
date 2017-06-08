@@ -6,6 +6,6 @@
     "apiUrl": "http://toten.localhost/api/",
     "grant_type": "password",
     "client_id": 3,
-    "client_secret": "VMWFXi3nd25KDZDOiP6Bi2cjdqaa7MdX8BMA7m8h",
+    "client_secret": "N8bENBm0tCa2KToFezvaL2Ms8zNw2XNh00VU0fJG",
     "scope": "*"
   });

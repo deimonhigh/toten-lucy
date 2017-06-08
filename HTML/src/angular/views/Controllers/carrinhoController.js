@@ -9,8 +9,6 @@
     var vm = $scope;
     var root = $rootScope;
 
-    console.log();
-
     vm.listaCompras = apiService.getStorage('carrinho') || [];
 
     var calcTotal = function () {

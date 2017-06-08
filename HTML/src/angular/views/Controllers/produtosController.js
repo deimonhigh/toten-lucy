@@ -43,12 +43,6 @@
       });
 
     }
-
-    vm.selecionarProduto = function (item) {
-      console.log(item);
-      apiService.setStorage('produtoSelecionado', item);
-      $state.go('produto');
-    }
   }
 
 })

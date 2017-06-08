@@ -57,7 +57,7 @@
       })
 
       .state("produto", {
-        url: "/produto",
+        url: "/produto/:id",
         templateUrl: "./views/produto.html",
         controller: "produtoController"
       })

@@ -3,9 +3,9 @@
   angular.module('appToten')
          .controller('categoriaController', categoriaController);
 
-  categoriaController.$inject = ['$scope', '$rootScope', 'apiService', '$state'];
+  categoriaController.$inject = ['$scope', '$rootScope', 'apiService'];
 
-  function categoriaController($scope, $rootScope, apiService, $state) {
+  function categoriaController($scope, $rootScope, apiService) {
     var vm = $scope;
     var root = $rootScope;
 

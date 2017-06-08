@@ -3,19 +3,37 @@
   angular.module('appToten')
          .controller('produtoController', produtoController);
 
-  produtoController.$inject = ['$scope', '$rootScope', 'apiService', '$state'];
+  produtoController.$inject = ['$scope', '$rootScope', 'apiService', '$state', '$stateParams'];
 
-  function produtoController($scope, $rootScope, apiService, $state) {
+  function produtoController($scope, $rootScope, apiService, $state, $stateParams) {
     var vm = $scope;
     var root = $rootScope;
 
     vm.qnt = 1;
+    vm.produtosRelacionados = [];
 
     vm.carrinho = apiService.getStorage('carrinho') || [];
-    vm.produto = apiService.getStorage('produtoSelecionado');
+    vm.produto = {};
     vm.temasItem = apiService.getStorage('tema');
 
-    vm.imagemGrande = vm.produto.imagens[0];
+    console.log($stateParams.id);
+
+    apiService.get('produtos/' + $stateParams.id).then(function (res) {
+      vm.produto = res.result;
+      vm.imagemGrande = vm.produto.imagens[0];
+
+      apiService.post('produtos/relacionados', {
+        "produtocodigo": vm.produto.codigoproduto
+      }).then(function (res) {
+        console.log(res);
+        vm.produtosRelacionados = res.result;
+      }, function (err) {
+        alert(err.error);
+      });
+
+    }, function (err) {
+      alert(err.error);
+    })
 
     vm.minus = function () {
       if (vm.qnt - 1 < 0) {
@@ -65,23 +83,7 @@
       }
       $state.go('carrinho');
     };
-
-    vm.cores = [
-      {
-        "cor": "#EBD800",
-        "selected": true
-      },
-      {
-        "cor": "#000000",
-        "selected": false
-      },
-      {
-        "cor": "#F1F1F1",
-        "selected": false
-      }
-    ]
-
-  }
+  };
 
 })
 (angular);
