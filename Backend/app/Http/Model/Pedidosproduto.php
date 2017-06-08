@@ -11,11 +11,19 @@ class Pedidosproduto extends Model
   protected $fillable = [
       "idcliente",
       "idpedido",
+      "produto_id",
+      "quantidade",
   ];
 
   protected $hidden = [
       "created_at",
       "updated_at"
   ];
+
+  public function produto()
+  {
+    return $this->belongsTo('App\Http\Controllers\Model\Produto', 'produto_id');
+  }
+
 
 }

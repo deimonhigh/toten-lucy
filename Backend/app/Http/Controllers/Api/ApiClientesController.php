@@ -33,29 +33,28 @@ class ApiClientesController extends BaseController
   public function save(Request $request)
   {
     try {
+      $json = (object)$request->all();
 
-      $clienteKpl = $this->saveClienteKpl((object)$request->all());
+      $clienteKpl = $this->saveClienteKpl($json);
 
-
-      return $this->Ok($clienteKpl);
       $idCliente = Cliente::updateOrCreate(
           [
-              'id' => $request->get('id')
+              'id' => $json->id
           ],
           [
-              "documento" => $request->get('documento'),
-              "nome" => $request->get('nome'),
-              "telefone" => $request->get('telefone'),
-              "email" => $request->get('email'),
-              "sexo" => $request->get('sexo'),
-              "celular" => $request->get('celular'),
-              "codigo_cliente" => $clienteKpl->CadastrarClienteResult->Rows[0]->DadosClientesResultado->Codigo,
+              "documento" => $json->documento,
+              "nome" => $json->nome,
+              "telefone" => $json->telefone,
+              "email" => $json->email,
+              "sexo" => $json->sexo,
+              "celular" => $json->celular,
+              "codigo_cliente" => $clienteKpl->CadastrarClienteResult->Rows->DadosClientesResultado->Codigo,
           ]
       );
-
+      
       Endereco::where('idcliente', $idCliente['id'])->delete();
 
-      foreach ($request->get('enderecos') as $item) {
+      foreach ($json->enderecos as $item) {
         $newEndereco = new Endereco();
         $newEndereco->cep = $item['cep'];
         $newEndereco->endereco = $item['endereco'];

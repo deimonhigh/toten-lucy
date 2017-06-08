@@ -9,8 +9,9 @@ class Pedido extends Model
 
 //  Whitelist
   protected $fillable = [
-      "idcliente",
+      "cliente_id",
       "total",
+      "parcelas",
       "comprovante",
   ];
 
@@ -21,7 +22,12 @@ class Pedido extends Model
 
   public function cliente()
   {
-    return $this->hasOne('App\Http\Controllers\Model\Cliente');
+    return $this->belongsTo('App\Http\Controllers\Model\Cliente');
+  }
+
+  public function produtos()
+  {
+    return $this->hasMany('App\Http\Controllers\Model\Pedidosproduto', 'idpedido');
   }
 
 }

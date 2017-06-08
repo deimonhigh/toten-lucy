@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Model\Cliente;
 use App\Http\Controllers\Model\Pedido;
+use App\Http\Controllers\Model\Pedidosproduto;
 use App\Http\Controllers\RestController as BaseController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ class ApiPedidosController extends BaseController
       $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->img));
 
       $now = str_replace(':', '-', str_replace(' ', '-', ((string)Carbon::now())));
+
       Storage::put("/public/comprovantes/{$request->idcliente}-{$now}.png", $data);
 
       $url = url("/storage/comprovantes/{$request->idcliente}-{$now}.png");
@@ -27,12 +29,25 @@ class ApiPedidosController extends BaseController
 
       $this->savePedidosKpl($request, $cliente, $url);
 
+      foreach ($request->produtos as $produto) {
+        $temp = new Pedidosproduto();
+        $temp->produto_id = $produto['produto_id'];
+        $temp->quantidade = $produto['qnt'];
+        $temp->idcliente = $request->idcliente;
+        $temp->idpedido = $request->idPedido;
+        $temp->save();
+      }
+
+
       $pedido = Pedido::find($request->idPedido);
       $pedido->cliente_id = $request->idcliente;
       $pedido->total = $request->total;
       $pedido->parcelas = $request->parcelas;
       $pedido->comprovante = "/public/comprovantes/{$request->idcliente}-{$now}.png";
       $pedido->save();
+
+      $request->url = $url;
+      $request->cliente = $cliente;
 
       return $this->Ok($request);
     }
@@ -59,19 +74,17 @@ class ApiPedidosController extends BaseController
             "CondicaoPagamento" => $this->condicaoPagamento($pedido->parcelas),
             "ValorPedido" => $pedido->total,
             "CampoUsoLivre" => $url,
-            "DataVenda" => Carbon::now(),
+            "DataVenda" => Carbon::now()->toDateTimeString(),
             "EmitirNotaSimbolica" => FALSE,
             "Lote" => "LOTE DE PEDIDO",
-
+            "FormasDePagamento" => [
+                "DadosPedidosFormaPgto" => [
+                    "PreAutorizadaNaPlataforma" => TRUE
+                ]
+            ],
+            "Itens" => []
         ]
     ];
-
-    $insertKpl['DadosPedidos']['FormasDePagamento'] = [];
-    $insertKpl['FormasDePagamento']['DadosPedidosFormaPgto'] = [
-        "PreAutorizadaNaPlataforma" => TRUE
-    ];
-
-    $insertKpl['Itens'] = [];
 
     foreach ($pedido->produtos as $item) {
       $item = (object)$item;
@@ -85,7 +98,7 @@ class ApiPedidosController extends BaseController
           "CartaoPresenteBrinde" => FALSE,
       ];
 
-      array_push($insertKpl['Itens'], $temp);
+      array_push($insertKpl['InserirPedido']['ListaDePedidos']['DadosPedidos']['Itens'], $temp);
     }
 
     $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);

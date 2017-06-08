@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller as BaseController;
+use App\Http\Controllers\Model\Configuracao;
 use App\Http\Controllers\Model\Pedido;
 
 class AdminPedidosController extends BaseController
@@ -37,7 +38,11 @@ class AdminPedidosController extends BaseController
     $data['submenu'] = "";
     //endregion
 
+    $data['config'] = Configuracao::find(1)->toArray();
     $data['dados'] = Pedido::find($id);
+
+    $juros = $data['config']['parcela' . $data['dados']->parcelas] / 100;
+    $data['dados']->totalComJuros = $data['dados']->total + ($data['dados']->total * $juros);
 
     return view('pedidos.detalhe', $data);
   }
