@@ -132,24 +132,26 @@ class AdminProdutosController extends BaseController
     //endregion
 
     //region Atualiza os Preços
-    $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
-    $function = 'PrecosDisponiveis';
-    $arguments = [
-        'PrecosDisponiveis' => [
-            'ChaveIdentificacao' => '77AD990B-6138-4065-9B86-8D30119C09D3'
-        ]
-    ];
-    $result = $client->__soapCall($function, $arguments);
+    if (count($protocoloProduto) > 0) {
+      $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
+      $function = 'PrecosDisponiveis';
+      $arguments = [
+          'PrecosDisponiveis' => [
+              'ChaveIdentificacao' => '77AD990B-6138-4065-9B86-8D30119C09D3'
+          ]
+      ];
+      $result = $client->__soapCall($function, $arguments);
 
-    $listaPreco = $result->PrecosDisponiveisResult->Rows->DadosPreco;
+      $listaPreco = $result->PrecosDisponiveisResult->Rows->DadosPreco;
 
-    foreach ($listaPreco as $item) {
-      $produto = Produto::where('codigoprodutoabaco', $item->CodigoProdutoAbacos)->first();
-      if ($produto):
-        $produto->preco = $item->PrecoTabela;
-        $produto->precopromocao = $item->PrecoPromocional;
-        $produto->save();
-      endif;
+      foreach ($listaPreco as $item) {
+        $produto = Produto::where('codigoprodutoabaco', $item->CodigoProdutoAbacos)->first();
+        if ($produto):
+          $produto->preco = $item->PrecoTabela;
+          $produto->precopromocao = $item->PrecoPromocional;
+          $produto->save();
+        endif;
+      }
     }
     //endregion
 
@@ -173,17 +175,18 @@ class AdminProdutosController extends BaseController
     $produtos = Produto::all('codigoproduto', 'id');
 
     $insert = [];
-    $basePath = 'app\public\upload\\';
+    $basePath = 'app/public/upload/';
 
     foreach ($produtos as $produto) {
       $path = storage_path($basePath . str_replace('.', '_', $produto->codigoproduto));
+      
       if (is_dir($path)) {
         if ($handle = opendir($path)) {
           while (false !== ($file = readdir($handle))) {
-            $pathToImg = $path . '\\' . $file;
+            $pathToImg = $path . '/' . $file;
             if (($file != '.' && $file != '..') && getimagesize($pathToImg)) {
 
-              $pathToSave = 'storage\\' . str_replace(storage_path('app\public\\'), '', $pathToImg);
+              $pathToSave = 'storage/' . str_replace(storage_path('app/public/'), '', $pathToImg);
 
               $pushToProdutos = [];
               $pushToProdutos['produto_id'] = $produto->id;

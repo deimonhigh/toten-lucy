@@ -16,8 +16,6 @@
     vm.produto = {};
     vm.temasItem = apiService.getStorage('tema');
 
-    console.log($stateParams.id);
-
     apiService.get('produtos/' + $stateParams.id).then(function (res) {
       vm.produto = res.result;
       vm.imagemGrande = vm.produto.imagens[0];
@@ -25,7 +23,6 @@
       apiService.post('produtos/relacionados', {
         "produtocodigo": vm.produto.codigoproduto
       }).then(function (res) {
-        console.log(res);
         vm.produtosRelacionados = res.result;
       }, function (err) {
         alert(err.error);

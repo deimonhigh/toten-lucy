@@ -119,7 +119,7 @@
           }
 
         }, function (err) {
-          console.log(err);
+//          console.log(err);
         });
     };
 
@@ -180,7 +180,7 @@
         apiService.setStorage('cliente', res.result);
         $state.go('pagamento');
       }, function (err) {
-        console.log(err);
+//        console.log(err);
       })
     }
   }

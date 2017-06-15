@@ -13,6 +13,7 @@ class Configuracao extends Model
   protected $fillable = [
       "empresa",
       "banner",
+      "parcela0",
       "parcela1",
       "parcela2",
       "parcela3",

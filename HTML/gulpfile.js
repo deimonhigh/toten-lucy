@@ -69,7 +69,7 @@ gulp.task('connect', function () {
 // E pra terminar usamos o `gulp.dest` para colocar os arquivos concatenados e minificados na pasta dist/
 gulp.task('js', function () {
   console.log('\nIniciando a task de inclusao e compressao do js\n');
-  return gulp.src(filesSrc.js) // Arquivos que serao carregados, veja variável 'filesSrc.js' no início
+  return gulp.src(filesSrc.js)
              .pipe(plumber({
                              errorHandler: onError
                            }))
@@ -78,19 +78,41 @@ gulp.task('js', function () {
              .pipe(rename({
                             basename: 'scripts',
                             suffix: '.min'
-                          })) // Arquivo único de saída
-             .pipe(sourcemaps.write(dist.mapJS)) // Cria os sourcemaps
-             .pipe(gulp.dest(dist.js)) // pasta de destino do arquivo(s)
-             .pipe(connect.reload()); // LiveReload
+                          }))
+             .pipe(sourcemaps.write(dist.mapJS))
+             .pipe(gulp.dest(dist.js))
+             .pipe(connect.reload());
 });
 
 gulp.task('compressJS', function () {
-  return gulp.src(filesSrc.js) // Arquivos que serao carregados, veja variável 'filesSrc.js' no início
+  return gulp.src(filesSrc.js)
              .pipe(plumber({
                              errorHandler: onError
                            }))
+             .pipe(sourcemaps.init())
+             .pipe(include())
              .pipe(compressor())
-             .pipe(gulp.dest(dist.js)) // pasta de destino do arquivo(s)
+             .pipe(rename({
+                            basename: 'scripts',
+                            suffix: '.min'
+                          }))
+             .pipe(sourcemaps.write(dist.mapJS))
+             .pipe(gulp.dest(dist.js))
+});
+
+gulp.task('compressAngular', function () {
+  return gulp.src(filesSrc.angular)
+             .pipe(plumber({
+                             errorHandler: onError
+                           }))
+             .pipe(sourcemaps.init())
+             .pipe(include())
+             .pipe(compressor())
+             .pipe(rename({
+                            suffix: '.min'
+                          }))
+             .pipe(sourcemaps.write(dist.mapJSAngular))
+             .pipe(gulp.dest(dist.angular))
 });
 
 // Carregamos os arquivos do angular
@@ -99,25 +121,24 @@ gulp.task('compressJS', function () {
 // E pra terminar usamos o `gulp.dest` para colocar os arquivos concatenados e minificados na pasta dist/
 gulp.task('angular', function () {
   console.log('\nIniciando a task de inclusao e compressao do angular\n');
-  gulp.src(filesSrc.angular) // Arquivos que serao carregados, veja variável 'filesSrc.js' no início
+  gulp.src(filesSrc.angular)
       .pipe(plumber({
                       errorHandler: onError
                     }))
       .pipe(sourcemaps.init())
       .pipe(include())
-      //      .pipe(compressor())
       .pipe(rename({
                      suffix: '.min'
-                   })) // Arquivo único de saída
-      .pipe(sourcemaps.write(dist.mapJSAngular)) // Cria os sourcemaps
-      .pipe(gulp.dest(dist.angular)) // pasta de destino do arquivo(s)
-      .pipe(connect.reload()); // LiveReload
+                   }))
+      .pipe(sourcemaps.write(dist.mapJSAngular))
+      .pipe(gulp.dest(dist.angular))
+      .pipe(connect.reload());
 });
 
 // Apaga a pasta da dist para recomeçar
 gulp.task('clean:dist', function () {
   console.log('\nLimpando o diretorio "dist"\n');
-  return gulp.src(baseDist) // Arquivos que serao carregados, veja variável 'filesSrc.html' no início
+  return gulp.src(baseDist)
              .pipe(clean({
                            read: false,
                            force: true
@@ -129,7 +150,7 @@ gulp.task('clean:dist', function () {
 // E pra terminar usamos o `gulp.dest` para colocar os arquivos e minificados na pasta dist/
 gulp.task('html', function () {
   console.log('\nIniciando a task de inclusao e compressao do html\n');
-  return gulp.src(filesSrc.html) // Arquivos que serao carregados, veja variável 'filesSrc.html' no início
+  return gulp.src(filesSrc.html)
              .pipe(plumber({
                              errorHandler: onError
                            }))
@@ -140,16 +161,16 @@ gulp.task('html', function () {
                              "removeRedundantAttributes": true,
                              "conservativeCollapse": true
 
-                           })) // Transforma para formato ilegível
-             .pipe(gulp.dest(dist.html)) // pasta de destino do arquivo(s)
-             .pipe(connect.reload()); // LiveReload
+                           }))
+             .pipe(gulp.dest(dist.html))
+             .pipe(connect.reload());
 });
 
 // Movemos a index para a pasta dist
 // e a minificamos
 gulp.task('index', function () {
   console.log('\nIniciando a task de inclusao e compressao do index\n');
-  return gulp.src(filesSrc.index) // Arquivos que serao carregados, veja variável 'filesSrc.index' no início
+  return gulp.src(filesSrc.index)
              .pipe(plumber({
                              errorHandler: onError
                            }))
@@ -160,31 +181,31 @@ gulp.task('index', function () {
                              "removeRedundantAttributes": true,
                              "conservativeCollapse": false
 
-                           })) // Transforma para formato ilegível
-             .pipe(gulp.dest(dist.index)) // pasta de destino do arquivo(s);
-             .pipe(connect.reload()); // LiveReload
+                           }))
+             .pipe(gulp.dest(dist.index))
+             .pipe(connect.reload());
 });
 
 // Movemos as imagens para a pasta dist
 gulp.task('imgs', function () {
   console.log('\nIniciando a task de inclusao das imagens\n');
-  gulp.src(filesSrc.imgs) // Arquivos que serao carregados, veja variável 'filesSrc.imgs' no início
+  gulp.src(filesSrc.imgs)
       .pipe(plumber({
                       errorHandler: onError
                     }))
-      .pipe(gulp.dest(dist.imgs)) // pasta de destino do arquivo(s)
-      .pipe(connect.reload()); // LiveReload
+      .pipe(gulp.dest(dist.imgs))
+      .pipe(connect.reload());
 });
 
 // Movemos as fontes para a pasta dist
 console.log('\nIniciando a task de inclusao das fontes\n');
 gulp.task('fonts', function () {
-  return gulp.src(filesSrc.fonts) // Arquivos que serao carregados, veja variável 'filesSrc.fonts' no início
+  return gulp.src(filesSrc.fonts)
              .pipe(plumber({
                              errorHandler: onError
                            }))
              .pipe(rename({dirname: ""}))
-             .pipe(gulp.dest(dist.fonts)); // pasta de destino do arquivo(s)
+             .pipe(gulp.dest(dist.fonts));
 });
 
 // Carregamos os arquivos SCSS
@@ -192,34 +213,40 @@ gulp.task('fonts', function () {
 // Criamos o sourcemap
 gulp.task('sass', function () {
   console.log('\nIniciando a task de compilacao, inclusao e compressao do sass\n');
-  return gulp.src(filesSrc.scss) // Arquivos que serao carregados, veja variável 'filesSrc.scss' no início
+  return gulp.src(filesSrc.scss)
              .pipe(plumber({
                              errorHandler: onError
                            }))
              .pipe(sourcemaps.init())
              .pipe(sass({
                           outputStyle: 'compressed'
-                        })) // Converte Sass para CSS
+                        }))
              .pipe(rename('style.min.css'))
-             .pipe(sourcemaps.write(dist.mapCSS)) // Cria os sourcemaps
-             .pipe(gulp.dest(dist.css)) // pasta de destino do arquivo(s)
-             .pipe(connect.reload()); // LiveReload
+             .pipe(sourcemaps.write(dist.mapCSS))
+             .pipe(gulp.dest(dist.css))
+             .pipe(connect.reload());
 });
 
 // Carregamos os arquivos SCSS
 gulp.task('cleanCSS', function () {
   console.log('\nIniciando a task de compilacao, inclusao e compressao do sass\n');
-  return gulp.src(filesSrc.scss) // Arquivos que serao carregados, veja variável 'filesSrc.scss' no início
+  return gulp.src(filesSrc.scss)
              .pipe(plumber({
                              errorHandler: onError
                            }))
+             .pipe(sourcemaps.init())
+             .pipe(sass({
+                          outputStyle: 'compressed'
+                        }))
              .pipe(cleanCSS({
                               debug: true,
                               level: {
                                 2: {all: true}
                               }
                             }))
-             .pipe(gulp.dest(dist.css)) // pasta de destino do arquivo(s)
+             .pipe(rename('style.min.css'))
+             .pipe(sourcemaps.write(dist.mapCSS))
+             .pipe(gulp.dest(dist.css))
 });
 
 var choiceslabel = ['SASS => s', 'Fonts => f', 'Imgs => i', 'JS => j', 'HTML => h', 'Index => x', 'Angular => g', 'Abrir no navegador => a', 'Fim => q'];
@@ -268,19 +295,23 @@ gulp.task('type', function () {
 // Tarefa de monitoraçao caso algum arquivo seja modificado, deve ser executado e deixado aberto, comando "gulp watch".
 gulp.task('watch', function () {
   console.log('\nAssistindo mudanças do projeto\n');
-  gulp.watch(baseSrc + 'assets/js/*.js', ['js']); // Olha por mudanças nos arquivos JS
-  gulp.watch(filesSrc.html, ['html']); // Olha por mudanças nos arquivos HTML
-  gulp.watch(baseSrc + 'assets/css/**/*.scss', ['sass']); // Olha por mudanças nos arquivos JS
-  gulp.watch(baseSrc + 'angular/**/*.js', ['angular']); // Olha por mudanças nos arquivos JS
-  gulp.watch(filesSrc.imgs, ['imgs']); // Olha por mudanças nos arquivos IMGS
-  gulp.watch(filesSrc.index, ['index']); // Olha por mudanças nos arquivos IMGS
+  gulp.watch(baseSrc + 'assets/js/*.js', ['js']);
+  gulp.watch(filesSrc.html, ['html']);
+  gulp.watch(baseSrc + 'assets/css/**/*.scss', ['sass']);
+  gulp.watch(baseSrc + 'angular/**/*.js', ['angular']);
+  gulp.watch(filesSrc.imgs, ['imgs']);
+  gulp.watch(filesSrc.index, ['index']);
 });
 
 gulp.task('build', ['sass', 'fonts', 'imgs', 'js', 'angular', 'html', 'index'], function () {
   return gulp.start(['watch', 'type', 'connect']);
 });
 
-gulp.task('buildProd', ['cleanCSS', 'compressJS']);
+gulp.task('buildProd', ['clean:dist'], function () {
+  return gulp.start(['cleanCSS', 'fonts', 'imgs', 'compressJS', 'compressAngular', 'html', 'index']);
+});
 
 // Tarefa padrao quando executado o comando GULP
-gulp.task('default', ['build']);
+gulp.task('default', ['clean:dist'], function () {
+  return gulp.start('build');
+});

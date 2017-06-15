@@ -12,13 +12,11 @@
 
   angular.module("appToten").run(runApp);
 
-  runApp.$inject = ['$rootScope', '$window', '$sce', 'cfpLoadingBar', 'apiService', '$state', '$timeout', 'localStorageService'];
+  runApp.$inject = ['$rootScope', '$sce', 'cfpLoadingBar', 'apiService', '$state', '$timeout', 'localStorageService'];
 
-  function runApp($rootScope, $window, $sce, cfpLoadingBar, apiService, $state, $timeout, localStorageService) {
+  function runApp($rootScope, $sce, cfpLoadingBar, apiService, $state, $timeout, localStorageService) {
     var root = $rootScope;
-
     root.inicio = true;
-
     root.foto = false;
 
     var colorDefault = "#FF5B10";
@@ -57,7 +55,7 @@
         root.$broadcast('temaLoaded');
         $state.go('home');
       }, function (err) {
-        alert(err.error);
+        console.log(err.error);
       });
 
     //region Loading

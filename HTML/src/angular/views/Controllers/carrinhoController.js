@@ -19,7 +19,6 @@
 
     vm.removerItem = function (item) {
       vm.listaCompras = vm.listaCompras.filter(function (filtro) {
-        console.log(filtro);
         return filtro.$$hashKey != item.$$hashKey;
       });
 

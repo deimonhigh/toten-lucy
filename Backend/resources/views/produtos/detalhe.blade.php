@@ -98,7 +98,7 @@
                                          style="margin: 0 auto; padding: 5px;" />
                                 </div>
                                 <small class="text-muted">
-                                    Adicionada em: {{ date('d/m/Y', strtotime($image['updated_ata'])) }}
+                                    Adicionada em: {{ date('d/m/Y', strtotime($image['updated_at'])) }}
                                 </small>
                             </div><!-- thmb -->
                         </div><!-- col-xs-6 -->

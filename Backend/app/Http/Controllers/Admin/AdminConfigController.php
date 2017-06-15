@@ -79,7 +79,7 @@ class AdminConfigController extends BaseController
         'userId' => Auth::id()
     ];
 
-    if ($request->get('action') == 'remove'){
+    if ($request->get('action') == 'remove') {
       \Storage::deleteDirectory('public/banners');
     }
 
@@ -131,6 +131,7 @@ class AdminConfigController extends BaseController
   public function cadastrarParcelas(Request $request)
   {
     $insert = [
+        'parcela0' => ($request->get('parcela0') ? $request->get('parcela0') : 0),
         'parcela1' => ($request->get('parcela1') ? $request->get('parcela1') : 0),
         'parcela2' => ($request->get('parcela2') ? $request->get('parcela2') : 0),
         'parcela3' => ($request->get('parcela3') ? $request->get('parcela3') : 0),
