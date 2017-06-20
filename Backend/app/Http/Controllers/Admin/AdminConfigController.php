@@ -22,7 +22,8 @@ class AdminConfigController extends BaseController
     $data['submenu'] = "tema";
     //endregion
 
-    $data['dados'] = Configuracao::where('userId', Auth::id())->first();
+    $config = Configuracao::find(1);
+    $data['dados'] = is_null($config) ? new Configuracao() : $config;
 
     if (!$data['dados']) {
       $data['dados'] = new \stdClass();
@@ -44,8 +45,9 @@ class AdminConfigController extends BaseController
     $data['submenu'] = "parcelas";
     //endregion
 
-    $data['dados'] = Configuracao::where('userId', Auth::id())->first();
-
+    $config = Configuracao::find(1);
+    $data['dados'] = is_null($config) ? new Configuracao() : $config;
+    
     return view('configuracoes.parcelas', $data);
   }
 
@@ -61,7 +63,8 @@ class AdminConfigController extends BaseController
     $data['submenu'] = "banner";
     //endregion
 
-    $data['dados'] = Configuracao::where('userId', Auth::id())->first();
+    $config = Configuracao::find(1);
+    $data['dados'] = is_null($config) ? new Configuracao() : $config;
     $data['produtos'] = Produto::all();
 
     return view('configuracoes.banner', $data);

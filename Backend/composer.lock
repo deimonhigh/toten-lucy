@@ -4,51 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1f02794965aa3eab9878093f6d18b85c",
+    "content-hash": "acd485bf7ed5e1f9d0514a885b5e03b9",
     "packages": [
-        {
-            "name": "artisaninweb/laravel-soap",
-            "version": "0.3.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/artisaninweb/laravel-soap.git",
-                "reference": "f6e1bfbf635a1dcde51f2d183b45fd7fc6224cab"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/artisaninweb/laravel-soap/zipball/f6e1bfbf635a1dcde51f2d183b45fd7fc6224cab",
-                "reference": "f6e1bfbf635a1dcde51f2d183b45fd7fc6224cab",
-                "shasum": ""
-            },
-            "require": {
-                "ext-soap": "*",
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Artisaninweb\\SoapWrapper": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael van de Rijt",
-                    "email": "me@mvdrijt.com"
-                }
-            ],
-            "description": "A SoapClient wrapper integration for Laravel",
-            "keywords": [
-                "client",
-                "laravel",
-                "soap",
-                "wrapper"
-            ],
-            "time": "2017-04-03T06:13:01+00:00"
-        },
         {
             "name": "barryvdh/laravel-cors",
             "version": "v0.9.2",
@@ -962,16 +919,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.26",
+            "version": "v5.4.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "a7ebbfab64111e24f8e584db64e2be9279ded357"
+                "reference": "66f5e1b37cbd66e730ea18850ded6dc0ad570404"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/a7ebbfab64111e24f8e584db64e2be9279ded357",
-                "reference": "a7ebbfab64111e24f8e584db64e2be9279ded357",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/66f5e1b37cbd66e730ea18850ded6dc0ad570404",
+                "reference": "66f5e1b37cbd66e730ea18850ded6dc0ad570404",
                 "shasum": ""
             },
             "require": {
@@ -1087,7 +1044,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-06-13T18:58:49+00:00"
+            "time": "2017-06-15T19:08:25+00:00"
         },
         {
             "name": "laravel/passport",
@@ -1490,16 +1447,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.22.1",
+            "version": "1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0"
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1e044bc4b34e91743943479f1be7a1d5eb93add0",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
                 "shasum": ""
             },
             "require": {
@@ -1520,7 +1477,7 @@
                 "phpunit/phpunit-mock-objects": "2.3.0",
                 "ruflin/elastica": ">=0.90 <3.0",
                 "sentry/sentry": "^0.13",
-                "swiftmailer/swiftmailer": "~5.3"
+                "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -1564,7 +1521,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-03-13T07:08:03+00:00"
+            "time": "2017-06-19T01:22:40+00:00"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -1953,16 +1910,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.6",
+            "version": "v0.8.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "7028d6d525fb183d50b249b7c07598e3d386b27d"
+                "reference": "be969b9dc89dcaefdb9a3117fa91fa38bca19f50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/7028d6d525fb183d50b249b7c07598e3d386b27d",
-                "reference": "7028d6d525fb183d50b249b7c07598e3d386b27d",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/be969b9dc89dcaefdb9a3117fa91fa38bca19f50",
+                "reference": "be969b9dc89dcaefdb9a3117fa91fa38bca19f50",
                 "shasum": ""
             },
             "require": {
@@ -2022,7 +1979,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-06-04T10:34:20+00:00"
+            "time": "2017-06-20T12:51:31+00:00"
         },
         {
             "name": "ramsey/uuid",
