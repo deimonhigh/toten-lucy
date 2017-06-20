@@ -73,7 +73,7 @@
     };
 
     vm.procurarCliente = function (cpf) {
-      if (cpf.length < 11) {
+      if (!cpf || cpf.length < 11) {
         return;
       }
 
@@ -114,8 +114,7 @@
                 vm.dados.uf = $filter('filter')(vm.estados, {'sigla': obj.uf.toUpperCase()}, true)[0];
                 vm.dados.cidadeTemp = obj.cidade;
               }
-            })
-
+            });
           }
 
         }, function (err) {

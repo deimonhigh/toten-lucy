@@ -35,7 +35,7 @@
       return Array(n - String(nr).length + 1).join(str || '0') + nr;
     };
 
-    vm.idPedido = padLeft(vm.cliente.idPedido, 13).replace(/^(\d{4})(\d{4})(\d+)(\d{2})/, '$1.$2.$3-$4');
+    vm.idPedido = 'SF.' + padLeft(vm.cliente.idPedido, 13).replace(/^(\d{4})(\d{4})(\d+)(\d{2})/, '$1.$2.$3-$4');
 
     vm.validarVendedor = function () {
       var enviar = {};
