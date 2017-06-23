@@ -11,7 +11,6 @@
                     <a class="btn btn-default" style="margin-top: 20px;" href="{{ url(route('naoConcluidos')) }}">
                         Remover não concluídos
                     </a>
-
                     <a class="btn btn-default" style="margin-top: 20px;" href="{{ url(route('enviarNovamente')) }}">
                         Enviar novamente
                     </a>
@@ -21,7 +20,7 @@
                         <table class="table table-striped mb30">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>Código do pedido</th>
                                     <th>Nome</th>
                                     <th>Documento (CPF/CNPJ)</th>
                                     <th>Ações</th>
@@ -31,7 +30,7 @@
                                 @foreach($dados as $data)
                                     <tbody>
                                         <tr>
-                                            <td>{{ $data->id }}</td>
+                                            <td>{{ $data->pedido_id }}</td>
                                             <td>{{ $data->cliente->nome }}</td>
                                             <td>{{ $data->cliente->documento }}</td>
                                             <td>

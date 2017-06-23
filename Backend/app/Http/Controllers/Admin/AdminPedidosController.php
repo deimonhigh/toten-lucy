@@ -24,6 +24,10 @@ class AdminPedidosController extends BaseController
 
     $data['dados'] = Pedido::paginate(15);
 
+    foreach ($data['dados'] as $item) {
+      $item->pedido_id = 'SF.' . preg_replace("/^(\d{4})(\d{4})(\d+)(\d{2})/", '$1.$2.$3-$4', str_pad((string)$item->id, 13, 0, STR_PAD_LEFT));
+    }
+
     return view('pedidos.listagem', $data);
   }
 
@@ -42,6 +46,8 @@ class AdminPedidosController extends BaseController
 
     $data['config'] = Configuracao::find(1)->toArray();
     $data['dados'] = Pedido::findOrFail($id);
+
+    $data['dados']->pedidos_id = 'SF.' . preg_replace("/^(\d{4})(\d{4})(\d+)(\d{2})/", '$1.$2.$3-$4', str_pad((string)$data['dados']->id, 13, 0, STR_PAD_LEFT));
 
     if (!is_null($data['dados']->parcelas)) {
       $juros = $data['config']['parcela' . $data['dados']->parcelas] / 100;

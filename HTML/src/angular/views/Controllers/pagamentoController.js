@@ -60,7 +60,7 @@
       vm.editarPagamentoFlag = !vm.editarPagamentoFlag;
 
       apiService.setStorage('formaPagamento', vm.formaPagamento);
-      
+
       if (vm.editarPagamentoFlag && vm.formaPagamento.total) {
         $timeout(function () {
           vm.totalCarrinho = vm.formaPagamento.total;
@@ -92,7 +92,7 @@
       send.aVista = formaPagamento.aVista;
 
       apiService.post('pedidos/save', send).then(function (res) {
-        
+
       }, function (err) {
         console.log(err);
         $state.go('carrinho');
@@ -121,6 +121,10 @@
         "total": comJuros
       };
 
+      if (root.temaStorage['parcela' + i] == 0) {
+        pagamento.descricao += " sem juros"
+      }
+      
       vm.listaPagamentos.push(pagamento);
     }
   }

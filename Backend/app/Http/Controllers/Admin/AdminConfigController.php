@@ -47,7 +47,7 @@ class AdminConfigController extends BaseController
 
     $config = Configuracao::find(1);
     $data['dados'] = is_null($config) ? new Configuracao() : $config;
-    
+
     return view('configuracoes.parcelas', $data);
   }
 
@@ -102,7 +102,6 @@ class AdminConfigController extends BaseController
 
   public function cadastrar(Request $request)
   {
-
     $this->validate($request, [
         'empresa' => 'required',
         'cor' => 'required',
@@ -134,19 +133,19 @@ class AdminConfigController extends BaseController
   public function cadastrarParcelas(Request $request)
   {
     $insert = [
-        'parcela0' => ($request->get('parcela0') ? $request->get('parcela0') : 0),
-        'parcela1' => ($request->get('parcela1') ? $request->get('parcela1') : 0),
-        'parcela2' => ($request->get('parcela2') ? $request->get('parcela2') : 0),
-        'parcela3' => ($request->get('parcela3') ? $request->get('parcela3') : 0),
-        'parcela4' => ($request->get('parcela4') ? $request->get('parcela4') : 0),
-        'parcela5' => ($request->get('parcela5') ? $request->get('parcela5') : 0),
-        'parcela6' => ($request->get('parcela6') ? $request->get('parcela6') : 0),
-        'parcela7' => ($request->get('parcela7') ? $request->get('parcela7') : 0),
-        'parcela8' => ($request->get('parcela8') ? $request->get('parcela8') : 0),
-        'parcela9' => ($request->get('parcela9') ? $request->get('parcela9') : 0),
-        'parcela10' => ($request->get('parcela10') ? $request->get('parcela10') : 0),
-        'parcela11' => ($request->get('parcela11') ? $request->get('parcela11') : 0),
-        'parcela12' => ($request->get('parcela12') ? $request->get('parcela12') : 0)
+        'parcela0' => ($request->get('parcela0') ? str_replace(',', '.', (string)$request->get('parcela0')) : 0),
+        'parcela1' => ($request->get('parcela1') ? str_replace(',', '.', (string)$request->get('parcela1')) : 0),
+        'parcela2' => ($request->get('parcela2') ? str_replace(',', '.', (string)$request->get('parcela2')) : 0),
+        'parcela3' => ($request->get('parcela3') ? str_replace(',', '.', (string)$request->get('parcela3')) : 0),
+        'parcela4' => ($request->get('parcela4') ? str_replace(',', '.', (string)$request->get('parcela4')) : 0),
+        'parcela5' => ($request->get('parcela5') ? str_replace(',', '.', (string)$request->get('parcela5')) : 0),
+        'parcela6' => ($request->get('parcela6') ? str_replace(',', '.', (string)$request->get('parcela6')) : 0),
+        'parcela7' => ($request->get('parcela7') ? str_replace(',', '.', (string)$request->get('parcela7')) : 0),
+        'parcela8' => ($request->get('parcela8') ? str_replace(',', '.', (string)$request->get('parcela8')) : 0),
+        'parcela9' => ($request->get('parcela9') ? str_replace(',', '.', (string)$request->get('parcela9')) : 0),
+        'parcela10' => ($request->get('parcela10') ? str_replace(',', '.', (string)$request->get('parcela10')) : 0),
+        'parcela11' => ($request->get('parcela11') ? str_replace(',', '.', (string)$request->get('parcela11')) : 0),
+        'parcela12' => ($request->get('parcela12') ? str_replace(',', '.', (string)$request->get('parcela12')) : 0)
     ];
 
     Configuracao::updateOrCreate(

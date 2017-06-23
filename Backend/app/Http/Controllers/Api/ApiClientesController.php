@@ -41,6 +41,11 @@ class ApiClientesController extends BaseController
 
       $clienteKpl = $this->saveClienteKpl($json);
 
+      $id = $clienteKpl->CadastrarClienteResult->Rows->DadosClientesResultado->Codigo;
+      if (empty($id) || is_null($id)) {
+        $id = 0;
+      }
+
       $idCliente = Cliente::updateOrCreate(
           [
               'id' => $json->id
@@ -52,7 +57,7 @@ class ApiClientesController extends BaseController
               "email" => $json->email,
               "sexo" => $json->sexo,
               "celular" => $json->celular,
-              "codigo_cliente" => $clienteKpl->CadastrarClienteResult->Rows->DadosClientesResultado->Codigo,
+              "codigo_cliente" => $id,
           ]
       );
 
