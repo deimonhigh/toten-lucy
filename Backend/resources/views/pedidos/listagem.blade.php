@@ -7,6 +7,14 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">Pedidos</h4>
                     <p>Aqui você confere a lista de pedidos cadastrados no momento</p>
+
+                    <a class="btn btn-default" style="margin-top: 20px;" href="{{ url(route('naoConcluidos')) }}">
+                        Remover não concluídos
+                    </a>
+
+                    <a class="btn btn-default" style="margin-top: 20px;" href="{{ url(route('enviarNovamente')) }}">
+                        Enviar novamente
+                    </a>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -29,6 +37,8 @@
                                             <td>
                                                 @if($data->status)
                                                     Enviado para KPL
+                                                @elseif(is_null($data->total) || $data->total == 0)
+                                                    Pedido não concluído
                                                 @else
                                                     Não enviado
                                                 @endif

@@ -73,7 +73,7 @@
     };
 
     vm.procurarCliente = function (cpf) {
-      if (cpf.length < 11) {
+      if (!cpf || cpf.length < 11) {
         return;
       }
 

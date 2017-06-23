@@ -25,6 +25,7 @@
     </li>
   </ul>
   <div class="bigImg grid-5 noFlex">
+    <div ng-if="!produto.nomeproduto">Carregando..</div>
     <img ng-src="{{ imagemGrande.url }}" alt="{{ produto.nomeproduto }}" style="max-width: 100%">
   </div>
   <div class="infos grid-6">

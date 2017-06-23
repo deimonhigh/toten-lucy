@@ -16,6 +16,7 @@ class Cliente extends Model
       "telefone",
       "celular",
       "enderecooriginal",
+      "codigo_cliente"
   ];
 
   protected $hidden = [

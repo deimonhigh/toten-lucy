@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller as BaseController;
+use App\Http\Controllers\Model\Cliente;
 use App\Http\Controllers\Model\Configuracao;
 use App\Http\Controllers\Model\Pedido;
+use Carbon\Carbon;
 
 class AdminPedidosController extends BaseController
 {
@@ -41,9 +43,163 @@ class AdminPedidosController extends BaseController
     $data['config'] = Configuracao::find(1)->toArray();
     $data['dados'] = Pedido::findOrFail($id);
 
-    $juros = $data['config']['parcela' . $data['dados']->parcelas] / 100;
-    $data['dados']->totalComJuros = $data['dados']->total + ($data['dados']->total * $juros);
+    if (!is_null($data['dados']->parcelas)) {
+      $juros = $data['config']['parcela' . $data['dados']->parcelas] / 100;
+      $data['dados']->totalComJuros = $data['dados']->total + ($data['dados']->total * $juros);
+    }
 
     return view('pedidos.detalhe', $data);
+  }
+
+  public function naoConcluidos()
+  {
+    Pedido::where(function ($q) {
+      $q->Where(function ($query) {
+        $query->where('total', 0);
+        $query->orWhere('total', '=', NULL);
+      });
+      $q->where('status', 0);
+    })->delete();
+
+    return redirect(route('pedidos'));
+  }
+
+  public function enviarNovamente()
+  {
+    $pedidos = Pedido::with('produtos')->where(function ($q) {
+      $q->Where(function ($query) {
+        $query->where('total', '>', 0);
+        $query->orWhere('total', '!=', NULL);
+      });
+      $q->where('status', 0);
+    })->get();
+
+    foreach ($pedidos as $pedido) {
+      $url = url($pedido->comprovante);
+      $cliente = Cliente::find($pedido->cliente_id);
+
+      foreach ($pedido->produtos as $item) {
+        $item->produto;
+      }
+
+      $this->savePedidosKpl($pedido, $cliente, $url);
+
+      $pedido->status = TRUE;
+      $pedido->save();
+    }
+
+    return redirect(route('pedidos'));
+  }
+
+  protected function savePedidosKpl($pedido, $cliente, $url)
+  {
+
+    $itens = [];
+    $itens['DadosPedidosItem'] = [];
+
+    foreach ($pedido->produtos as $item) {
+      $item = (object)$item;
+      $temp = [
+          "QuantidadeProduto" => (float)$item->quantidade,
+          "CodigoProduto" => $item->produto->codigoproduto,
+          "PrecoUnitario" => $this->totalComJuros($pedido->parcelas, (float)$item->produto->preco),
+          "ValorReferencia" => $this->totalComJuros($pedido->parcelas, (float)$item->produto->preco),
+          "PrecoUnitarioBruto" => $this->totalComJuros($pedido->parcelas, (float)$item->produto->preco),
+          "EmbalagemPresente" => FALSE,
+          "Brinde" => FALSE
+      ];
+
+      array_push($itens['DadosPedidosItem'], $temp);
+    }
+
+    $insertKpl = [];
+    $insertKpl['InserirPedido'] = [];
+    $insertKpl['InserirPedido']['ChaveIdentificacao'] = '77AD990B-6138-4065-9B86-8D30119C09D3';
+    $insertKpl['InserirPedido']['ListaDePedidos'] = [
+        'DadosPedidos' => [
+            "NumeroDoPedido" => 'SF' . str_pad((string)$pedido->id, 13, 0, STR_PAD_LEFT),
+            "Email" => $cliente->email,
+            "CPFouCNPJ" => $cliente->documento,
+            "CodigoCliente" => $cliente->codigo_cliente,
+            "ValorPedido" => $pedido->total,
+            "ValorFrete" => 0,
+            "ValorEncargos" => 0,
+            "ValorDesconto" => 0,
+            "ValorEmbalagemPresente" => 0,
+            "ValorCupomDesconto" => 0,
+            "DestTipoPessoa" => $this->tipoPessoa($cliente->sexo),
+            "DestTipoLocalEntrega" => 'tleeDesconhecido',
+            "ValorReceberEntrega" => 0,
+            "ValorTrocoEntrega" => 0,
+            "PedidoJaPago" => TRUE,
+            "Anotacao1" => "Comprovante de pagamento: " . $url,
+            "DataVenda" => Carbon::now()->format('dmY'),
+            "EmitirNotaSimbolica" => FALSE,
+            "Lote" => "LOTE DE PEDIDO",
+            "Transportadora" => "ENTREGA",
+            "OptouNFPaulista" => "tbneNao",
+            "ValorTotalCartaoPresente" => 0,
+            "CartaoPresenteBrinde" => FALSE,
+            "TempoEntregaTransportadora" => 0,
+            "ComercializacaoOutrasSaidas" => 0,
+            "PrazoEntregaPosPagamento" => 0,
+            "ValorAdicionalImpostos" => 0,
+            "ValorFretePagar" => 0,
+            "FormasDePagamento" => [
+                "DadosPedidosFormaPgto" => [
+                    "FormaPagamentoCodigo" => $this->condicaoPagamento($pedido->parcelas),
+                    "Valor" => $pedido->total,
+                    "PreAutorizadaNaPlataforma" => FALSE,
+                    "CartaoQtdeParcelas" => $pedido->parcelas,
+                ]
+            ],
+            'Itens' => $itens
+        ]
+    ];
+
+    try {
+      $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
+      $function = 'InserirPedido';
+
+      $result = $client->__soapCall($function, $insertKpl);
+
+      return $result;
+    }
+    catch (\Exception $e) {
+      return $insertKpl;
+    }
+
+  }
+
+  protected function condicaoPagamento($aVista)
+  {
+    return $aVista > 0 ? "CARTAO DE CREDITO" : "A VISTA";
+  }
+
+  protected function totalComJuros($parcelas, $total)
+  {
+    $config = Configuracao::find(1)->toArray();
+
+    try {
+      return $total + $total * ($config['parcela' . $parcelas] / 100);
+    }
+    catch (\Exception $e) {
+      return $total;
+    }
+  }
+
+  protected function tipoPessoa($sexo)
+  {
+    return $sexo == 'E' ? 'tpeJuridica' : 'tpeFisica';
+  }
+
+  protected function tipoSexo($sexo)
+  {
+    return $sexo == 'E' ? 'tseEmpresa' : $sexo == 'M' ? 'tseMasculino' : 'tseFeminino';
+  }
+
+  protected function tipoLocalEntrega($sexo)
+  {
+    return $sexo == 'E' ? 'tleeComercial' : 'tleeResidencial';
   }
 }

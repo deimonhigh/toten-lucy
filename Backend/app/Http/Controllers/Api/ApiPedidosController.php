@@ -22,13 +22,14 @@ class ApiPedidosController extends BaseController
       $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->img));
 
       $now = str_replace(':', '-', str_replace(' ', '-', ((string)Carbon::now())));
+      $img = "/storage/comprovantes/{$request->idcliente}-{$now}.png";
 
       Storage::put("/public/comprovantes/{$request->idcliente}-{$now}.png", $data);
 
-      $url = url("/storage/comprovantes/{$request->idcliente}-{$now}.png");
+      $url = url($img);
 
       $cliente = Cliente::find($request->idcliente);
-      
+
       $this->savePedidosKpl($request, $cliente, $url);
 
       foreach ($request->produtos as $produto) {
@@ -44,17 +45,17 @@ class ApiPedidosController extends BaseController
       $pedido->cliente_id = $request->idcliente;
       $pedido->total = $request->total;
       $pedido->parcelas = $request->parcelas;
-      $pedido->comprovante = "/public/comprovantes/{$request->idcliente}-{$now}.png";
+      $pedido->comprovante = $img;
       $pedido->status = TRUE;
       $pedido->save();
-
-
+      
       $update = Atualizacao::findOrNew(1);
       $update->pedidos = Carbon::now();
       $update->save();
 
       $request->url = $url;
       $request->cliente = $cliente;
+      unset($request->img);
 
       return $this->Ok($request);
     }
@@ -62,7 +63,7 @@ class ApiPedidosController extends BaseController
       if ($this->isModelNotFoundException($e)) {
         return $this->modelNotFound();
       }
-      return $this->nonOk($e->getMessage());
+      return $this->nonOk();
     }
 
   }

@@ -29,7 +29,10 @@
     </ul>
   </div>
   <div class="grid-9">
-    <ul class="grid listagem align-left" ng-if="produtos.length > 0">
+    <span ng-if="produtos.length == 0">
+      Carregando...
+    </span>
+    <ul class="grid listagem align-left">
       <li class="grid-3" ng-repeat="item in produtos">
         <a ui-sref="produto({id: item.id})">
           <button class="btn lupa">

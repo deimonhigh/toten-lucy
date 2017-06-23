@@ -32,19 +32,22 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h5>Comprovante</h5>
-                            <p>
-                                <a href="{{ asset(str_replace('public', 'storage', $dados->comprovante)) }}" download>
-                                    <img src="{{ asset(str_replace('public', 'storage', $dados->comprovante)) }}"
-                                         class="img-responsive"
-                                         alt="{{ $dados->cliente->nome }}"
-                                         style="width: 100%; margin-top: 20px;">
-                                </a>
-                            </p>
+                    @if(!is_null($dados->comprovante) && strlen($dados->comprovante) > 0)
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h5>Comprovante</h5>
+                                <p>
+                                    <a href="{{ asset(str_replace('public', 'storage', $dados->comprovante)) }}"
+                                       download>
+                                        <img src="{{ asset(str_replace('public', 'storage', $dados->comprovante)) }}"
+                                             class="img-responsive"
+                                             alt="{{ $dados->cliente->nome }}"
+                                             style="width: 100%; margin-top: 20px;">
+                                    </a>
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                     <h3 class="bbottom">Dados do cliente</h3>
                     <div class="row">
@@ -96,7 +99,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <h5>Estado</h5>
-                                    <p><strong>{{ $endereco->uf }}, {{ $endereco->numero }}</strong></p>
+                                    <p><strong>{{ $endereco->uf }}</strong></p>
                                 </div>
                             </div>
                             <div class="row">
@@ -118,47 +121,47 @@
                             @endif
                         @endforeach
                     @endif
-
-                    <h3 class="bbottom">Produtos</h3>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table class="table table-striped">
-                                <thead>
-                                    <th>
-                                        ID
-                                    </th>
-                                    <th>
-                                        Código do produto
-                                    </th>
-                                    <th>
-                                        Nome do produto
-                                    </th>
-                                    <th>
-                                        Quantidade
-                                    </th>
-                                </thead>
-                                <tbody>
-                                    @foreach($dados->produtos as $produto)
-                                        <tr>
-                                            <td>
-                                                {{ $produto->produto->id }}
-                                            </td>
-                                            <td>
-                                                {{ $produto->produto->codigoproduto }}
-                                            </td>
-                                            <td>
-                                                {{ $produto->produto->nomeproduto }}
-                                            </td>
-                                            <td>
-                                                {{ $produto->quantidade }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                    @if(count($dados->produtos) == 0)
+                        <h3 class="bbottom">Produtos</h3>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>
+                                            ID
+                                        </th>
+                                        <th>
+                                            Código do produto
+                                        </th>
+                                        <th>
+                                            Nome do produto
+                                        </th>
+                                        <th>
+                                            Quantidade
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($dados->produtos as $produto)
+                                            <tr>
+                                                <td>
+                                                    {{ $produto->produto->id }}
+                                                </td>
+                                                <td>
+                                                    {{ $produto->produto->codigoproduto }}
+                                                </td>
+                                                <td>
+                                                    {{ $produto->produto->nomeproduto }}
+                                                </td>
+                                                <td>
+                                                    {{ $produto->quantidade }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-
+                    @endif
                 </div><!-- panel-body -->
                 <div class="panel-footer">
                     <button class="btn btn-default" onclick="window.history.back(-1);">Voltar</button>

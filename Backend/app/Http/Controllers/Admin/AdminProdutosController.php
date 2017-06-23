@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller as BaseController;
 use App\Http\Controllers\Model\Atualizacao;
 use App\Http\Controllers\Model\Imagemproduto;
+use App\Http\Controllers\Model\Pedido;
 use App\Http\Controllers\Model\Produto;
 use Carbon\Carbon;
 
@@ -168,7 +169,7 @@ class AdminProdutosController extends BaseController
     return redirect(route('produtos'));
   }
 
-  public function findFiles()
+  private function findFiles()
   {
     Imagemproduto::truncate();
 
@@ -179,7 +180,7 @@ class AdminProdutosController extends BaseController
 
     foreach ($produtos as $produto) {
       $path = storage_path($basePath . str_replace('.', '_', $produto->codigoproduto));
-      
+
       if (is_dir($path)) {
         if ($handle = opendir($path)) {
           while (false !== ($file = readdir($handle))) {
@@ -214,4 +215,5 @@ class AdminProdutosController extends BaseController
     Imagemproduto::insert($insert);
 
   }
+  
 }

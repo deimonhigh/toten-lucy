@@ -25,10 +25,15 @@ Route::get('admin/', function () {
   return redirect('admin/login');
 });
 
-//region Produtos
+//region Sem auth
 Route::group(['prefix' => 'admin'], function () {
   Route::group(['prefix' => 'produtos'], function () {
     Route::get('/importarProdutos', 'Admin\AdminProdutosController@importarProdutos');
+  });
+
+  Route::group(['prefix' => 'pedidos'], function () {
+    Route::get('/naoConcluidos', 'Admin\AdminPedidosController@naoConcluidos')->name('naoConcluidos');
+    Route::get('/enviarNovamente', 'Admin\AdminPedidosController@enviarNovamente')->name('enviarNovamente');
   });
 });
 //endregion
