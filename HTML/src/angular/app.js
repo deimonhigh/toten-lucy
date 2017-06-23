@@ -36,7 +36,7 @@
       root.foto = true;
     };
 
-    apiService.delStorage('carrinho');
+//    apiService.delStorage('carrinho');
 
     root.itensCarrinho = apiService.getStorage('carrinho') ? apiService.getStorage('carrinho').length : 0;
 
