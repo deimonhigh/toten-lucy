@@ -35,6 +35,10 @@ class ApiClientesController extends BaseController
     try {
       $json = (object)$request->all();
 
+      if (!isset($json->id)) {
+        $json->id = null;
+      }
+
       $clienteKpl = $this->saveClienteKpl($json);
 
       $idCliente = Cliente::updateOrCreate(
@@ -51,7 +55,7 @@ class ApiClientesController extends BaseController
               "codigo_cliente" => $clienteKpl->CadastrarClienteResult->Rows->DadosClientesResultado->Codigo,
           ]
       );
-      
+
       Endereco::where('idcliente', $idCliente['id'])->delete();
 
       foreach ($json->enderecos as $item) {

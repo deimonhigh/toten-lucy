@@ -114,8 +114,7 @@
                 vm.dados.uf = $filter('filter')(vm.estados, {'sigla': obj.uf.toUpperCase()}, true)[0];
                 vm.dados.cidadeTemp = obj.cidade;
               }
-            })
-
+            });
           }
 
         }, function (err) {
