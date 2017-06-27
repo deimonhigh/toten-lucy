@@ -133,6 +133,7 @@ class AdminConfigController extends BaseController
   public function cadastrarParcelas(Request $request)
   {
     $insert = [
+        'max_parcelas' => $request->get('max_parcelas'),
         'parcela0' => ($request->get('parcela0') ? str_replace(',', '.', (string)$request->get('parcela0')) : 0),
         'parcela1' => ($request->get('parcela1') ? str_replace(',', '.', (string)$request->get('parcela1')) : 0),
         'parcela2' => ($request->get('parcela2') ? str_replace(',', '.', (string)$request->get('parcela2')) : 0),

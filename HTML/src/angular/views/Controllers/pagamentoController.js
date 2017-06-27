@@ -9,7 +9,7 @@
     var vm = $scope;
     var root = $rootScope;
     vm.dadosVendedor = {};
-    vm.formaPagamento = {};
+    vm.formaPagamento = '';
     vm.editarPagamentoFlag = false;
     vm.cliente = apiService.getStorage('cliente');
     vm.formaPagamentoStorage = apiService.getStorage('formaPagamento');
@@ -54,6 +54,7 @@
       apiService.delStorage('comprovante');
       apiService.delStorage('cliente');
       apiService.delStorage('carrinho');
+      root.itensCarrinho = 0;
     };
 
     vm.editarPagamento = function () {
@@ -76,6 +77,9 @@
       var send = {};
       send.idcliente = vm.cliente.id;
       send.total = vm.formaPagamentoStorage.total;
+      send.totalSemJuros = vm.listaCompras.reduce(function (previousValue, obj) {
+        return previousValue + (obj.preco * obj.qnt);
+      }, 0);
       send.idPedido = vm.cliente.idPedido;
       send.img = vm.comprovante;
 
@@ -111,7 +115,9 @@
       }
     ];
 
-    for (var i = 1; i < 13; i++) {
+    var maxParcelas = root.temaStorage.max_parcelas;
+
+    for (var i = 1; i <= maxParcelas; i++) {
       var comJuros = vm.totalCarrinho + vm.totalCarrinho * (root.temaStorage['parcela' + i] / 100);
       var pagamento = {
         "index": i + 1,
@@ -122,9 +128,9 @@
       };
 
       if (root.temaStorage['parcela' + i] == 0) {
-        pagamento.descricao += " sem juros"
+        pagamento.descricao += " s/ juros"
       }
-      
+
       vm.listaPagamentos.push(pagamento);
     }
   }

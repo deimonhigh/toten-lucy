@@ -21,8 +21,10 @@
         ngModelCtrl.$parsers.push(function (value) {
           if (value) {
             var transformedInput = value.replace(/[^0-9]/g, '');
-            ngModelCtrl.$setViewValue(formatter(transformedInput.substring(0, 8)));
-            ngModelCtrl.$render();
+            $timeout(function () {
+              ngModelCtrl.$setViewValue(formatter(transformedInput.substring(0, 8)));
+              ngModelCtrl.$render();
+            });
 
             $timeout(function () {
               if (ngModelCtrl.$viewValue) {

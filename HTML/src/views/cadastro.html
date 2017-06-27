@@ -53,10 +53,7 @@
               O campo CPF/CNPJ é obrigatório.
             </div>
             <div class="error" ng-if="cadastroForm.documento.$error.cpf && cadastroForm.documento.$touched">
-              O campo CPF é inválido.
-            </div>
-            <div class="error" ng-if="cadastroForm.documento.$error.cnpj && cadastroForm.documento.$touched">
-              O campo CNPJ é inválido.
+              O campo CPF/CNPJ é inválido.
             </div>
           </div>
         </div>
@@ -140,6 +137,7 @@
                    ng-model="dados.cep"
                    class="form-control"
                    required
+                   ng-blur="procuraCep(dados.cep)"
                    ng-class="{'errorBorder': cadastroForm.cep.$invalid && cadastroForm.cep.$touched}"
             >
             <div class="error"
@@ -216,7 +214,7 @@
                     ng-options="item as item.nome for item in estados track by item.sigla"
                     ng-class="{'errorBorder': cadastroForm.uf.$invalid && cadastroForm.uf.$touched}"
             >
-              <option value selected>Selecione um estado</option>
+              <option value selected>Selecione</option>
             </select>
             <div class="error"
                  ng-if="cadastroForm.uf.$invalid && cadastroForm.uf.$touched">
@@ -226,7 +224,7 @@
         </div>
         <div class="grid-3 gutter column">
           <div class="form-group">
-            <label class="required">endereco</label>
+            <label class="required">cidade</label>
             <select name="cidade"
                     ng-model="dados.cidade"
                     ng-disabled="cadastroForm.uf.$invalid"
@@ -235,7 +233,8 @@
                     ng-options="item as item.nome for item in cidades track by item.cidade"
                     ng-class="{'errorBorder': cadastroForm.cidade.$invalid && cadastroForm.cidade.$touched}"
             >
-              <option value>Selecione uma cidade</option>
+              <option value ng-if="!cadastroForm.uf.$invalid">Selecione uma cidade</option>
+              <option value ng-if="cadastroForm.uf.$invalid">Selecione um estado</option>
             </select>
             <div class="error"
                  ng-if="cadastroForm.cidade.$invalid && cadastroForm.cidade.$touched">
@@ -276,6 +275,7 @@
                    cep
                    ng-model="dados.outro.cep"
                    class="form-control"
+                   ng-blur="procuraOutroCep(dados.outro.cep)"
                    ng-required="!dados.enderecoCerto"
                    ng-class="{'errorBorder': cadastroForm.outroCep.$invalid && cadastroForm.outroCep.$touched}">
             <div class="error"
@@ -362,7 +362,7 @@
         </div>
         <div class="grid-3 gutter column">
           <div class="form-group">
-            <label class="required">endereco</label>
+            <label class="required">cidade</label>
             <select name="outroCidade"
                     ng-model="dados.outro.cidade"
                     ng-disabled="cadastroForm.outroUf.$invalid"

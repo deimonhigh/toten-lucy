@@ -13,8 +13,6 @@
         ngModel: '=ngModel'
       },
       link: function (scope, element, attrs, ngModelCtrl) {
-        ngModelCtrl.$setValidity('cpf', true);
-
         ngModelCtrl.$formatters.push(function (value) {
           if (value) {
             return maskTelefone(value.substr(0, 11));
@@ -29,6 +27,7 @@
               if (ngModelCtrl.$viewValue) {
                 $timeout(function () {
                   ngModelCtrl.$setViewValue(maskTelefone(transformedInput.substring(0, 11)));
+                  ngModelCtrl.$render();
                 });
                 setCaretPosition(element[0], ngModelCtrl.$viewValue.length);
               }

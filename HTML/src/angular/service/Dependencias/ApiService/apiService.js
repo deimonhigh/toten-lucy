@@ -2,9 +2,9 @@
   "use strict";
 
   angular.module("appToten").service("apiService", apiService);
-  apiService.$inject = ['$http', 'localStorageService', '$q', 'base64Factory', 'config', '$timeout'];
+  apiService.$inject = ['$http', 'localStorageService', '$q', 'config', '$timeout'];
 
-  function apiService($http, localStorageService, $q, base64Factory, config, $timeout) {
+  function apiService($http, localStorageService, $q, config, $timeout) {
     //region STORAGE
     var _getStorage = function (storage) {
       var storage = localStorageService.get(storage);

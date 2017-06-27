@@ -1,4 +1,4 @@
-#snapshot{
+#snapshot {
   width      : 0;
   height     : 0;
   opacity    : 0;
@@ -59,21 +59,22 @@
     h3 {
       font          : 600 lh(30px, 110%) $nw;
       margin-top    : 0;
-      margin-bottom : 20px;
+      margin-bottom : 30px;
       color         : #FFFFFF;
     }
     p {
-      font       : 400 lh(16px, 130%) $nw;
-      margin-top : 0;
-      color      : #FFFFFF;
+      font          : 400 lh(16px, 130%) $nw;
+      margin-top    : 0;
+      margin-bottom : 0;
+      color         : #FFFFFF;
     }
   }
 
   .imgExample {
-    width     : 100%;
-    max-width : 400px;
-    display   : inline-block;
-    position  : relative;
+    width    : 425px;
+    height   : 325px;
+    display  : inline-block;
+    position : relative;
 
     &.OkFoto {
       background : #FFFFFF;
@@ -87,13 +88,15 @@
 
     video {
       display : block;
-      width   : 400px;
-      height  : auto;
+      width   : 425px;
+      height  : 325px;
     }
 
     img {
       display : block;
-      width   : 100%;
+      width   : auto;
+      height  : 100%;
+      margin  : 0 auto;
     }
   }
 

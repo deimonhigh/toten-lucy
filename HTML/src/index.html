@@ -10,12 +10,12 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <script type="text/javascript">if (document.location.protocol != "https:") {document.location = document.URL.replace(/^http:/i, "https:");}</script>
+  <!--<script type="text/javascript">if (document.location.protocol != "https:") {document.location = document.URL.replace(/^http:/i, "https:");}</script>-->
 
   <link rel="stylesheet" type="text/css" href="assets/css/style.min.css" />
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,600,700" rel="stylesheet">
 
   <style ng-bind="tema"></style>
 
@@ -27,15 +27,14 @@
     <div class="tableModal full fixed black animate-if" ng-if="foto">
       <div class="tCell">
         <div class="dib foto">
-          <div class="closeModal" ng-click="closeModal()"></div>
-          <div class="grid">
+          <div class="grid middle">
             <div class="column">
               <div class="img">
                 @@include('assets/imgs/fotos/webcam.svg')
               </div>
               <div class="right">
                 <h3>ANEXAR<br>COMPROVANTE</h3>
-                <p>POSICIONE O COMPROVANTE DO PAGEMENTO EM FRENTE A CÂMERA</p>
+                <p>POSICIONE O COMPROVANTE DO PAGAMENTO EM FRENTE A CÂMERA</p>
               </div>
             </div>
             <div class="column" ng-if="!confirmFoto">

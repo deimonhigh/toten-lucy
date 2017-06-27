@@ -48,11 +48,13 @@
 
   .listagem {
     li {
-      position : relative;
-      display  : block;
+      position      : relative;
+      display       : block;
       //margin   : 0 auto;
 
-      padding  : 20px;
+      margin-bottom : 30px;
+
+      padding       : 10px;
 
       a {
         text-decoration : none;
@@ -60,8 +62,8 @@
 
       .lupa {
         position   : absolute;
-        top        : 15px;
-        right      : 15px;
+        top        : 0;
+        right      : 0;
         padding    : 0px;
         width      : 40px;
         height     : 40px;
@@ -71,13 +73,13 @@
       img {
         display   : block;
         margin    : 10px auto;
-        max-width : 80%;
+        max-width : 100%;
       }
 
       .title {
         margin-top     : 20px;
         display        : block;
-        font           : 400 lh(14px, 100%) $lt;
+        font           : 600 lh(13px, 100%) $lt;
         color          : #212121;
         text-transform : uppercase;
         text-align     : left;
@@ -94,7 +96,7 @@
 
           .parcelamento {
             font-size   : 12px;
-            font-weight : 400;
+            font-weight : 600;
             display     : block;
           }
 
@@ -104,7 +106,7 @@
         }
 
         .total {
-          font           : 700 lh(15px, 100%) $lt;
+          font           : 700 lh(16px, 100%) $lt;
           color          : $default;
           flex-direction : column;
 
@@ -131,6 +133,8 @@
     flex-direction : column;
     max-height     : 420px;
     overflow       : auto;
+    flex           : 1 1 120px;
+    max-width      : 120px;
 
     li {
       display       : block;
@@ -142,6 +146,12 @@
         display : block;
       }
     }
+  }
+
+  .bigImg {
+    flex         : 1 1 460px;
+    max-width    : 460px;
+    margin-right : 40px;
   }
 
   .infos {
@@ -257,11 +267,11 @@
         color       : #999999;
         font-size   : 14px;
         line-height : 130%;
+        font-weight : 600;
       }
     }
 
     .btn {
-      width   : 60%;
       margin  : 10px 0 30px 0;
       padding : 12px 30px;
 
@@ -289,12 +299,12 @@
   }
 
   .listagem {
-    max-width : 70%;
-    margin    : 0 auto;
+    //max-width : 70%;
+    //margin    : 0 auto;
 
     li {
       position     : relative;
-      display      : block;
+      //display      : block;
       padding      : 10px;
       background   : #FFFFFF;
       border-right : 10px solid #EEEEEE;
@@ -333,7 +343,7 @@
         color          : #212121;
         text-transform : uppercase;
         text-align     : left;
-
+        margin-bottom  : 10px;
       }
     }
 

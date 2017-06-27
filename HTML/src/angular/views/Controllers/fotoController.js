@@ -28,8 +28,8 @@
     vm.patOpts = {
       x: 0,
       y: 0,
-      w: 400,
-      h: 400
+      w: 425,
+      h: 325
     };
 
     vm.channel = {};

@@ -16,80 +16,101 @@
   </a>
 
 </header>
-<section class="produto grid">
-  <ul class="listaImagens grid-1">
-    <li ng-repeat="item in produto.imagens" ng-click="changeImg(item)">
-      <a href="javascript:void (0);">
-        <img ng-src="{{ item.url }}" alt="{{ produto.nomeproduto }}">
-      </a>
-    </li>
-  </ul>
-  <div class="bigImg grid-5 noFlex">
-    <div ng-if="!produto.nomeproduto">Carregando..</div>
-    <img ng-src="{{ imagemGrande.url }}" alt="{{ produto.nomeproduto }}" style="max-width: 100%">
-  </div>
-  <div class="infos grid-6">
-    <div class="total" ng-if="produto.precopromocao > 0">
-      <span class="anterior" ng-bind="produto.preco | currency"></span>
-      <span class="valorTotal" ng-bind="produto.precopromocao | currency"></span>
+<section class="produto">
+  <div class="grid">
+    <ul class="listaImagens grid-1">
+      <li ng-repeat="item in produto.imagens" ng-click="changeImg(item)">
+        <a href="javascript:void (0);">
+          <img ng-src="{{ item.url }}" alt="{{ produto.nomeproduto }}">
+        </a>
+      </li>
+    </ul>
+    <div class="bigImg grid-5 noFlex">
+      <div ng-if="!produto.nomeproduto">Carregando..</div>
+      <img ng-src="{{ imagemGrande.url }}" alt="{{ produto.nomeproduto }}" style="max-width: 100%">
     </div>
-    <div class="total" ng-if="produto.precopromocao == 0">
-      <span class="valorTotal" ng-bind="produto.preco | currency"></span>
-    </div>
-    <div class="microInfo" ng-if="produto.precopromocao > 0">
-      <span>Ou em até <b>12X</b> com juros de <b ng-bind="(produto.precopromocao + (produto.precopromocao * temasItem.parcela12) / 100).toFixed(2) | currency"></b> </span>
-      <span>Ou à vista por <b ng-bind="(produto.precopromocao + (produto.precopromocao * temasItem.parcela1) / 100).toFixed(2) | currency"></b> com <b
-          ng-bind="temasItem.parcela1 + '%'"></b> de desconto</span>
-    </div>
-
-    <div class="microInfo" ng-if="produto.precopromocao == 0">
-      <span>Ou em até <b>12X</b> com juros de <b ng-bind="(produto.preco + (produto.preco * temasItem.parcela12) / 100).toFixed(2) | currency"></b> </span>
-      <span>Ou à vista por <b ng-bind="(produto.preco + (produto.preco * temasItem.parcela1) / 100).toFixed(2) | currency"></b> com <b
-          ng-bind="temasItem.parcela1 + '%'"></b> de desconto</span>
-    </div>
-
-    <div class="infoProduto">
-      <h4 ng-if="produto.cor.length > 0"><strong>Cor:</strong><span class="itemSelected" ng-bind="produto.cor"></span>
-      </h4>
-      <ul class="cores" ng-if="false">
-        <li ng-class="{'active':item.selected}"
-            ng-click="selectColor(item)"
-            ng-style="{'background-color': item.cor}"
-            ng-repeat="item in cores"></li>
-      </ul>
-    </div>
-
-    <div class="infoProduto">
-      <h4><strong>Quantidade:</strong></h4>
-      <div class="input-group">
-        <span class="input-group-addon pointer" ng-click="more()">
-          <i class="fa fa-plus"></i>
+    <div class="infos grid-4">
+      <div class="total" ng-if="produto.precopromocao > 0">
+        <span class="anterior" ng-bind="produto.preco | currency:'R$ '"></span>
+        <span class="valorTotal" ng-bind="produto.precopromocao | currency:'R$ '"></span>
+      </div>
+      <div class="total" ng-if="produto.precopromocao == 0">
+        <span class="valorTotal" ng-bind="produto.preco | currency:'R$ '"></span>
+      </div>
+      <div class="microInfo" ng-if="produto.precopromocao > 0">
+        <span>
+          Ou em até
+          <b ng-bind="temaStorage.max_parcelas + 'X'"></b>
+          com juros de
+          <b ng-bind="produto.comJuros | currency:'R$ '"></b>
         </span>
-        <input type="text" class="form-control" ng-model="qnt">
-        <span class="input-group-addon pointer" ng-click="minus()">
-          <i class="fa fa-minus"></i>
+        <span>
+          Ou à vista por
+          <b ng-bind="produto.semJuros | currency:'R$ '"></b>
+          com <b ng-bind="temaStorage.parcela0.toString().replace('.', ',').replace('-', '') + '%'"></b>
+          de desconto
         </span>
       </div>
+
+      <div class="microInfo" ng-if="produto.precopromocao == 0">
+        <span>
+          Ou em até
+          <b ng-bind="temaStorage.max_parcelas + 'X'"></b>
+          com juros de
+          <b ng-bind="produto.comJuros | currency:'R$ '"></b>
+        </span>
+        <span>
+          Ou à vista por
+          <b ng-bind="produto.semJuros | currency:'R$ '"></b>
+          com
+          <b ng-bind="temaStorage.parcela0.toString().replace('.', ',').replace('-', '') + '%'"></b>
+          de desconto
+        </span>
+      </div>
+
+      <div class="infoProduto">
+        <h4 ng-if="produto.cor.length > 0"><strong>Cor:</strong><span class="itemSelected" ng-bind="produto.cor"></span>
+        </h4>
+        <ul class="cores" ng-if="false">
+          <li ng-class="{'active':item.selected}"
+              ng-click="selectColor(item)"
+              ng-style="{'background-color': item.cor}"
+              ng-repeat="item in cores"></li>
+        </ul>
+      </div>
+
+      <div class="infoProduto">
+        <h4><strong>Quantidade:</strong></h4>
+        <div class="input-group">
+          <span class="input-group-addon pointer" ng-click="more()">
+            <i class="fa fa-plus"></i>
+          </span>
+          <input type="text" class="form-control" ng-model="qnt">
+          <span class="input-group-addon pointer" ng-click="minus()">
+            <i class="fa fa-minus"></i>
+          </span>
+        </div>
+      </div>
+
+      <button class="btn" ng-click="addCarrinho(produto)">
+        <span>
+          @@include('../assets/imgs/produto/cart.svg')
+        </span>
+        ADICIONAR AO CARRINHO
+      </button>
+
+      <div class="infoProduto">
+        <h4><strong>DESCRIÇÃO:</strong></h4>
+        <p ng-if="produto.descricao.length > 0" ng-bind="produto.descricao"></p>
+      </div>
+
     </div>
-
-    <button class="btn" ng-click="addCarrinho(produto)">
-      <span>
-        @@include('../assets/imgs/produto/cart.svg')
-      </span>
-      ADICIONAR AO CARRINHO
-    </button>
-
-    <div class="infoProduto">
-      <h4><strong>DESCRIÇÃO:</strong></h4>
-      <p ng-if="produto.descricao.length > 0" ng-bind="produto.descricao"></p>
-    </div>
-
   </div>
 </section>
 <section class="full produtosRelacionados" ng-if="produtosRelacionados.length > 0">
   <h2>Produtos relacionados</h2>
-  <ul class="grid listagem align-left">
-    <li class="grid-3" ng-repeat="item in produtosRelacionados">
+  <ul class="grid listagem stretch">
+    <li class="grid-2" ng-repeat="item in produtosRelacionados">
       <a ui-sref="produto({id: item.id})">
         <button class="btn lupa">
           <i class="fa fa-search" aria-hidden="true"></i>

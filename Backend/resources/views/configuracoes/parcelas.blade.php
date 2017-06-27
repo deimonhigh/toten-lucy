@@ -7,7 +7,7 @@
                 <form action="{{ url(route('cadastrarParcelas')) }}"
                       method="post"
                       class="validate"
-                      enctype="multipart/form-data">
+                >
                     {{ csrf_field() }}
                     <input type="hidden"
                            name="id"
@@ -18,6 +18,19 @@
                            aplicação.</p>
                     </div>
                     <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label" style="width: 100%;">Parcelamento máximo</label>
+                                    <select name="max_parcelas" class="form-control">
+                                        @for($i = 1; $i < 13; $i++)
+                                            <option value="{{ $i }}"
+                                                    @if($dados->max_parcelas == $i) selected @endif>{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div><!-- col-sm-6 -->
+                        </div><!-- row -->
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">

@@ -19,7 +19,7 @@
 
     vm.removerItem = function (item) {
       vm.listaCompras = vm.listaCompras.filter(function (filtro) {
-        return filtro.$$hashKey != item.$$hashKey;
+        return filtro.codigobarras != item.codigobarras;
       });
 
       apiService.setStorage('carrinho', vm.listaCompras);
@@ -28,7 +28,7 @@
     };
 
     vm.calcTotalItem = function (item) {
-      if (item.qnt.length == 0 || item.qnt == 0) {
+      if (item.qnt.length === 0 || item.qnt === 0) {
         item.qnt = 0;
 
         vm.removerItem(item)
@@ -45,7 +45,7 @@
       }
 
       if (item.qnt == 0) {
-        vm.removerItem(item);
+        $timeout(function () { vm.removerItem(item); });
       }
 
       helperCarrinho(item, item.qnt);
@@ -77,6 +77,13 @@
         vm.listaCompras.push(item);
         apiService.setStorage('carrinho', vm.listaCompras);
       }
+    };
+
+    vm.limparCarrinho = function () {
+      apiService.delStorage('carrinho');
+      root.itensCarrinho = 0;
+      vm.listaCompras = [];
+      calcTotal();
     };
 
     calcTotal();

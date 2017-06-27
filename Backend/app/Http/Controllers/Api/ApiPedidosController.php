@@ -30,7 +30,7 @@ class ApiPedidosController extends BaseController
 
       $cliente = Cliente::find($request->idcliente);
 
-      $this->savePedidosKpl($request, $cliente, $url);
+//      $this->savePedidosKpl($request, $cliente, $url);
 
       foreach ($request->produtos as $produto) {
         $temp = new Pedidosproduto();
@@ -43,7 +43,7 @@ class ApiPedidosController extends BaseController
 
       $pedido = Pedido::find($request->idPedido);
       $pedido->cliente_id = $request->idcliente;
-      $pedido->total = $request->total;
+      $pedido->total = $request->totalSemJuros;
       $pedido->parcelas = $request->parcelas;
       $pedido->comprovante = $img;
       $pedido->status = TRUE;

@@ -82,7 +82,7 @@
                             @endif
                         @endforeach
                     @endif
-                    
+
                     @if(count($dados->produtos) > 0)
                         <h3 class="bbottom">Produtos</h3>
                         <div class="row">
@@ -99,7 +99,13 @@
                                             Nome do produto
                                         </th>
                                         <th>
+                                            Preço unitário
+                                        </th>
+                                        <th>
                                             Quantidade
+                                        </th>
+                                        <th>
+                                            Preço Total
                                         </th>
                                     </thead>
                                     <tbody>
@@ -115,7 +121,13 @@
                                                     {{ $produto->produto->nomeproduto }}
                                                 </td>
                                                 <td>
+                                                    {{ 'R$' . number_format($produto->produto->preco, 2) }}
+                                                </td>
+                                                <td>
                                                     {{ $produto->quantidade }}
+                                                </td>
+                                                <td>
+                                                    {{ 'R$' . number_format(($produto->quantidade * $produto->produto->preco), 2) }}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -138,10 +150,6 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-6">
-                            <h5>Total sem juros</h5>
-                            <p><strong>{{ 'R$' . number_format($dados->total , 2) }}</strong></p>
-                        </div>
                         <div class="col-sm-6">
                             <h5>Número de parcelas</h5>
                             <p><strong>{{ $dados->parcelas }}</strong></p>

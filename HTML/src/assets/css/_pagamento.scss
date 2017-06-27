@@ -20,7 +20,7 @@
     }
 
     p {
-      font           : 400 lh(16px, 150%) $op;
+      font           : 400 lh(18px, 150%) $op;
       color          : #999999;
       text-transform : none;
       padding-right  : 45px;
@@ -74,10 +74,10 @@
 
   .loginVendedor {
     flex-direction : column;
-    padding        : 50px 0 0 30px;
+    padding        : 25px 0 0 30px;
 
     h3 {
-      font    : 600 lh(30px, 100%) $nw;
+      font    : 600 lh(20px, 100%) $nw;
       color   : $default;
       display : block;
       margin  : 0 0 10px 0;
@@ -91,13 +91,33 @@
     .formField {
       padding-right : 130px;
       position      : relative;
-      padding-top   : 40px;
+      padding-top   : 20px;
 
       select {
         height                : 50px;
         -webkit-border-radius : 0;
         -moz-border-radius    : 0;
         border-radius         : 0;
+        -webkit-appearance    : none;
+        -moz-appearance       : none;
+        appearance            : none;
+        min-height            : 50px;
+        border                : 1px solid #E4E4E4;
+        color                 : #222222;
+        background            : #F5F5F5 $select no-repeat 100% center;
+
+        &.noBg {
+          background-image : none;
+        }
+
+        option {
+          display       : block;
+          padding       : 7px;
+          float         : none;
+          clear         : both;
+          border-bottom : #E4E4E4 1px solid;
+          color         : #222222;
+        }
       }
 
       .input-group-addon {
@@ -121,7 +141,7 @@
       .img {
         width    : 130px;
         position : absolute;
-        bottom   : 10px;
+        bottom   : -15px;
         right    : 0;
 
         img {
@@ -135,12 +155,34 @@
         color          : #222222;
         text-transform : uppercase;
       }
+
+      &.loginForm {
+        input {
+          padding-left : 0;
+          font-size    : 16px;
+          color        : #222222;
+        }
+
+        ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+          color : #222222;
+        }
+        ::-moz-placeholder { /* Firefox 19+ */
+          color : #222222;
+        }
+        :-ms-input-placeholder { /* IE 10+ */
+          color : #222222;
+        }
+        :-moz-placeholder { /* Firefox 18- */
+          color : #222222;
+        }
+
+      }
     }
   }
 
   .finalizacao {
     flex-direction : column;
-    padding        : 0 30px 0 30px;
+    padding        : 0 0 0 60px;
 
     h3 {
       font    : 600 lh(35px, 120%) $nw;
@@ -179,8 +221,8 @@
             td {
               border         : 0;
               text-transform : uppercase;
-              font           : 600 lh(14px, 100%) $lt;
-              color          : #777777;
+              font           : 600 lh(13px, 100%) $lt;
+              color          : #222222;
               vertical-align : middle;
 
               span {
@@ -207,12 +249,12 @@
     }
 
     h2 {
-      font           : 600 lh(30px, 150%) $nw;
+      font           : 600 lh(20px, 150%) $nw;
       text-transform : uppercase;
       color          : $default;
 
       b {
-        font-size   : 24px;
+        font-size   : 18px;
         color       : #232323;
         margin-left : 20px;
       }
@@ -241,6 +283,7 @@
           text-align : right;
           display    : block;
           width      : 100%;
+          font-size  : 16px;
           color      : #999999;
         }
 

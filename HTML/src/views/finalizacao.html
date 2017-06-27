@@ -28,31 +28,34 @@
     </li>
   </ul>
 </header>
-<section class="pagamento grid">
-  <div class="grid-3 obrigado">
-    <h3>OBRIGADO!</h3>
-    <h4 ng-bind="cliente.nome"></h4>
-    <p>Estamos muito felizes por você estar adiquirindo estes belísimos móveis, temos certeza que sua casa ou escritório
-       vai ficar ainda mais bonito.</p>
-  </div>
-  <div class="grid-3 blocos">
-    <ul>
-      <li class="pedido">
-        <b>número do pedido</b>
-        {{ idPedido }}
-      </li>
-      <li class="total">
-        <span>valor total do pedido</span>
-        <strong ng-bind="formaPagamentoStorage.total | currency"></strong>
-        <span class="parcelas"
-              ng-if="formaPagamentoStorage.parcelas > 0">em <b ng-bind="formaPagamentoStorage.parcelas + 'X'"></b> no cartão</span>
-      </li>
-    </ul>
-  </div>
-  <div class="grid-6 finalizacao">
-    <h3>PEDIDO<br>REALIZADO</h3>
-    <div class="img">
-      <img ng-src="{{ comprovante }}" alt="Comprovante do Pedido">
+<section class="pagamento">
+  <div class="grid">
+    <div class="grid-4 obrigado">
+      <h3>OBRIGADO!</h3>
+      <h4 ng-bind="cliente.nome"></h4>
+      <p>Estamos muito felizes por você estar adiquirindo estes belísimos móveis, temos certeza que sua casa ou
+         escritório
+         vai ficar ainda mais bonito.</p>
+    </div>
+    <div class="grid-3 blocos">
+      <ul>
+        <li class="pedido">
+          <b>número do pedido</b>
+          {{ idPedido }}
+        </li>
+        <li class="total">
+          <span>valor total do pedido</span>
+          <strong ng-bind="formaPagamentoStorage.total | currency"></strong>
+          <span class="parcelas"
+                ng-if="formaPagamentoStorage.parcelas > 0">em <b ng-bind="formaPagamentoStorage.parcelas + 'X'"></b> no cartão</span>
+        </li>
+      </ul>
+    </div>
+    <div class="grid-5 finalizacao">
+      <h3>PEDIDO<br>REALIZADO</h3>
+      <div class="img">
+        <img ng-src="{{ comprovante }}" alt="Comprovante do Pedido">
+      </div>
     </div>
   </div>
 </section>

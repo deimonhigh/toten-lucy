@@ -16,7 +16,7 @@
       "telefone": null,
       "celular": null,
       "enderecos": [],
-    }
+    };
 
     vm.dados = {};
     vm.dados.enderecoCerto = true;
@@ -30,10 +30,11 @@
       };
     });
 
+    //region Procura Cidades
     vm.$watch(function ($scope) {
       return $scope.dados.uf;
     }, function (nVal) {
-      if (nVal != undefined) {
+      if (nVal) {
         vm.procuraCidades(nVal);
       }
     });
@@ -54,7 +55,7 @@
     vm.$watch(function ($scope) {
       return $scope.dados.outro.uf;
     }, function (nVal) {
-      if (nVal != undefined) {
+      if (nVal) {
         vm.procuraCidadesOutro(nVal);
       }
     });
@@ -71,6 +72,25 @@
 
       root.$broadcast('cidadeLoadedOutro');
     };
+    //endregion
+
+    //region Carregar Cidades
+    vm.$on('cidadeLoaded', function () {
+      if (vm.dados.cidadeTemp) {
+        var temp = $filter('filter')(vm.cidades, {'cidade': latinizeService.latinize(vm.dados.cidadeTemp).toUpperCase()}, true);
+        vm.dados.cidade = temp && temp[0] ? temp[0] : {};
+        delete vm.dados.cidadeTemp;
+      }
+    });
+
+    vm.$on('cidadeLoadedOutro', function () {
+      if (vm.dados.outro.cidadeTempOutro) {
+        var tempOutro = $filter('filter')(vm.cidadesOutro, {'cidade': latinizeService.latinize(vm.dados.outro.cidadeTempOutro).toUpperCase()}, true);
+        vm.dados.outro.cidade = tempOutro && tempOutro[0] ? tempOutro[0] : {};
+        delete vm.dados.outro.cidadeTempOutro;
+      }
+    });
+    //endregion
 
     vm.procurarCliente = function (cpf) {
       if (!cpf || cpf.length < 11) {
@@ -122,22 +142,6 @@
         });
     };
 
-    vm.$on('cidadeLoaded', function () {
-      if (vm.dados.cidadeTemp) {
-        var temp = $filter('filter')(vm.cidades, {'cidade': latinizeService.latinize(vm.dados.cidadeTemp).toUpperCase()}, true);
-        vm.dados.cidade = temp && temp[0] ? temp[0] : {};
-        delete vm.dados.cidadeTemp;
-      }
-    });
-
-    vm.$on('cidadeLoadedOutro', function () {
-      if (vm.dados.outro.cidadeTempOutro) {
-        var tempOutro = $filter('filter')(vm.cidadesOutro, {'cidade': latinizeService.latinize(vm.dados.outro.cidadeTempOutro).toUpperCase()}, true);
-        vm.dados.outro.cidade = tempOutro && tempOutro[0] ? tempOutro[0] : {};
-        delete vm.dados.outro.cidadeTempOutro;
-      }
-    });
-
     vm.salvarDados = function () {
       var enviar = angular.copy(vm.dados);
       enviarParaSalvar.enderecos = [];
@@ -181,8 +185,41 @@
       }, function (err) {
 //        console.log(err);
       })
-    }
-  }
+    };
 
+    var limpaEndereco = function () {
+      vm.dados.endereco = "";
+      vm.dados.bairro = "";
+      vm.dados.uf = "";
+      delete vm.dados.cidadeTemp;
+    };
+
+    var limpaOutroEndereco = function () {
+      vm.dados.outro.endereco = "";
+      vm.dados.outro.bairro = "";
+      vm.dados.outro.uf = "";
+      delete vm.dados.outro.cidadeTempOutro;
+    };
+
+    vm.procuraCep = function (cep) {
+      apiService.cep(cep).then(function (res) {
+        limpaEndereco();
+        vm.dados.endereco = res.logradouro;
+        vm.dados.bairro = res.bairro;
+        vm.dados.uf = $filter('filter')(vm.estados, {'sigla': res.uf}, true)[0];
+        vm.dados.cidadeTemp = res.localidade;
+      });
+    };
+
+    vm.procuraOutroCep = function (cep) {
+      apiService.cep(cep).then(function (res) {
+        limpaOutroEndereco();
+        vm.dados.outro.endereco = res.logradouro;
+        vm.dados.outro.bairro = res.bairro;
+        vm.dados.outro.uf = $filter('filter')(vm.estados, {'sigla': res.uf}, true)[0];
+        vm.dados.outro.cidadeTempOutro = res.localidade;
+      });
+    };
+  }
 })
 (angular);

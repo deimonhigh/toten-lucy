@@ -14,6 +14,8 @@
       return
     }
 
+    vm.maxParcelas = root.temaStorage['parcela' + root.temaStorage.max_parcelas];
+
     vm.menuActive = $stateParams.categoria;
 
     vm.loading = false;
@@ -31,7 +33,7 @@
     if (categoriasItem.categorias) {
       var itensDoFiltro = categoriasItem.categorias.map(function (obj) {
         return obj.codigocategoria;
-      })
+      });
 
       var filtro = {
         "itens": itensDoFiltro
