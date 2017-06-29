@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller as BaseController;
 use App\Http\Controllers\Model\Atualizacao;
 use App\Http\Controllers\Model\Imagemproduto;
-use App\Http\Controllers\Model\Pedido;
 use App\Http\Controllers\Model\Produto;
 use Carbon\Carbon;
 
@@ -102,8 +101,10 @@ class AdminProdutosController extends BaseController
                 'codigoproduto' => $row->CodigoProduto,
                 'nomeproduto' => $row->NomeProduto,
                 'descricao' => $row->Descricao,
-                'preco' => $row->PrecoTabela2,
-                'precopromocao' => $row->PrecoPromocao2,
+                'preco1' => 0,
+                'precopromocao1' => 0,
+                'preco2' => 0,
+                'precopromocao2' => 0,
                 'cor' => $cor ? $cor->Descricao : null
             ]
         );
@@ -112,8 +113,6 @@ class AdminProdutosController extends BaseController
         if ($categoriasIncluir) {
           $produto->categorias()->attach($categoriasIncluir);
         }
-
-
       endforeach;
 
       //region Confirma Produtos
@@ -133,27 +132,7 @@ class AdminProdutosController extends BaseController
     //endregion
 
     //region Atualiza os Preços
-    if (count($protocoloProduto) > 0) {
-      $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
-      $function = 'PrecosDisponiveis';
-      $arguments = [
-          'PrecosDisponiveis' => [
-              'ChaveIdentificacao' => '77AD990B-6138-4065-9B86-8D30119C09D3'
-          ]
-      ];
-      $result = $client->__soapCall($function, $arguments);
-
-      $listaPreco = $result->PrecosDisponiveisResult->Rows->DadosPreco;
-
-      foreach ($listaPreco as $item) {
-        $produto = Produto::where('codigoprodutoabaco', $item->CodigoProdutoAbacos)->first();
-        if ($produto):
-          $produto->preco = $item->PrecoTabela;
-          $produto->precopromocao = $item->PrecoPromocional;
-          $produto->save();
-        endif;
-      }
-    }
+    $this->atualizaPrecos($protocoloProduto);
     //endregion
 
     $this->findFiles();
@@ -167,6 +146,43 @@ class AdminProdutosController extends BaseController
   {
     $this->importarProdutos();
     return redirect(route('produtos'));
+  }
+
+  private function atualizaPrecos($countProduto)
+  {
+    if (count($countProduto) > 0) {
+      $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
+      $function = 'PrecosDisponiveis';
+      $arguments = [
+          'PrecosDisponiveis' => [
+              'ChaveIdentificacao' => '77AD990B-6138-4065-9B86-8D30119C09D3'
+          ]
+      ];
+      $result = $client->__soapCall($function, $arguments);
+
+      $listaPreco = $this->array_group_by($result->PrecosDisponiveisResult->Rows->DadosPreco, function ($i) {
+        return $i->CodigoProdutoAbacos;
+      });
+
+      foreach ($listaPreco as $key => $item) {
+        $item1 = array_values(array_filter($item, function ($obj) {
+          return strcmp($obj->NomeLista, "LISTA_LOJA");
+        }));
+
+        $item2 = array_values(array_filter($item, function ($obj) {
+          return !strcmp($obj->NomeLista, "LISTA_LOJA");
+        }));
+
+        $produto = Produto::where('codigoprodutoabaco', $key)->first();
+        if ($produto):
+          $produto->preco1 = count($item1) > 0 ? $item1[0]->PrecoTabela : 0;
+          $produto->precopromocao1 = count($item1) > 0 ? $item1[0]->PrecoPromocional : 0;
+          $produto->preco2 = count($item2) > 0 ? $item2[0]->PrecoTabela : 0;
+          $produto->precopromocao2 = count($item2) > 0 ? $item2[0]->PrecoPromocional : 0;
+          $produto->save();
+        endif;
+      }
+    }
   }
 
   private function findFiles()
@@ -215,5 +231,16 @@ class AdminProdutosController extends BaseController
     Imagemproduto::insert($insert);
 
   }
-  
+
+  private function array_group_by(array $arr, callable $key_selector)
+  {
+    $result = array();
+    foreach ($arr as $i) {
+      $key = call_user_func($key_selector, $i);
+      $result[$key][] = $i;
+    }
+    return $result;
+  }
+
+
 }

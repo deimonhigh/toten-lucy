@@ -121,13 +121,13 @@
                                                     {{ $produto->produto->nomeproduto }}
                                                 </td>
                                                 <td>
-                                                    {{ 'R$' . number_format($produto->produto->preco, 2) }}
+                                                    {{ 'R$' . number_format($produto->produto->preco, 2, ',', '.') }}
                                                 </td>
                                                 <td>
                                                     {{ $produto->quantidade }}
                                                 </td>
                                                 <td>
-                                                    {{ 'R$' . number_format(($produto->quantidade * $produto->produto->preco), 2) }}
+                                                    {{ 'R$' . number_format(($produto->quantidade * $produto->produto->preco), 2, ',', '.') }}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -141,11 +141,11 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <h5>Total sem juros</h5>
-                            <p><strong>{{ 'R$' . number_format($dados->total , 2) }}</strong></p>
+                            <p><strong>{{ 'R$' . number_format($dados->total , 2, ',', '.') }}</strong></p>
                         </div>
                         <div class="col-sm-6">
                             <h5>Total a pagar</h5>
-                            <p><strong>{{ 'R$' . number_format($dados->totalComJuros, 2) }}</strong></p>
+                            <p><strong>{{ 'R$' . number_format($dados->totalComJuros, 2, ',', '.') }}</strong></p>
                         </div>
                     </div>
 

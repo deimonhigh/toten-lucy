@@ -16,8 +16,10 @@ class Produto extends Model
       "descricao",
       "cor",
       "categoriaId",
-      "preco",
-      "precopromocao",
+      "preco1",
+      "precopromocao1",
+      "preco2",
+      "precopromocao2",
   ];
 
   protected $hidden = [

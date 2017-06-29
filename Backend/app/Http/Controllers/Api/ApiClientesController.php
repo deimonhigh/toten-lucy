@@ -16,9 +16,7 @@ class ApiClientesController extends BaseController
     try {
       $documento = preg_replace('[^0-9]', '', $documento);
 
-      $cliente = Cliente::where('documento', $documento)->firstOrFail();
-
-      $cliente->enderecos = $cliente->enderecos;
+      $cliente = Cliente::with('enderecos')->where('documento', $documento)->firstOrFail();
 
       return $this->Ok($cliente);
     }
@@ -48,7 +46,7 @@ class ApiClientesController extends BaseController
 
       $idCliente = Cliente::updateOrCreate(
           [
-              'id' => $json->id
+              'documento' => $json->documento
           ],
           [
               "documento" => $json->documento,

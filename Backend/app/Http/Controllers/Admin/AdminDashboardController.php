@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller as BaseController;
 use App\Http\Controllers\Model\Atualizacao;
 use App\Http\Controllers\Model\Pedido;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AdminDashboardController extends BaseController
@@ -22,15 +23,47 @@ class AdminDashboardController extends BaseController
     $data['submenu'] = "";
     //endregion
 
-    $data['qntPedidos'] = Pedido::all()->count();
-    $data['somaTotalPedidos'] = Pedido::all()->sum('total');
-    $data['somaTotalPedidosEnviados'] = Pedido::where('status', true)->sum('total');
+//    Usuario Loja
+    if (!Auth::user()->type) {
+      $data['qntPedidos'] = Pedido::where('user_id', Auth::id())->get()->count();
+      $data['somaTotalPedidos'] = Pedido::where('user_id', Auth::id())->get()->sum('total');
+      $data['somaTotalPedidosEnviados'] = Pedido::where(function ($q) {
+        $q->where('status', true);
+        $q->where('user_id', Auth::id());
+      })->sum('total');
 
-    $data['qntPedidosEsteMes'] = Pedido::where(DB::raw('MONTH(created_at)'), '=', date('n'))->count();
-    $data['somaPedidosEsteMes'] = Pedido::where(DB::raw('MONTH(created_at)'), '=', date('n'))->sum('total');
+      $data['qntPedidosEsteMes'] = Pedido::where(function ($q) {
+        $q->where(DB::raw('MONTH(created_at)'), '=', date('n'));
+        $q->where('user_id', Auth::id());
+      })->count();
 
-    $data['qntPedidosMesPassado'] = Pedido::where(DB::raw('MONTH(created_at)'), '=', date('n', strtotime("last month")))->count();
-    $data['somaPedidosMesPassado'] = Pedido::where(DB::raw('MONTH(created_at)'), '=', date('n', strtotime("last month")))->sum('total');
+      $data['somaPedidosEsteMes'] = Pedido::where(function ($q) {
+        $q->where(DB::raw('MONTH(created_at)'), '=', date('n'));
+        $q->where('user_id', Auth::id());
+      })->sum('total');
+
+      $data['qntPedidosMesPassado'] = Pedido::where(function ($q) {
+        $q->where(DB::raw('MONTH(created_at)'), '=', date('n', strtotime("last month")));
+        $q->where('user_id', Auth::id());
+      })->count();
+      $data['somaPedidosMesPassado'] = Pedido::where(function ($q) {
+        $q->where(DB::raw('MONTH(created_at)'), '=', date('n', strtotime("last month")));
+        $q->where('user_id', Auth::id());
+      })->sum('total');
+
+    }
+    else {
+//      Pedidos ADMIN
+      $data['qntPedidos'] = Pedido::all()->count();
+      $data['somaTotalPedidos'] = Pedido::all()->sum('total');
+      $data['somaTotalPedidosEnviados'] = Pedido::where('status', true)->sum('total');
+
+      $data['qntPedidosEsteMes'] = Pedido::where(DB::raw('MONTH(created_at)'), '=', date('n'))->count();
+      $data['somaPedidosEsteMes'] = Pedido::where(DB::raw('MONTH(created_at)'), '=', date('n'))->sum('total');
+
+      $data['qntPedidosMesPassado'] = Pedido::where(DB::raw('MONTH(created_at)'), '=', date('n', strtotime("last month")))->count();
+      $data['somaPedidosMesPassado'] = Pedido::where(DB::raw('MONTH(created_at)'), '=', date('n', strtotime("last month")))->sum('total');
+    }
 
     $datas = Atualizacao::first();
 

@@ -41,17 +41,6 @@
                         @endif
                     </div>
 
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h5>Preço do Produto</h5>
-                            <p><strong>{{ "R$ " . number_format($dados->preco, 2,',','.') }}</strong></p>
-                        </div>
-                        <div class="col-sm-6">
-                            <h5>Preço do Produto em promoção</h5>
-                            <p><strong>{{ "R$ " . number_format($dados->precopromocao, 2,',','.') }}</strong></p>
-                        </div>
-                    </div>
-
                     @if(strlen($dados->descricao) > 0)
                         <div class="row">
                             <div class="col-sm-12">
@@ -68,6 +57,30 @@
                                 <p><strong>{{ $dados->cor }}</strong></p>
                             </div>
                         @endif
+                    </div>
+
+                    <div class="row">
+                        <h3 class="col-md-12">Tabela da Precos 1</h3>
+                        <div class="col-sm-6">
+                            <h5>Preço do Produto</h5>
+                            <p><strong>{{ "R$ " . number_format($dados->preco1, 2,',','.') }}</strong></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <h5>Preço do Produto em promoção</h5>
+                            <p><strong>{{ "R$ " . number_format($dados->precopromocao1, 2,',','.') }}</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <h3 class="col-md-12">Tabela da Precos 2</h3>
+                        <div class="col-sm-6">
+                            <h5>Preço do Produto</h5>
+                            <p><strong>{{ "R$ " . number_format($dados->preco2, 2,',','.') }}</strong></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <h5>Preço do Produto em promoção</h5>
+                            <p><strong>{{ "R$ " . number_format($dados->precopromocao2, 2,',','.') }}</strong></p>
+                        </div>
                     </div>
 
                 </div><!-- panel-body -->

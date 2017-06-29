@@ -38,7 +38,7 @@ Route::group(['prefix' => 'admin'], function () {
 });
 //endregion
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'gate']], function () {
   //region Dashboard
   Route::get('/dashboard', 'Admin\AdminDashboardController@index')->name('home');
   //endregion
@@ -98,7 +98,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   });
   //endregion
 
-  //region Vendedores
+  //region Usuários
   Route::group(['prefix' => 'usuarios'], function () {
     Route::get('/', 'Admin\AdminUsuariosController@index')->name('usuarios');
     Route::get('/detalhes/{id}', 'Admin\AdminUsuariosController@detalhes')->name('usuariosDetalhe');
@@ -106,6 +106,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/editar/{id}', 'Admin\AdminUsuariosController@editar')->name('usuariosEditar');
     Route::get('/deletar/{id}', 'Admin\AdminUsuariosController@excluir')->name('usuariosDeletar');
     Route::post('/cadastrar', 'Admin\AdminUsuariosController@cadastrar')->name('usuariosCadastrar');
+  });
+  //endregion
+
+  //region Lojas
+  Route::group(['prefix' => 'lojas'], function () {
+    Route::get('/', 'Admin\AdminUsuariosController@lojas')->name('lojas');
+    Route::get('/detalhes/{id}', 'Admin\AdminUsuariosController@detalhesLojas')->name('lojasDetalhe');
+    Route::get('/cadastro', 'Admin\AdminUsuariosController@cadastroLojas')->name('lojasCadastro');
+    Route::get('/editar/{id}', 'Admin\AdminUsuariosController@editarLojas')->name('lojasEditar');
+    Route::get('/deletar/{id}', 'Admin\AdminUsuariosController@excluirLojas')->name('lojasDeletar');
+    Route::post('/cadastrar', 'Admin\AdminUsuariosController@cadastrarLojas')->name('lojasCadastrar');
   });
   //endregion
 

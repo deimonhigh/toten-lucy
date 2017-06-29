@@ -7,10 +7,10 @@ use App\Http\Controllers\RestController as BaseController;
 
 class ApiConfigController extends BaseController
 {
-  public function show($tema)
+  public function show($email)
   {
     try {
-      $retorno = Configuracao::findOrFail($tema);
+      $retorno = Configuracao::where('email', $email)->firstOrFail();
 
       if ($retorno->banner){
         $retorno->banner = url('storage/' . $retorno->banner);

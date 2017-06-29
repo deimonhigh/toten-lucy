@@ -8,6 +8,7 @@ use App\Http\Controllers\Model\Configuracao;
 use App\Http\Controllers\Model\Pedido;
 use App\Http\Controllers\Model\Pedidosproduto;
 use App\Http\Controllers\RestController as BaseController;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -41,14 +42,17 @@ class ApiPedidosController extends BaseController
         $temp->save();
       }
 
+      $user = User::where('email', $request->email)->first();
+
       $pedido = Pedido::find($request->idPedido);
       $pedido->cliente_id = $request->idcliente;
       $pedido->total = $request->totalSemJuros;
       $pedido->parcelas = $request->parcelas;
       $pedido->comprovante = $img;
       $pedido->status = TRUE;
+      $pedido->user_id = $user->id;
       $pedido->save();
-      
+
       $update = Atualizacao::findOrNew(1);
       $update->pedidos = Carbon::now();
       $update->save();

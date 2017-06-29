@@ -26,7 +26,7 @@ class AdminClientesController extends BaseController
       $data['dados'] = Cliente::where(function ($q) use ($pesquisa) {
         $q->Where('nome', 'LIKE', "%{$pesquisa}%");
         $q->orWhere('documento', 'LIKE', "%{$pesquisa}%");
-      })->paginate(1);
+      })->paginate(15);
     } else {
       $data['dados'] = Cliente::paginate(15);
     }

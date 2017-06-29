@@ -22,7 +22,7 @@ class AdminConfigController extends BaseController
     $data['submenu'] = "tema";
     //endregion
 
-    $config = Configuracao::find(1);
+    $config = Configuracao::where('userId', Auth::id())->first();
     $data['dados'] = is_null($config) ? new Configuracao() : $config;
 
     if (!$data['dados']) {
@@ -45,7 +45,7 @@ class AdminConfigController extends BaseController
     $data['submenu'] = "parcelas";
     //endregion
 
-    $config = Configuracao::find(1);
+    $config = Configuracao::where('userId', Auth::id())->first();
     $data['dados'] = is_null($config) ? new Configuracao() : $config;
 
     return view('configuracoes.parcelas', $data);
@@ -63,7 +63,7 @@ class AdminConfigController extends BaseController
     $data['submenu'] = "banner";
     //endregion
 
-    $config = Configuracao::find(1);
+    $config = Configuracao::where('userId', Auth::id())->first();
     $data['dados'] = is_null($config) ? new Configuracao() : $config;
     $data['produtos'] = Produto::all();
 
@@ -93,7 +93,7 @@ class AdminConfigController extends BaseController
     }
 
     Configuracao::updateOrCreate(
-        ['id' => 1],
+        ['userId' => Auth::id()],
         $insert
     );
 
@@ -123,7 +123,7 @@ class AdminConfigController extends BaseController
     }
 
     Configuracao::updateOrCreate(
-        ['id' => 1],
+        ['userId' => Auth::id()],
         $insert
     );
 
@@ -134,6 +134,7 @@ class AdminConfigController extends BaseController
   {
     $insert = [
         'max_parcelas' => $request->get('max_parcelas'),
+        'listaPreco' => $request->get('listaPreco'),
         'parcela0' => ($request->get('parcela0') ? str_replace(',', '.', (string)$request->get('parcela0')) : 0),
         'parcela1' => ($request->get('parcela1') ? str_replace(',', '.', (string)$request->get('parcela1')) : 0),
         'parcela2' => ($request->get('parcela2') ? str_replace(',', '.', (string)$request->get('parcela2')) : 0),
@@ -150,7 +151,7 @@ class AdminConfigController extends BaseController
     ];
 
     Configuracao::updateOrCreate(
-        ['id' => 1],
+        ['userId' => Auth::id()],
         $insert
     );
 

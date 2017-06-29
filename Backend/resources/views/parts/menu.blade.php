@@ -22,35 +22,36 @@
             </a>
         </li>
 
-        <li class="nav-parent @if($menu == 'categorias') active @endif">
-            <a href="javascript:void (0);">
-                <i class="fa fa-tags"></i>
-                <span>Categorias</span>
-            </a>
-            <ul class="children" @if($menu == 'categorias') style="display: block;" @endif>
-                <li @if($submenu == 'listagem') class="active" @endif>
-                    <a href="{{ url(route('listagemCategoria')) }}">
-                        <i class="fa fa-caret-right"></i>
-                        Listagem
-                    </a>
-                </li>
+        @if(\App\Gate::hasAccess('admin/categorias'))
+            <li class="nav-parent @if($menu == 'categorias') active @endif">
+                <a href="javascript:void (0);">
+                    <i class="fa fa-tags"></i>
+                    <span>Categorias</span>
+                </a>
+                <ul class="children" @if($menu == 'categorias') style="display: block;" @endif>
+                    <li @if($submenu == 'listagem') class="active" @endif>
+                        <a href="{{ url(route('listagemCategoria')) }}">
+                            <i class="fa fa-caret-right"></i>
+                            Listagem
+                        </a>
+                    </li>
 
-                <li @if($submenu == 'cadastrar') class="active" @endif>
-                    <a href="{{ url(route('categoriasCadastro')) }}">
-                        <i class="fa fa-caret-right"></i>
-                        Cadastrar
-                    </a>
-                </li>
+                    <li @if($submenu == 'cadastrar') class="active" @endif>
+                        <a href="{{ url(route('categoriasCadastro')) }}">
+                            <i class="fa fa-caret-right"></i>
+                            Cadastrar
+                        </a>
+                    </li>
 
-                <li @if($submenu == 'relacionar') class="active" @endif>
-                    <a href="{{ url(route('categoriasRelacao')) }}">
-                        <i class="fa fa-caret-right"></i>
-                        Relacionar
-                    </a>
-                </li>
-            </ul>
-        </li>
-
+                    <li @if($submenu == 'relacionar') class="active" @endif>
+                        <a href="{{ url(route('categoriasRelacao')) }}">
+                            <i class="fa fa-caret-right"></i>
+                            Relacionar
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        @endif
         <li @if($menu == 'pedidos') class="active" @endif>
             <a href="{{ url(route('pedidos')) }}">
                 <i class="fa fa-money"></i>
@@ -106,26 +107,51 @@
             </ul>
         </li>
 
-        <li class="nav-parent @if($menu == 'usuarios') active @endif">
-            <a href="javascript:void (0);">
-                <i class="fa fa-user"></i>
-                <span>Usuários</span>
-            </a>
-            <ul class="children" @if($menu == 'usuarios') style="display: block;" @endif>
-                <li @if($submenu == 'listagem') class="active" @endif>
-                    <a href="{{ url(route('usuarios')) }}">
-                        <i class="fa fa-caret-right"></i>
-                        Listagem
-                    </a>
-                </li>
-                <li @if($submenu == 'cadastro') class="active" @endif>
-                    <a href="{{ url(route('usuariosCadastro')) }}">
-                        <i class="fa fa-caret-right"></i>
-                        Cadastrar
-                    </a>
-                </li>
-            </ul>
-        </li>
+        @if(\App\Gate::hasAccess('admin/lojas'))
+            <li class="nav-parent @if($menu == 'lojas') active @endif">
+                <a href="javascript:void (0);">
+                    <i class="fa fa-shopping-basket"></i>
+                    <span>Lojas</span>
+                </a>
+                <ul class="children" @if($menu == 'lojas') style="display: block;" @endif>
+                    <li @if($submenu == 'listagem') class="active" @endif>
+                        <a href="{{ url(route('lojas')) }}">
+                            <i class="fa fa-caret-right"></i>
+                            Listagem
+                        </a>
+                    </li>
+                    <li @if($submenu == 'cadastro') class="active" @endif>
+                        <a href="{{ url(route('lojasCadastro')) }}">
+                            <i class="fa fa-caret-right"></i>
+                            Cadastrar
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        @endif
+
+        @if(\App\Gate::hasAccess('admin/usuarios'))
+            <li class="nav-parent @if($menu == 'usuarios') active @endif">
+                <a href="javascript:void (0);">
+                    <i class="fa fa-user"></i>
+                    <span>Usuários</span>
+                </a>
+                <ul class="children" @if($menu == 'usuarios') style="display: block;" @endif>
+                    <li @if($submenu == 'listagem') class="active" @endif>
+                        <a href="{{ url(route('usuarios')) }}">
+                            <i class="fa fa-caret-right"></i>
+                            Listagem
+                        </a>
+                    </li>
+                    <li @if($submenu == 'cadastro') class="active" @endif>
+                        <a href="{{ url(route('usuariosCadastro')) }}">
+                            <i class="fa fa-caret-right"></i>
+                            Cadastrar
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        @endif
 
     </ul>
 

@@ -14,6 +14,7 @@ class Pedido extends Model
       "parcelas",
       "comprovante",
       "status",
+      "user_id"
   ];
 
   protected $hidden = [

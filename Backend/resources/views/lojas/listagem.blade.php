@@ -5,15 +5,8 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Produtos</h4>
-                    <p>Aqui você confere a lista de produtos cadastrados no momento</p>
-                    @if(\App\Gate::hasAccess('admin/produtos/importarProdutosView'))
-                        <a class="btn btn-default"
-                           style="margin-top: 20px;"
-                           href="{{ url(route('importarProdutos')) }}">
-                            Atualizar base de dados
-                        </a>
-                    @endif
+                    <h4 class="panel-title">Lojas</h4>
+                    <p>Aqui você confere a lista de lojas cadastradas no momento</p>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -21,9 +14,8 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Nome do Produto</th>
-                                    <th>Código do Produto</th>
-                                    <th>Código de barras</th>
+                                    <th>Nome do Usuário</th>
+                                    <th>E-mail</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
@@ -32,14 +24,25 @@
                                     <tbody>
                                         <tr>
                                             <td>{{ $data->id }}</td>
-                                            <td>{{ $data->nomeproduto }}</td>
-                                            <td>{{ $data->codigoproduto }}</td>
-                                            <td>{{ $data->codigobarras }}</td>
+                                            <td>{{ $data->name }}</td>
+                                            <td>{{ $data->email }}</td>
                                             <td>
                                                 <a class="btn btn-default"
-                                                   title="Detalhes de produtos"
-                                                   href="{{ url(route('produtosDetalhe', ['id' => $data->id])) }}">
+                                                   title="Detalhes do Loja"
+                                                   href="{{ url(route('lojasDetalhe', ['id' => $data->id])) }}">
                                                     <i class="fa fa-search"></i>
+                                                </a>
+
+                                                <a class="btn btn-default"
+                                                   title="Editar Loja"
+                                                   href="{{ url(route('lojasEditar', ['id' => $data->id])) }}">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+
+                                                <a class="btn btn-default"
+                                                   title="Excluir Loja"
+                                                   href="{{ url(route('lojasDeletar', ['id' => $data->id])) }}">
+                                                    <i class="fa fa-close"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -48,7 +51,7 @@
                             @else
                                 <tbody>
                                     <tr>
-                                        <td colspan="4">Nenhum produto cadastrado no momento.</td>
+                                        <td colspan="4">Nenhuma loja cadastrada no momento.</td>
                                     </tr>
                                 </tbody>
                             @endif

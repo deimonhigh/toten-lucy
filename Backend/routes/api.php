@@ -15,6 +15,10 @@ use Illuminate\Http\Request;
 
 Route::get('begin', 'Controller@begin');
 
+Route::group(['prefix' => 'tema'], function () {
+  Route::post('/{email}', 'Api\ApiConfigController@show');
+});
+
 Route::resource('tema', 'Api\ApiConfigController', ['only' => ['show']]);
 
 Route::group(['middleware' => 'auth:api'], function () {
@@ -42,7 +46,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/save', 'Api\ApiPedidosController@save');
   });
 });
-
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
   return $request->user();
