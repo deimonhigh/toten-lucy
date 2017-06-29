@@ -18,7 +18,8 @@
       width      : 120px;
 
       a {
-        background : #EEEEEE;
+        background : #FFFFFF;
+        border     : 1px solid #EEEEEE;
         min-height : 100px;
         display    : block;
         width      : 100%;
@@ -27,7 +28,7 @@
         font       : 600 lh(12px, 100%) $nw;
         color      : #919191;
 
-        &:hover, &.active {
+        &.active {
           background : $default;
           color      : #FFFFFF;
         }
@@ -139,6 +140,8 @@
     li {
       display       : block;
       margin-bottom : 20px;
+      border        : 1px solid #EEEEEE;
+      padding       : 5px;
 
       img {
         width   : 100%;
@@ -152,6 +155,8 @@
     flex         : 1 1 460px;
     max-width    : 460px;
     margin-right : 40px;
+    border       : 1px solid #EEEEEE;
+    padding      : 5px;
   }
 
   .infos {
@@ -226,7 +231,7 @@
           width      : 40px;
           height     : 40px;
           text-align : center;
-          background : #999999;
+          background : #FFFFFF;
           color      : #212121;
           padding    : 5px;
           margin     : 0 3px;
@@ -238,6 +243,7 @@
           cursor     : pointer;
           background : none;
           background : #EEEEEE;
+          font-size  : 8px;
         }
       }
 

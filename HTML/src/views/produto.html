@@ -41,14 +41,12 @@
         <span>
           Ou em até
           <b ng-bind="temaStorage.max_parcelas + 'X'"></b>
-          com juros de
+          de
           <b ng-bind="produto.comJuros | currency:'R$ '"></b>
         </span>
         <span>
           Ou à vista por
           <b ng-bind="produto.semJuros | currency:'R$ '"></b>
-          com <b ng-bind="temaStorage.parcela0.toString().replace('.', ',').replace('-', '') + '%'"></b>
-          de desconto
         </span>
       </div>
 
@@ -56,15 +54,12 @@
         <span>
           Ou em até
           <b ng-bind="temaStorage.max_parcelas + 'X'"></b>
-          com juros de
+          de
           <b ng-bind="produto.comJuros | currency:'R$ '"></b>
         </span>
         <span>
           Ou à vista por
           <b ng-bind="produto.semJuros | currency:'R$ '"></b>
-          com
-          <b ng-bind="temaStorage.parcela0.toString().replace('.', ',').replace('-', '') + '%'"></b>
-          de desconto
         </span>
       </div>
 
@@ -82,12 +77,12 @@
       <div class="infoProduto">
         <h4><strong>Quantidade:</strong></h4>
         <div class="input-group">
-          <span class="input-group-addon pointer" ng-click="more()">
-            <i class="fa fa-plus"></i>
-          </span>
-          <input type="text" class="form-control" ng-model="qnt">
           <span class="input-group-addon pointer" ng-click="minus()">
             <i class="fa fa-minus"></i>
+          </span>
+          <input type="text" class="form-control" ng-model="qnt">
+          <span class="input-group-addon pointer" ng-click="more()">
+            <i class="fa fa-plus"></i>
           </span>
         </div>
       </div>

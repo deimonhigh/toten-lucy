@@ -13,21 +13,22 @@
       apiService
         .token(dados)
         .then(function (res) {
+          res.email = dados.email;
           apiService.setStorage('auth', res);
-          tema();
+          tema(dados.email);
         }, function (err) {
           console.log(err);
           alert('Usuário ou senha inválidos.')
         });
-    }
+    };
 
-    var tema = function () {
+    var tema = function (dados) {
       if (!apiService.getStorage('auth')) {
         tema();
         return;
       }
       apiService
-        .get('tema/1')
+        .get('tema/' + dados.email)
         .then(function (res) {
           apiService.setStorage('tema', res.result);
           root.$broadcast('temaLoaded');

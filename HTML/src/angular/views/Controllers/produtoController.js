@@ -20,13 +20,17 @@
 
     apiService.get('produtos/' + $stateParams.id).then(function (res) {
       vm.produto = res.result;
+
+      vm.produto.preco = vm.produto['preco' + root.temaStorage.listaPreco];
+      vm.produto.precopromocao = vm.produto['precopromocao' + root.temaStorage.listaPreco];
+
       vm.imagemGrande = vm.produto.imagens[0];
 
       if (parseFloat(vm.produto.precopromocao) == 0) {
-        vm.produto.comJuros = (parseFloat(vm.produto.preco) + (parseFloat(vm.produto.preco) * parseFloat(vm.maxParcelas)) / 100).toFixed(2);
+        vm.produto.comJuros = ((parseFloat(vm.produto.preco) + (parseFloat(vm.produto.preco) * parseFloat(vm.maxParcelas)) / 100).toFixed(2)) / parseInt(root.temaStorage.max_parcelas);
         vm.produto.semJuros = (parseFloat(vm.produto.preco) + (parseFloat(vm.produto.preco) * parseFloat(root.temaStorage.parcela0)) / 100).toFixed(2);
       } else {
-        vm.produto.comJuros = (parseFloat(vm.produto.precopromocao) + (parseFloat(vm.produto.precopromocao) * parseFloat(vm.maxParcelas)) / 100).toFixed(2);
+        vm.produto.comJuros = ((parseFloat(vm.produto.precopromocao) + (parseFloat(vm.produto.precopromocao) * parseFloat(vm.maxParcelas)) / 100).toFixed(2)) / parseInt(root.temaStorage.max_parcelas);
         vm.produto.semJuros = (parseFloat(vm.produto.precopromocao) + (parseFloat(vm.produto.precopromocao) * parseFloat(root.temaStorage.parcela0)) / 100).toFixed(2);
       }
 

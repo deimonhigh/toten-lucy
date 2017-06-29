@@ -48,15 +48,16 @@
       }
     });
 
-    apiService
-      .get('tema/1')
-      .then(function (res) {
-        apiService.setStorage('tema', res.result);
-        root.$broadcast('temaLoaded');
-        $state.go('home');
-      }, function (err) {
-        console.log(err.error);
-      });
+//    apiService
+//      .get('tema/1')
+//      .then(function (res) {
+//        apiService.setStorage('tema', res.result);
+//        root.$broadcast('temaLoaded');
+////        $state.go('home');
+//      }, function (err) {
+//        console.log(err.error);
+//      });
+//
 
     //region Loading
     root.angularNotLoaded = true;

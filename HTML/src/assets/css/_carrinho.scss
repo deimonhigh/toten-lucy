@@ -35,12 +35,20 @@
             border-bottom : 0;
           }
 
+          &:first-child {
+            td {
+              &:before {
+                display : none !important;
+              }
+            }
+          }
+
           td {
-            border         : 0;
             text-transform : uppercase;
             font           : 600 lh(14px, 100%) $op;
             color          : #999999;
             vertical-align : middle;
+            border         : 1px solid #EEEEEE;
 
             &:nth-child(1) {
               width : 100px;
@@ -55,10 +63,22 @@
               width : 40px;
             }
 
+            &:before {
+              content      : "";
+              position     : absolute;
+              top          : -10px;
+              left         : 0;
+              width        : 100%;
+              height       : 10px;
+              background   : #FFFFFF;
+              border       : 1px solid #EEEEEE;
+              border-width : 1px 0;
+            }
+
             .img {
               width      : 100%;
-              padding    : 5px 15px;
-              max-width  : 80px;
+              padding    : 5px 0;
+              max-width  : 100px;
               background : #FFFFFF;
 
               img {
@@ -92,22 +112,29 @@
 
             .input-group {
               input {
-                width      : 60px;
-                height     : 60px;
+                width      : 40px;
+                height     : 40px;
                 text-align : center;
+                margin     : 0 2px;
               }
 
               .input-group-addon {
-                border     : 0;
-                cursor     : pointer;
-                background : none;
+                border                : 0;
+                width                 : 20px;
+                cursor                : pointer;
+                background            : none;
+                background            : #EEEEEE;
+                font-size             : 8px;
+                -webkit-border-radius : 0;
+                -moz-border-radius    : 0;
+                border-radius         : 0;
               }
             }
 
             .noBtn {
               i {
                 font-size : 20px;
-                color     : #333333;
+                color     : #CCCCCC;
               }
             }
           }

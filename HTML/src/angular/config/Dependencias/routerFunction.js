@@ -11,7 +11,7 @@
 
     localStorageServiceProvider
       .setPrefix('appToten')
-      .setStorageType('localStorage');
+      .setStorageType('sessionStorage');
 
     $urlRouterProvider.otherwise('/');
 

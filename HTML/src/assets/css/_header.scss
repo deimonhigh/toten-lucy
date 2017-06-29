@@ -77,6 +77,13 @@ header {
       font           : 600 lh(18px, 100%) $nw;
       color          : #DDDDDD;
 
+      &.jaPassou {
+        button {
+          background : #EEEEEE;
+          color      : #777777;
+        }
+      }
+      
       &:after {
         content    : "";
         display    : block;
@@ -98,6 +105,10 @@ header {
         button {
           background : $ldefault;
           color      : #FFFFFF;
+
+          p {
+            color : #444444;
+          }
         }
       }
 
@@ -105,7 +116,7 @@ header {
         -webkit-border-radius : 50%;
         -moz-border-radius    : 50%;
         border-radius         : 50%;
-        background            : #EEEEEE;
+        background            : #FFFFFF;
         width                 : 50px;
         height                : 50px;
         vertical-align        : middle;
@@ -116,7 +127,7 @@ header {
         border                : 1px solid #DDDDDD;
 
         text-align            : center;
-        color                 : #444444;
+        color                 : #DDDDDD;
 
       }
 
@@ -127,14 +138,14 @@ header {
         width       : 100px;
         margin-left : -50px;
         text-align  : center;
-        color       : #333333;
-        font        : 400 lh(10px, 120%) $nw;
+        color       : #DDDDDD;
+        font        : 600 lh(10px, 120%) $nw;
       }
     }
   }
 
   .meuCarrinho {
-    background      : #DDDDDD;
+    background      : #FFFFFF;
     font            : 500 lh(15px, 120%) $nw;
     color           : #222222;
     margin-right    : 80px;
@@ -146,6 +157,8 @@ header {
 
     display         : flex;
     align-items     : center;
+
+    border          : 1px solid #EEEEEE;
 
     span {
       display : inline-block;

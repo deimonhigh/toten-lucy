@@ -76,6 +76,7 @@
 
       var send = {};
       send.idcliente = vm.cliente.id;
+      send.email = vm.formaPagamentoStorage.email;
       send.total = vm.formaPagamentoStorage.total;
       send.totalSemJuros = vm.listaCompras.reduce(function (previousValue, obj) {
         return previousValue + (obj.preco * obj.qnt);
