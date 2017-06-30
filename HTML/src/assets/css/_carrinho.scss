@@ -28,8 +28,7 @@
 
       tbody {
         tr {
-          border-bottom : 10px solid #F3F4F6;
-          background    : #DDDDDD;
+          border-bottom : 10px solid #FFFFFF;
 
           &:last-child {
             border-bottom : 0;
@@ -49,6 +48,19 @@
             color          : #999999;
             vertical-align : middle;
             border         : 1px solid #EEEEEE;
+            position       : relative;
+
+            &:before {
+              content      : "";
+              position     : absolute;
+              top          : -10px;
+              left         : 0;
+              width        : 100%;
+              height       : 10px;
+              background   : #FFFFFF;
+              border       : 1px solid #EEEEEE;
+              border-width : 1px 0;
+            }
 
             &:nth-child(1) {
               width : 100px;
@@ -61,18 +73,6 @@
 
             &:nth-child(5) {
               width : 40px;
-            }
-
-            &:before {
-              content      : "";
-              position     : absolute;
-              top          : -10px;
-              left         : 0;
-              width        : 100%;
-              height       : 10px;
-              background   : #FFFFFF;
-              border       : 1px solid #EEEEEE;
-              border-width : 1px 0;
             }
 
             .img {
@@ -97,7 +97,7 @@
               font-size   : 12px;
 
               &.noResult {
-                color         : #FFFFFF;
+                color         : #999999;
                 padding       : 15px;
                 margin-bottom : 0;
                 font-weight   : 700;

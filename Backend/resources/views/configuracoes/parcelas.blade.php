@@ -21,17 +21,6 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="control-label" style="width: 100%;">Lista de Preços</label>
-                                    <select name="listaPreco" class="form-control">
-                                        <option value="1" @if($dados->listaPreco == 1) selected @endif>Lista de Precos 1 (TABELA_LOJA)
-                                        </option>
-                                        <option value="2" @if($dados->listaPreco == 2) selected @endif>Lista de Precos 2 (TABELA DE PRECOS)
-                                        </option>
-                                    </select>
-                                </div>
-                            </div><!-- col-sm-6 -->
-                            <div class="col-sm-6">
-                                <div class="form-group">
                                     <label class="control-label" style="width: 100%;">Parcelamento máximo</label>
                                     <select name="max_parcelas" class="form-control">
                                         @for($i = 1; $i < 13; $i++)

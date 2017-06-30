@@ -13,9 +13,9 @@
       apiService
         .token(dados)
         .then(function (res) {
-          res.email = dados.email;
+          res.email = dados.user;
           apiService.setStorage('auth', res);
-          tema(dados.email);
+          tema(dados.user);
         }, function (err) {
           console.log(err);
           alert('Usuário ou senha inválidos.')
@@ -28,15 +28,16 @@
         return;
       }
       apiService
-        .get('tema/' + dados.email)
+        .post('config/' + dados)
         .then(function (res) {
           apiService.setStorage('tema', res.result);
           root.$broadcast('temaLoaded');
           $state.go('home');
         }, function (err) {
-          alert(err.error);
+          
         });
     };
+
   }
 
 })

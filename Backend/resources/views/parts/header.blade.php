@@ -7,7 +7,7 @@
             <li>
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ url('adminpanel/images/user.png') }}" alt="Usuário logado" />
+                        <img src="{{ url('adminpanel/images/user.svg') }}" alt="Usuário logado" />
                         {{ Auth::user()->name }}
                         <span class="caret"></span>
                     </button>

@@ -72,24 +72,38 @@ class AdminConfigController extends BaseController
 
   public function cadastrarBanner(Request $request)
   {
-    $this->validate($request, [
-        'banner' => 'image',
-        'produto' => 'required'
-    ]);
+
+    $config = Configuracao::where('userId', Auth::id())->first();
+
+    $banner = [
+        'banner' => 'image'
+    ];
+
+    if ($request->hasFile('banner')) {
+      $banner = [
+          'banner' => 'image',
+          'produto' => 'required'
+      ];
+    }
+
+    $this->validate($request, $banner);
 
     $insert = [
         'produto_id' => $request->get('produto'),
         'userId' => Auth::id()
     ];
 
-    if ($request->get('action') == 'remove') {
-      \Storage::deleteDirectory('public/banners');
+    if (!is_null($config->banner)) {
+      \Storage::delete('public/' . $config->banner);
     }
 
-    if ($request->hasFile('banner')) {
-      $insert['banner'] = $request->file('banner')->store('banners', 'public');
-    } else {
+    if ($request->get('action') == 'remove') {
       $insert['banner'] = null;
+      $insert['produto_id'] = null;
+    } else {
+      if ($request->hasFile('banner')) {
+        $insert['banner'] = $request->file('banner')->store('banners', 'public');
+      }
     }
 
     Configuracao::updateOrCreate(
@@ -134,7 +148,6 @@ class AdminConfigController extends BaseController
   {
     $insert = [
         'max_parcelas' => $request->get('max_parcelas'),
-        'listaPreco' => $request->get('listaPreco'),
         'parcela0' => ($request->get('parcela0') ? str_replace(',', '.', (string)$request->get('parcela0')) : 0),
         'parcela1' => ($request->get('parcela1') ? str_replace(',', '.', (string)$request->get('parcela1')) : 0),
         'parcela2' => ($request->get('parcela2') ? str_replace(',', '.', (string)$request->get('parcela2')) : 0),

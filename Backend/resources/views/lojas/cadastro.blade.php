@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <form action="{{ url(route('usuariosCadastrar')) }}" method="post" class="validate">
+                <form action="{{ url(route('lojasCadastrar')) }}" method="post" class="validate">
                     {{ csrf_field() }}
                     <input type="hidden"
                            name="id"
@@ -43,6 +43,23 @@
                                     @if ($errors->has('email'))
                                         <label class="error">{{ $errors->first('email') }}</label>
                                     @endif
+                                </div>
+                            </div><!-- col-sm-6 -->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label" style="width: 100%;">Lista de Preços</label>
+                                    <select name="listaPreco" class="form-control">
+                                        <option value="1" @if($dados->listaPreco == 1) selected @endif>Lista de Precos 1
+                                                                                                       (TABELA_LOJA)
+                                        </option>
+                                        <option value="2" @if($dados->listaPreco == 2) selected @endif>Lista de Precos 2
+                                                                                                       (TABELA DE
+                                                                                                       PRECOS)
+                                        </option>
+                                    </select>
                                 </div>
                             </div><!-- col-sm-6 -->
                         </div>

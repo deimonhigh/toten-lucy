@@ -26,6 +26,6 @@ class Cliente extends Model
 
   public function enderecos()
   {
-    return $this->hasMany('App\Http\Controllers\Model\Endereco', 'idCliente', 'id');
+    return $this->hasMany('App\Http\Controllers\Model\Endereco', 'idcliente', 'id');
   }
 }

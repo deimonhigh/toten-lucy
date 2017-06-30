@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Model\Configuracao;
 use App\Http\Controllers\RestController as BaseController;
+use App\User;
 
 class ApiConfigController extends BaseController
 {
   public function show($email)
   {
     try {
-      $retorno = Configuracao::where('email', $email)->firstOrFail();
+      $user = User::where('email', $email)->firstOrFail();
+      $retorno = Configuracao::where('userId', $user->id)->firstOrFail();
 
-      if ($retorno->banner){
+      if ($retorno->banner) {
         $retorno->banner = url('storage/' . $retorno->banner);
       }
 

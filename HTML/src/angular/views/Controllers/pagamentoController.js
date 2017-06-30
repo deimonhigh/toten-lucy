@@ -72,11 +72,12 @@
     vm.$on('confirmarImg', function () {
       var formaPagamento = apiService.getStorage('formaPagamento');
       vm.comprovante = apiService.getStorage('comprovante');
+      var auth = apiService.getStorage('auth');
       vm.cliente = apiService.getStorage('cliente');
 
       var send = {};
       send.idcliente = vm.cliente.id;
-      send.email = vm.formaPagamentoStorage.email;
+      send.email = auth.email;
       send.total = vm.formaPagamentoStorage.total;
       send.totalSemJuros = vm.listaCompras.reduce(function (previousValue, obj) {
         return previousValue + (obj.preco * obj.qnt);

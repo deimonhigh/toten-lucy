@@ -22,11 +22,6 @@
                                 <div class="form-group" style="position: relative;">
                                     <label class="control-label" style="display: block;">Banner de promoção</label>
                                     @if (isset($dados->banner))
-                                        <button type="submit"
-                                                style="position: absolute;top: 30px;right: 0;"
-                                                class="btn btn-default" name="action" value="remove">
-                                            <i class="fa fa-close"></i> Remover
-                                        </button>
                                         <div class="col-sm-6"
                                              style="float: none; margin: 20px auto;">
                                             <img src="{{ asset('storage/' . $dados->banner) }}"
@@ -48,7 +43,8 @@
                                 <div class="form-group">
                                     <label>Produto do banner</label>
                                     <select name="produto" class="select2" data-placeholder="Escolha um produto">
-                                        <option value=""></option>
+                                        <option value="" @if(is_null($dados->produto_id)) selected @endif>Selecione
+                                        </option>
                                         @foreach($produtos as $produto)
                                             <option value="{{ $produto->id }}"
                                                     @if($dados->produto_id == $produto->id) selected @endif >{{ $produto->nomeproduto }}</option>
@@ -64,6 +60,11 @@
                     </div><!-- panel-body -->
                     <div class="panel-footer">
                         <button type="submit" name="action" value="save" class="btn btn-primary">Salvar</button>
+                        @if (isset($dados->banner))
+                            <button type="submit" class="btn btn-default" name="action" value="remove">
+                                Remover
+                            </button>
+                        @endif
                     </div>
                 </form>
             </div>

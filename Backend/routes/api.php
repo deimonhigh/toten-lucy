@@ -15,11 +15,11 @@ use Illuminate\Http\Request;
 
 Route::get('begin', 'Controller@begin');
 
-Route::group(['prefix' => 'tema'], function () {
-  Route::post('/{email}', 'Api\ApiConfigController@show');
+Route::group(['prefix' => 'config'], function () {
+  Route::get('/{email}', 'Api\ApiConfigController@show');
 });
 
-Route::resource('tema', 'Api\ApiConfigController', ['only' => ['show']]);
+Route::post('frete', 'Api\ApiFreteController@frete');
 
 Route::group(['middleware' => 'auth:api'], function () {
   Route::group(['prefix' => 'vendedores'], function () {

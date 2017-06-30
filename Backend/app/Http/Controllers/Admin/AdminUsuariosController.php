@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller as BaseController;
+use App\Http\Controllers\Model\Configuracao;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,10 @@ class AdminUsuariosController extends BaseController
     $data['submenu'] = "listagem";
     //endregion
 
-    $data['dados'] = User::where('id', '!=', Auth::id())->paginate(15);
+    $data['dados'] = User::where(function ($q) {
+      $q->where('id', '!=', Auth::id());
+      $q->where('type', 1);
+    })->paginate(15);
 
     return view('usuarios.listagem', $data);
   }
@@ -91,13 +95,19 @@ class AdminUsuariosController extends BaseController
         'password_confirmation' => 'required',
     ]);
 
-    User::updateOrCreate(
+    $user = User::updateOrCreate(
         ['id' => $request->get('id')],
         [
             'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password'))
+            'password' => Hash::make($request->get('password')),
+            'type' => true
         ]
+    );
+
+    Configuracao::updateOrCreate(
+        ['userId' => $user->id],
+        []
     );
 
     return redirect(route('usuarios'));
@@ -146,6 +156,9 @@ class AdminUsuariosController extends BaseController
     //endregion
 
     $data['dados'] = User::findOrFail($id);
+    $configLoja = Configuracao::where('userId', $data['dados']->id)->first();
+
+    $data['dados']->listaPreco = $configLoja->listaPreco;
 
     return view('lojas.detalhe', $data);
   }
@@ -182,35 +195,56 @@ class AdminUsuariosController extends BaseController
 
     $data['dados'] = User::findOrFail($id);
 
+    $configLoja = Configuracao::where('userId', $data['dados']->id)->first();
+
+    $data['dados']->listaPreco = $configLoja->listaPreco;
+
     return view('lojas.cadastro', $data);
   }
 
   public function cadastrarLojas(Request $request)
   {
-    $this->validate($request, [
+    $validation = [
         'name' => 'required',
         'email' => 'email|required',
         'password' => 'required|min:8|confirmed',
         'password_confirmation' => 'required',
-    ]);
+    ];
 
-    User::updateOrCreate(
+    if (empty($request->get('password'))) {
+      $validation = [
+          'name' => 'required',
+          'email' => 'email|required',
+      ];
+    }
+
+    $this->validate($request, $validation);
+
+    $user = User::updateOrCreate(
         ['id' => $request->get('id')],
         [
             'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password'))
+            'password' => Hash::make($request->get('password')),
+            'type' => false
         ]
     );
 
-    return redirect(route('usuarios'));
+    Configuracao::updateOrCreate(
+        ['userId' => $user->id],
+        [
+            'listaPreco' => $request->get('listaPreco')
+        ]
+    );
+
+    return redirect(route('lojas'));
   }
 
   public function excluirLojas($id)
   {
     User::find($id)->delete();
 
-    return redirect(route('usuarios'));
+    return redirect(route('lojas'));
   }
   //endregion
 }

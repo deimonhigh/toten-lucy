@@ -33,7 +33,7 @@
       <span ng-if="produtos.length == 0 && !loading">
         Carregando...
       </span>
-      <ul class="grid listagem align-left" ng-if="produtos.length > 0">
+      <ul class="grid listagem stretch align-left" ng-if="produtos.length > 0">
         <li class="grid-3" ng-repeat="item in produtos">
           <a ui-sref="produto({id: item.id})">
             <button class="btn lupa">
@@ -42,7 +42,7 @@
             <img ng-src="{{ item.imagens[0].url }}" alt="{{ item.nomeproduto }}">
             <div class="title" ng-bind="item.nomeproduto"></div>
 
-            <div class="outer grid bottom">
+            <div class="outer grid middle">
               <div class="grid-7 total" ng-if="item.precopromocao > 0">
                 <span class="anterior" ng-bind="item.preco | currency:'R$ '"></span>
                 <span class="valorTotal" ng-bind="item.precopromocao | currency:'R$ '"></span>

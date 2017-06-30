@@ -55,17 +55,22 @@
 
       margin-bottom : 30px;
 
-      padding       : 10px;
+      padding       : 0 15px 0 0;
 
       a {
         text-decoration : none;
+        border          : 1px solid #DDDDDD;
+        display         : block;
+        padding         : 10px 10px 60px 10px;
+        height          : 100%;
+        position        : relative;
       }
 
       .lupa {
         position   : absolute;
-        top        : 0;
-        right      : 0;
-        padding    : 0px;
+        top        : 1px;
+        right      : 1px;
+        padding    : 0;
         width      : 40px;
         height     : 40px;
         background : #222222;
@@ -84,16 +89,26 @@
         color          : #212121;
         text-transform : uppercase;
         text-align     : left;
-
       }
 
       .outer {
-        margin-top : 20px;
+        height     : 50px;
+        position   : absolute;
+        bottom     : 0;
+        left       : 0;
+        text-align : center;
+        border-top : 1px solid #DDDDDD;
 
         .parcelas {
-          font           : 700 lh(14px, 100%) $lt;
-          color          : #222222;
-          flex-direction : column;
+          font            : 700 lh(14px, 100%) $lt;
+          color           : #222222;
+          flex-direction  : column;
+          text-align      : left;
+          height          : 50px;
+          border-left     : 1px solid #DDDDDD;
+          padding-left    : 10px;
+          align-self      : center;
+          justify-content : center;
 
           .parcelamento {
             font-size   : 12px;
@@ -102,7 +117,8 @@
           }
 
           .totalParcela {
-            display : block;
+            display   : block;
+            font-size : 13px;
           }
         }
 
@@ -118,7 +134,16 @@
             display     : block;
           }
           .valorTotal {
-            display : block;
+            display     : block;
+            line-height : 100%;
+
+            &:after {
+              content        : "";
+              display        : inline-block;
+              height         : 50px;
+              vertical-align : middle;
+              width          : 0;
+            }
           }
         }
       }
@@ -157,6 +182,10 @@
     margin-right : 40px;
     border       : 1px solid #EEEEEE;
     padding      : 5px;
+
+    img {
+      width : 100%;
+    }
   }
 
   .infos {

@@ -22,7 +22,11 @@ class AdminVendedoresController extends BaseController
     $data['submenu'] = "listagem";
     //endregion
 
-    $data['dados'] = Vendedor::where('usuario_id', Auth::id())->paginate(15);
+    if (Auth::user()->type) {
+      $data['dados'] = Vendedor::paginate(15);
+    } else {
+      $data['dados'] = Vendedor::where('usuario_id', Auth::id())->paginate(15);
+    }
 
     return view('vendedores.listagem', $data);
   }

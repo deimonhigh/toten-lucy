@@ -48,16 +48,25 @@
       }
     });
 
-//    apiService
-//      .get('tema/1')
-//      .then(function (res) {
-//        apiService.setStorage('tema', res.result);
-//        root.$broadcast('temaLoaded');
-////        $state.go('home');
-//      }, function (err) {
-//        console.log(err.error);
-//      });
-//
+    var config = function (dados) {
+      if (!apiService.getStorage('auth')) {
+        config();
+        return;
+      }
+      apiService
+        .get('config/' + dados)
+        .then(function (res) {
+          apiService.setStorage('tema', res.result);
+          root.$broadcast('temaLoaded');
+//          $state.go('home');
+        }, function (err) {
+        });
+    };
+
+    var auth = apiService.getStorage('auth');
+    if (auth) {
+      config(auth.email);
+    }
 
     //region Loading
     root.angularNotLoaded = true;

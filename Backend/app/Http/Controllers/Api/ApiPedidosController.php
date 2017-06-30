@@ -31,7 +31,7 @@ class ApiPedidosController extends BaseController
 
       $cliente = Cliente::find($request->idcliente);
 
-//      $this->savePedidosKpl($request, $cliente, $url);
+      $this->savePedidosKpl($request, $cliente, $url);
 
       foreach ($request->produtos as $produto) {
         $temp = new Pedidosproduto();
@@ -69,7 +69,6 @@ class ApiPedidosController extends BaseController
       }
       return $this->nonOk();
     }
-
   }
 
   protected function savePedidosKpl($pedido, $cliente, $url)

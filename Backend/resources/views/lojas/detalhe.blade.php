@@ -18,6 +18,14 @@
                             <h5>E-mail</h5>
                             <p><strong>{{ $dados->email }}</strong></p>
                         </div>
+                        <div class="col-sm-6">
+                            <h5>Lista de Preços</h5>
+                            @if($dados->listaPreco == 1)
+                                <p><strong>Lista de Precos 1 (TABELA_LOJA)</strong></p>
+                            @else
+                                <p><strong>Lista de Precos 2 (TABELA DE PRECOS)</strong></p>
+                            @endif
+                        </div>
                     </div>
                 </div><!-- panel-body -->
                 <div class="panel-footer">
