@@ -14,7 +14,8 @@ class AlterTablePedidoAddColunaFrete extends Migration
   public function up()
   {
     Schema::table('pedidos', function (Blueprint $table) {
-      $table->decimal('frete', 10, 2);
+      $table->decimal('frete', 10, 2)->default(0);
+      $table->bigInteger('id_mercado_pago')->default(0);
     });
   }
 
@@ -27,6 +28,7 @@ class AlterTablePedidoAddColunaFrete extends Migration
   {
     Schema::table('pedidos', function (Blueprint $table) {
       $table->dropColumn('frete');
+      $table->dropColumn('id_mercado_pago');
     });
   }
 }

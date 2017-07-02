@@ -14,6 +14,10 @@
     vm.cliente = apiService.getStorage('cliente');
     vm.formaPagamentoStorage = apiService.getStorage('formaPagamento');
     vm.comprovante = apiService.getStorage('comprovante');
+    vm.frete = apiService.getStorage('frete');
+
+    vm.totalCarrinho = 0;
+    vm.totalCarrinhoFrete = 0;
 
     var getComprovante = function () {
       $timeout(function () {
@@ -27,9 +31,13 @@
 
     vm.listaCompras = apiService.getStorage('carrinho') || [];
 
-    vm.totalCarrinho = vm.listaCompras.reduce(function (previousValue, obj) {
-      return previousValue + (obj.preco * obj.qnt);
-    }, 0);
+    var calcTotal = function () {
+      return vm.listaCompras.reduce(function (previousValue, obj) {
+        return previousValue + (obj.preco * obj.qnt);
+      }, 0);
+    };
+
+    vm.totalCarrinho = calcTotal();
 
     var padLeft = function (nr, n, str) {
       return Array(n - String(nr).length + 1).join(str || '0') + nr;
@@ -65,8 +73,34 @@
       if (vm.editarPagamentoFlag && vm.formaPagamento.total) {
         $timeout(function () {
           vm.totalCarrinho = vm.formaPagamento.total;
+          var frete = 0;
+          if (vm.frete) {
+            frete = vm.frete.valor;
+          }
+          vm.totalCarrinhoFrete = vm.formaPagamento.total + frete;
         });
       }
+    };
+
+    var calcularFrete = function (cep) {
+      var dados = {
+        "cep": cep,
+        "peso": vm.listaCompras.reduce(function (carry, next) {
+          return carry + parseFloat(next.peso);
+        }, 0),
+        "total": calcTotal()
+      };
+      getFrete(dados);
+    };
+
+    var getFrete = function (dados) {
+      apiService
+        .post('frete', dados)
+        .then(function (res) {
+          apiService.setStorage('frete', res.result);
+          vm.frete = res.result;
+          vm.totalCarrinhoFrete = dados.total + res.result.valor;
+        });
     };
 
     vm.$on('confirmarImg', function () {
@@ -78,6 +112,8 @@
       var send = {};
       send.idcliente = vm.cliente.id;
       send.email = auth.email;
+      send.frete = vm.frete.valor;
+      send.prazo = vm.frete.prazo;
       send.total = vm.formaPagamentoStorage.total;
       send.totalSemJuros = vm.listaCompras.reduce(function (previousValue, obj) {
         return previousValue + (obj.preco * obj.qnt);
@@ -135,6 +171,8 @@
 
       vm.listaPagamentos.push(pagamento);
     }
+
+    calcularFrete(vm.cliente.cep);
   }
 
 })

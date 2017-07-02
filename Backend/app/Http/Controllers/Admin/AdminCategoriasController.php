@@ -82,13 +82,13 @@ class AdminCategoriasController extends BaseController
 
     $categoria->save();
 
-    return redirect(route('listagemCategoria'));
+    return redirect(route('listagemCategoria'))->with('success', 'Categoria cadastrada com sucesso.');
   }
 
   public function deletar($id)
   {
     Admincategoria::find($id)->delete();;
-    return redirect(route('listagemCategoria'));
+    return redirect(route('listagemCategoria'))->with('success', 'Categoria excluída com sucesso.');
   }
 
   public function importarCategorias()
@@ -120,7 +120,7 @@ class AdminCategoriasController extends BaseController
   {
     $this->importarCategorias();
 
-    return redirect(route('listagemCategoria'));
+    return redirect(route('listagemCategoria'))->with('success', 'Categorias sincronizadas com sucesso.');
   }
 
   public function relacionar()
@@ -165,12 +165,12 @@ class AdminCategoriasController extends BaseController
 
     $categoria->categorias()->attach($request->get('categoria_id'));
 
-    return redirect(route('categoriasRelacao'));
+    return redirect(route('categoriasRelacao'))->with('success', 'Categorias relacionadas com sucesso.');
   }
 
   public function relacionarDeletar($idCatAdmin, $idCat)
   {
     Admincategoria::find($idCatAdmin)->categorias()->detach($idCat);
-    return redirect(route('categoriasRelacao'));
+    return redirect(route('categoriasRelacao'))->with('success', 'Exluído o relacionamento das categorias com sucesso.');
   }
 }

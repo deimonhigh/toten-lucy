@@ -86,30 +86,55 @@ class AdminVendedoresController extends BaseController
 
   public function cadastrar(Request $request)
   {
-    $this->validate($request, [
+    $msg = 'Vendedor cadastrado com sucesso.';
+
+    $validation = [
         'nome' => 'required',
         'identificacao' => 'required',
         'senha' => 'required|min:8|confirmed',
         'senha_confirmation' => 'required',
-    ]);
+    ];
+
+    if (!$request->has('senha')) {
+      $validation = [
+          'nome' => 'required',
+          'identificacao' => 'required'
+      ];
+    }
+
+    $this->validate($request, $validation);
+
+    if (!is_null($request->get('id'))) {
+      $msg = 'Dados do Vendedor editados com sucesso.';
+    }
+
+    $insert = [
+        'nome' => $request->get('nome'),
+        'identificacao' => $request->get('identificacao'),
+        'senha' => Hash::make($request->get('senha')),
+        'usuario_id' => Auth::id()
+    ];
+
+    if (!$request->has('senha')) {
+      $insert = [
+          'nome' => $request->get('nome'),
+          'identificacao' => $request->get('identificacao'),
+          'usuario_id' => Auth::id()
+      ];
+    }
 
     Vendedor::updateOrCreate(
         ['id' => $request->get('id')],
-        [
-            'nome' => $request->get('nome'),
-            'identificacao' => $request->get('identificacao'),
-            'senha' => Hash::make($request->get('senha')),
-            'usuario_id' => Auth::id()
-        ]
+        $insert
     );
 
-    return redirect(route('vendedores'));
+    return redirect(route('vendedores'))->with('success', $msg);
   }
 
   public function excluir($id)
   {
     Vendedor::find($id)->delete();
 
-    return redirect(route('vendedores'));
+    return redirect(route('vendedores'))->with('success', 'Vendedor excluído com sucesso.');
   }
 }

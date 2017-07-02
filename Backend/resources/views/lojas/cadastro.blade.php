@@ -62,6 +62,17 @@
                                     </select>
                                 </div>
                             </div><!-- col-sm-6 -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label" style="width: 100%;">Utiliza Mercado Pago</label>
+                                    <select name="mercadoPago" class="form-control">
+                                        <option value="1" @if($dados->mercado_pago == 1) selected @endif>Sim
+                                        </option>
+                                        <option value="0" @if($dados->mercado_pago == 0) selected @endif>Não
+                                        </option>
+                                    </select>
+                                </div>
+                            </div><!-- col-sm-6 -->
                         </div>
 
                         <div class="row">

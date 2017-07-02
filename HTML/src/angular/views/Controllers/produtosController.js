@@ -41,7 +41,9 @@
 
       apiService.post('produtos/filtro', filtro).then(function (res) {
         vm.loading = true;
-        vm.produtos = res.result.map(function (obj) {
+        vm.produtos = res.result.filter(function (obj) {
+          return obj['preco' + root.temaStorage.listaPreco] > 0;
+        }).map(function (obj) {
           obj.preco = obj['preco' + root.temaStorage.listaPreco];
           obj.precopromocao = obj['precopromocao' + root.temaStorage.listaPreco];
           return obj;

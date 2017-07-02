@@ -62,6 +62,9 @@ class ApiClientesController extends BaseController
       Endereco::where('idcliente', $idCliente['id'])->delete();
 
       foreach ($json->enderecos as $item) {
+        if ($item['enderecoOriginal']) {
+          $json->cep = $item['cep'];
+        }
         $newEndereco = new Endereco();
         $newEndereco->cep = $item['cep'];
         $newEndereco->endereco = $item['endereco'];
@@ -81,9 +84,7 @@ class ApiClientesController extends BaseController
       $newPedido->comprovante = '';
       $newPedido->save();
 
-      $json = $request->all();
-
-      $json['idPedido'] = $newPedido->id;
+      $json->idPedido = $newPedido->id;
 
       return $this->Ok($json);
     }

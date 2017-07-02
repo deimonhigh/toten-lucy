@@ -20,6 +20,7 @@ class Produto extends Model
       "precopromocao1",
       "preco2",
       "precopromocao2",
+      "peso",
   ];
 
   protected $hidden = [

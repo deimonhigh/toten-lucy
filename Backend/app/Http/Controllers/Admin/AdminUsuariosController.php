@@ -88,36 +88,59 @@ class AdminUsuariosController extends BaseController
 
   public function cadastrar(Request $request)
   {
-    $this->validate($request, [
+    $msg = 'Usuário cadastrado com sucesso.';
+
+    $validation = [
         'name' => 'required',
         'email' => 'email|required',
         'password' => 'required|min:8|confirmed',
         'password_confirmation' => 'required',
-    ]);
+    ];
 
-    $user = User::updateOrCreate(
+    if (!$request->has('password')) {
+      $validation = [
+          'name' => 'required',
+          'email' => 'email|required',
+      ];
+    }
+
+    $this->validate($request, $validation);
+
+    if ($request->has('id')) {
+      $msg = 'Usuário cadastrado com sucesso.';
+    }
+
+    $insert = [
+        'name' => $request->get('name'),
+        'email' => $request->get('email'),
+        'password' => Hash::make($request->get('password')),
+        'mercado_pago' => $request->get('mercadoPago'),
+        'type' => true
+    ];
+
+    if (!$request->has('password')) {
+      $insert = [
+          'name' => $request->get('name'),
+          'email' => $request->get('email'),
+          'password' => Hash::make($request->get('password')),
+          'mercado_pago' => $request->get('mercadoPago'),
+          'type' => true
+      ];
+    }
+
+    User::updateOrCreate(
         ['id' => $request->get('id')],
-        [
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
-            'type' => true
-        ]
+        $insert
     );
 
-    Configuracao::updateOrCreate(
-        ['userId' => $user->id],
-        []
-    );
-
-    return redirect(route('usuarios'));
+    return redirect(route('usuarios'))->with('success', $msg);
   }
 
   public function excluir($id)
   {
     User::find($id)->delete();
 
-    return redirect(route('usuarios'));
+    return redirect(route('usuarios'))->with('success', 'Usuário excluído com sucesso.');
   }
   //endregion
 
@@ -167,7 +190,7 @@ class AdminUsuariosController extends BaseController
   {
     $data = [];
     //region Breadcrumb
-    $data['icon'] = "fa-user";
+    $data['icon'] = "fa-shopping-basket";
     $data['parent'] = "Lucy Toten";
     $data['current'] = "Lojas";
     $data['comment'] = "Cadastro";
@@ -184,7 +207,7 @@ class AdminUsuariosController extends BaseController
   {
     $data = [];
     //region Breadcrumb
-    $data['icon'] = "fa-user";
+    $data['icon'] = "fa-shopping-basket";
     $data['parent'] = "Lucy Toten";
     $data['current'] = "Lojas";
     $data['comment'] = "Editar";
@@ -204,6 +227,8 @@ class AdminUsuariosController extends BaseController
 
   public function cadastrarLojas(Request $request)
   {
+    $msg = 'Loja cadastrada com sucesso.';
+
     $validation = [
         'name' => 'required',
         'email' => 'email|required',
@@ -211,7 +236,7 @@ class AdminUsuariosController extends BaseController
         'password_confirmation' => 'required',
     ];
 
-    if (empty($request->get('password'))) {
+    if (!$request->has('password')) {
       $validation = [
           'name' => 'required',
           'email' => 'email|required',
@@ -220,14 +245,31 @@ class AdminUsuariosController extends BaseController
 
     $this->validate($request, $validation);
 
+    if ($request->has('id')) {
+      $msg = 'Dados da Loja editados com sucesso.';
+    }
+
+    $insert = [
+        'name' => $request->get('name'),
+        'email' => $request->get('email'),
+        'password' => Hash::make($request->get('password')),
+        'mercado_pago' => $request->get('mercadoPago'),
+        'type' => false
+    ];
+
+    if (!$request->has('password')) {
+      $insert = [
+          'name' => $request->get('name'),
+          'email' => $request->get('email'),
+          'password' => Hash::make($request->get('password')),
+          'mercado_pago' => $request->get('mercadoPago'),
+          'type' => false
+      ];
+    }
+
     $user = User::updateOrCreate(
         ['id' => $request->get('id')],
-        [
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
-            'type' => false
-        ]
+        $insert
     );
 
     Configuracao::updateOrCreate(
@@ -237,14 +279,14 @@ class AdminUsuariosController extends BaseController
         ]
     );
 
-    return redirect(route('lojas'));
+    return redirect(route('lojas'))->with('success', $msg);
   }
 
   public function excluirLojas($id)
   {
     User::find($id)->delete();
 
-    return redirect(route('lojas'));
+    return redirect(route('lojas'))->with('success', 'Loja excluído com sucesso.');
   }
   //endregion
 }

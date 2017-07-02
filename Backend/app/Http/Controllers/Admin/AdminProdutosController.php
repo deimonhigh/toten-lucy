@@ -101,6 +101,7 @@ class AdminProdutosController extends BaseController
                 'codigoproduto' => $row->CodigoProduto,
                 'nomeproduto' => $row->NomeProduto,
                 'descricao' => $row->Descricao,
+                'peso' => $row->Peso,
                 'preco1' => 0,
                 'precopromocao1' => 0,
                 'preco2' => 0,
@@ -116,17 +117,7 @@ class AdminProdutosController extends BaseController
       endforeach;
 
       //region Confirma Produtos
-      $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
-      $function = 'ConfirmaRecebimentoProdutoLote';
-      $arguments = [
-          'ConfirmaRecebimentoProdutoLote' => [
-              'ChaveIdentificacao' => '77AD990B-6138-4065-9B86-8D30119C09D3',
-              'ListaDeNumerosDeProtocoloRows' => [
-                  'ListaDeNumerosDeProtocolo' => $protocoloProduto
-              ]
-          ]
-      ];
-      $client->__soapCall($function, $arguments);
+      $this->confirmaProdutos($protocoloProduto);
       //endregion
     endif;
     //endregion
@@ -145,7 +136,7 @@ class AdminProdutosController extends BaseController
   public function importarProdutosView()
   {
     $this->importarProdutos();
-    return redirect(route('produtos'));
+    return redirect(route('produtos'))->with('success', 'Produtos sincronizados com sucesso.');
   }
 
   private function atualizaPrecos($countProduto)
@@ -232,6 +223,21 @@ class AdminProdutosController extends BaseController
 
   }
 
+  private function confirmaProdutos($arr)
+  {
+    $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
+    $function = 'ConfirmaRecebimentoProdutoLote';
+    $arguments = [
+        'ConfirmaRecebimentoProdutoLote' => [
+            'ChaveIdentificacao' => '77AD990B-6138-4065-9B86-8D30119C09D3',
+            'ListaDeNumerosDeProtocoloRows' => [
+                'ListaDeNumerosDeProtocolo' => $arr
+            ]
+        ]
+    ];
+    $client->__soapCall($function, $arguments);
+  }
+
   private function array_group_by(array $arr, callable $key_selector)
   {
     $result = array();
@@ -241,6 +247,4 @@ class AdminProdutosController extends BaseController
     }
     return $result;
   }
-
-
 }

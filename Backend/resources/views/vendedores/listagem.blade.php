@@ -1,6 +1,15 @@
 @extends('template')
 
 @section('content')
+
+    @if (\Session::has('success'))
+        <div class="alert alert-success">
+            <ul style="list-style: none; padding: 0;">
+                <li>{!! \Session::get('success') !!}</li>
+            </ul>
+        </div>
+    @endif
+    
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">

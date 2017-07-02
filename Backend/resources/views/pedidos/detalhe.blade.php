@@ -151,8 +151,16 @@
 
                     <div class="row">
                         <div class="col-sm-6">
+                            <h5>Total com Frete</h5>
+                            <p><strong>{{ 'R$' . number_format($dados->totalComFrete, 2, ',', '.') }}</strong></p>
+                        </div>
+                        <div class="col-sm-6">
                             <h5>Número de parcelas</h5>
-                            <p><strong>{{ $dados->parcelas }}</strong></p>
+                            @if($dados->parcelas)
+                                <p><strong>{{ $dados->parcelas }}</strong></p>
+                            @else
+                                <p><strong>À vista</strong></p>
+                            @endif
                         </div>
                     </div>
 

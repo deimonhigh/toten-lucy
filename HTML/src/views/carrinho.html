@@ -89,12 +89,32 @@
     </article>
     <article class="total">
       <div class="field">
-        <div class="cifra">
-        <span>
-          R$
-        </span>
-        </div>
-        <div class="number" ng-bind="totalProdutos | currency"></div>
+        <h3>SUB TOTAL: </h3>
+        <span class="number" ng-bind="totalProdutos | currency: ''"></span>
+      </div>
+
+      <div class="field">
+        <h3 class="block">Digite seu CEP: </h3>
+        <input type="text" class="input-control" cep ng-model="cep">
+        <button class="btn" ng-click="calcularFrete()">CALCULAR FRETE</button>
+        <button class="btn white">CONSULTAR CEP</button>
+
+        <ul ng-if="result.show">
+          <li>
+            Frete para: <b ng-bind="result.local">RS - Capital</b>
+          </li>
+          <li>
+            Transportadora - <b ng-bind="result.valor | currency">R$ 77,90</b>
+          </li>
+          <li>
+            Prazo de entrega: <b ng-bind="result.prazo"></b>
+          </li>
+        </ul>
+      </div>
+
+      <div class="field noBorder">
+        <h3>SUB TOTAL: </h3>
+        <span class="number bigger" ng-bind="totalProdutosFrete | currency: ''"></span>
       </div>
     </article>
   </div>

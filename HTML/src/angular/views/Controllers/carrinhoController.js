@@ -9,12 +9,29 @@
     var vm = $scope;
     var root = $rootScope;
 
+    vm.totalProdutosFrete = 0;
+    vm.totalProdutos = 0;
+    vm.cep = "";
+
+    vm.result = {
+      "show": false
+    };
+
     vm.listaCompras = apiService.getStorage('carrinho') || [];
 
+    //region Carrinho
     var calcTotal = function () {
       vm.totalProdutos = vm.listaCompras.reduce(function (previousValue, obj) {
         return previousValue + (obj.preco * obj.qnt);
       }, 0);
+
+      if (vm.result.show) {
+        vm.totalProdutosFrete = angular.copy(vm.totalProdutos);
+        vm.result.show = false;
+      } else {
+        vm.totalProdutosFrete = angular.copy(vm.totalProdutos);
+      }
+
     };
 
     vm.removerItem = function (item) {
@@ -84,6 +101,38 @@
       root.itensCarrinho = 0;
       vm.listaCompras = [];
       calcTotal();
+    };
+    //endregion
+
+    vm.calcularFrete = function () {
+      apiService.cep(vm.cep).then(function (res) {
+        vm.result.local = res.uf + ' - ' + res.localidade;
+
+        var dados = {
+          "cep": parseInt(vm.cep),
+          "peso": vm.listaCompras.reduce(function (carry, next) {
+            return carry + parseFloat(next.peso);
+          }, 0)
+        };
+
+        getFrete(dados);
+      }, function () {
+        alert('CEP não encontrado em nossa base.');
+      });
+    };
+
+    var getFrete = function (dados) {
+      apiService
+        .post('frete', dados)
+        .then(function (res) {
+          vm.result.valor = res.result.valor;
+          vm.result.prazo = res.result.prazo;
+          vm.result.show = true;
+
+          vm.totalProdutosFrete = angular.copy(vm.totalProdutos) + res.result.valor;
+        }, function () {
+          alert('CEP não encontrado em nossa base.');
+        });
     };
 
     calcTotal();

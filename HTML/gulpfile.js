@@ -1,43 +1,58 @@
+const args = returnArgs(process.argv.slice(2));
+
 // Aqui nós carregamos o gulp e os plugins através da funçao `require` do nodejs
-var gulp        = require('gulp'),
-    clean       = require('gulp-clean'),
-    htmlmin     = require('gulp-htmlmin'),
-    connect     = require('gulp-connect'),
-    rename      = require('gulp-rename'),
-    fileinclude = require('gulp-file-include'),
-    sass        = require('gulp-sass'),
-    cleanCSS    = require('gulp-clean-css'),
-    sourcemaps  = require('gulp-sourcemaps'),
-    plumber     = require('gulp-plumber'),
-    include     = require("gulp-include"),
-    compressor  = require('gulp-uglify');
+const gulp        = require('gulp'),
+      clean       = require('del'),
+      cleanCSS    = require('gulp-clean-css'),
+      connect     = require('gulp-connect'),
+      fileinclude = require('gulp-file-include'),
+      htmlmin     = require('gulp-htmlmin'),
+      include     = require("gulp-include"),
+      plumber     = require('gulp-plumber'),
+      rename      = require('gulp-rename'),
+      sass        = require('gulp-sass'),
+      sourcemaps  = require('gulp-sourcemaps'),
+      compressor  = require('gulp-uglify'),
+      decomment   = require('gulp-decomment');
 
 // Error handler
-var onError = function (err) {
+const onError = function (err) {
   console.log(err);
   this.emit('end');
 };
 
 // Definimos FALSE se nao houver programaçao depois
-var whitespace = true;
+const whitespace = true;
+/**
+ * Definimos por linha de comando se a pasta DIST irá ser deletada
+ * @type {boolean}
+ * @param --del {true|false}
+ */
+const del = hasKey('del') ? returnKey('del') : true;
 
-var baseDist = './dist/';
-var baseSrc = './src/';
+/**
+ * Definimos por linha de comando qual será a pasta DIST
+ * @type {string}
+ * @param --dist {path}
+ */
+const baseDist = hasKey('dist') ? returnKey('dist') : './dist/';
+const baseSrc = './src/';
 
 // Definimos o diretorio dos arquivos que serao verificados na pasta SRC
-var filesSrc = {
+const filesSrc = {
   js: baseSrc + 'assets/js/functions.js',
   angular: [baseSrc + 'angular/**/*Module.js', baseSrc + 'angular/app.js'],
   indexJS: baseSrc + 'assets/index.js',
   imgs: baseSrc + 'assets/imgs/**/*',
   scss: baseSrc + 'assets/css/**/*.scss',
-  fonts: [baseSrc + '**/*/*.eot', baseSrc + '**/*/*.woff2', baseSrc + '**/*/*.woff', baseSrc + '**/*/*.ttf', baseSrc + '**/*/*.svg', '!' + baseSrc + 'assets/images/'],
+  fonts: [baseSrc + '**/*/*.eot', baseSrc + '**/*/*.woff2', baseSrc + '**/*/*.woff', baseSrc + '**/*/*.ttf', '!' + baseSrc + 'assets/images/'],
+  fontsModules: ['node_modules/**/*/*.eot', 'node_modules/**/*/*.woff2', 'node_modules/**/*/*.woff', 'node_modules/**/*/*.ttf'],
   html: baseSrc + 'views/**/*.html',
   index: baseSrc + 'index.html'
 };
 
 // Definimos o diretorio dos arquivos na pasta DIST
-var dist = {
+const dist = {
   indexJS: baseDist + 'assets/',
   js: baseDist + 'assets/js/',
   imgs: baseDist + 'assets/imgs/',
@@ -51,24 +66,23 @@ var dist = {
   mapCSS: '/map/'
 };
 
-// LiveReload
-var portNumber = 8888;
+//region Server
+const portNumber = 5555;
 gulp.task('connect', function () {
-  console.log('\nIniciando o servidor na porta ' + portNumber + '\n');
   connect.server({
                    port: portNumber,
                    root: baseDist,
-                   livereload: true,
-                   fallback: baseDist + 'index.html'
+                   livereload: true
                  });
 });
+//endregion
 
-// Carregamos os arquivos JS
-// E rodamos uma tarefa para concatenaçao
-// Renomeamos o arquivo que sera minificado e logo depois o minificamos com o `jsmin`
-// E pra terminar usamos o `gulp.dest` para colocar os arquivos concatenados e minificados na pasta dist/
+//region Commom tasks
+gulp.task('clean:dist', function () {
+  return JSON.parse(del) ? clean(baseDist, {force: true}) : gulp.src('/');
+});
+
 gulp.task('js', function () {
-  console.log('\nIniciando a task de inclusao e compressao do js\n');
   return gulp.src(filesSrc.js)
              .pipe(plumber({
                              errorHandler: onError
@@ -84,72 +98,22 @@ gulp.task('js', function () {
              .pipe(connect.reload());
 });
 
-gulp.task('compressJS', function () {
-  return gulp.src(filesSrc.js)
-             .pipe(plumber({
-                             errorHandler: onError
-                           }))
-             .pipe(sourcemaps.init())
-             .pipe(include())
-             .pipe(compressor())
-             .pipe(rename({
-                            basename: 'scripts',
-                            suffix: '.min'
-                          }))
-             .pipe(sourcemaps.write(dist.mapJS))
-             .pipe(gulp.dest(dist.js))
-});
-
-gulp.task('compressAngular', function () {
+gulp.task('angular', function () {
   return gulp.src(filesSrc.angular)
              .pipe(plumber({
                              errorHandler: onError
                            }))
              .pipe(sourcemaps.init())
              .pipe(include())
-             .pipe(compressor())
              .pipe(rename({
                             suffix: '.min'
                           }))
              .pipe(sourcemaps.write(dist.mapJSAngular))
              .pipe(gulp.dest(dist.angular))
+             .pipe(connect.reload());
 });
 
-// Carregamos os arquivos do angular
-// E rodamos uma tarefa para concatenaçao
-// Renomeamos o arquivo que sera minificado e logo depois o minificamos com o `jsmin`
-// E pra terminar usamos o `gulp.dest` para colocar os arquivos concatenados e minificados na pasta dist/
-gulp.task('angular', function () {
-  console.log('\nIniciando a task de inclusao e compressao do angular\n');
-  gulp.src(filesSrc.angular)
-      .pipe(plumber({
-                      errorHandler: onError
-                    }))
-      .pipe(sourcemaps.init())
-      .pipe(include())
-      .pipe(rename({
-                     suffix: '.min'
-                   }))
-      .pipe(sourcemaps.write(dist.mapJSAngular))
-      .pipe(gulp.dest(dist.angular))
-      .pipe(connect.reload());
-});
-
-// Apaga a pasta da dist para recomeçar
-gulp.task('clean:dist', function () {
-  console.log('\nLimpando o diretorio "dist"\n');
-  return gulp.src(baseDist)
-             .pipe(clean({
-                           read: false,
-                           force: true
-                         }))
-});
-
-// Carregamos os arquivos html
-// Minificamos os HTML's
-// E pra terminar usamos o `gulp.dest` para colocar os arquivos e minificados na pasta dist/
 gulp.task('html', function () {
-  console.log('\nIniciando a task de inclusao e compressao do html\n');
   return gulp.src(filesSrc.html)
              .pipe(plumber({
                              errorHandler: onError
@@ -166,10 +130,7 @@ gulp.task('html', function () {
              .pipe(connect.reload());
 });
 
-// Movemos a index para a pasta dist
-// e a minificamos
 gulp.task('index', function () {
-  console.log('\nIniciando a task de inclusao e compressao do index\n');
   return gulp.src(filesSrc.index)
              .pipe(plumber({
                              errorHandler: onError
@@ -179,40 +140,45 @@ gulp.task('index', function () {
                              "collapseWhitespace": whitespace,
                              "removeComments": true,
                              "removeRedundantAttributes": true,
-                             "conservativeCollapse": false
+                             "conservativeCollapse": true
 
                            }))
              .pipe(gulp.dest(dist.index))
              .pipe(connect.reload());
 });
 
-// Movemos as imagens para a pasta dist
 gulp.task('imgs', function () {
-  console.log('\nIniciando a task de inclusao das imagens\n');
-  gulp.src(filesSrc.imgs)
-      .pipe(plumber({
-                      errorHandler: onError
-                    }))
-      .pipe(gulp.dest(dist.imgs))
-      .pipe(connect.reload());
+  return gulp.src(filesSrc.imgs)
+             .pipe(plumber({
+                             errorHandler: onError
+                           }))
+             .pipe(gulp.dest(dist.imgs))
+             .pipe(connect.reload());
 });
 
-// Movemos as fontes para a pasta dist
-console.log('\nIniciando a task de inclusao das fontes\n');
+gulp.task('indexJS', function () {
+  return gulp.src(filesSrc.indexJS)
+             .pipe(plumber({
+                             errorHandler: onError
+                           }))
+             .pipe(decomment({trim: true}))
+             .pipe(compressor())
+             .pipe(gulp.dest(dist.indexJS))
+             .pipe(connect.reload());
+});
+
 gulp.task('fonts', function () {
-  return gulp.src(filesSrc.fonts)
+  const sourceFonts = filesSrc.fonts.concat(filesSrc.fontsModules);
+  return gulp.src(sourceFonts)
              .pipe(plumber({
                              errorHandler: onError
                            }))
              .pipe(rename({dirname: ""}))
-             .pipe(gulp.dest(dist.fonts));
+             .pipe(gulp.dest(dist.fonts))
+             .pipe(connect.reload());
 });
 
-// Carregamos os arquivos SCSS
-// E compilamos o SASS
-// Criamos o sourcemap
 gulp.task('sass', function () {
-  console.log('\nIniciando a task de compilacao, inclusao e compressao do sass\n');
   return gulp.src(filesSrc.scss)
              .pipe(plumber({
                              errorHandler: onError
@@ -226,10 +192,44 @@ gulp.task('sass', function () {
              .pipe(gulp.dest(dist.css))
              .pipe(connect.reload());
 });
+//endregion
 
-// Carregamos os arquivos SCSS
+//region Prod tasks
+gulp.task('compressJS', function () {
+  return gulp.src(filesSrc.js)
+             .pipe(plumber({
+                             errorHandler: onError
+                           }))
+             .pipe(sourcemaps.init())
+             .pipe(include())
+             .pipe(decomment({trim: true}))
+             .pipe(compressor())
+             .pipe(rename({
+                            basename: 'scripts',
+                            suffix: '.min'
+                          }))
+             .pipe(sourcemaps.write(dist.mapJS))
+             .pipe(gulp.dest(dist.js))
+             .pipe(connect.reload());
+});
+
+gulp.task('compressAngular', function () {
+  return gulp.src(filesSrc.angular)
+             .pipe(plumber({
+                             errorHandler: onError
+                           }))
+             .pipe(sourcemaps.init())
+             .pipe(decomment({trim: true}))
+             .pipe(compressor())
+             .pipe(rename({
+                            suffix: '.min'
+                          }))
+             .pipe(sourcemaps.write(dist.mapJSAngular))
+             .pipe(gulp.dest(dist.angular))
+             .pipe(connect.reload());
+});
+
 gulp.task('cleanCSS', function () {
-  console.log('\nIniciando a task de compilacao, inclusao e compressao do sass\n');
   return gulp.src(filesSrc.scss)
              .pipe(plumber({
                              errorHandler: onError
@@ -246,10 +246,12 @@ gulp.task('cleanCSS', function () {
                             }))
              .pipe(rename('style.min.css'))
              .pipe(sourcemaps.write(dist.mapCSS))
-             .pipe(gulp.dest(dist.css))
+             .pipe(gulp.dest(dist.css));
 });
+//endregion
 
-var choiceslabel = ['SASS => s', 'Fonts => f', 'Imgs => i', 'JS => j', 'HTML => h', 'Index => x', 'Angular => g', 'Abrir no navegador => a', 'Fim => q'];
+//region Type Task
+const choiceslabel = ['SASS => s', 'Fonts => f', 'JS => j', 'HTML => h', 'Index => x', 'Angular => g', 'Abrir no navegador => a', 'Fim => q'];
 
 function message() {
   console.log('-----------------------------');
@@ -261,21 +263,21 @@ function message() {
 }
 
 gulp.task('type', function () {
-  var readline = require('readline');
+  const readline = require('readline');
   const exec = require('child_process').exec;
 
-  var rl = readline.createInterface({
-                                      input: process.stdin,
-                                      output: process.stdout,
-                                      terminal: true
-                                    });
+  const rl = readline.createInterface({
+                                        input: process.stdin,
+                                        output: process.stdout,
+                                        terminal: true
+                                      });
 
-  var choices = ['s', 'f', 'i', 'j', 'h', 'x', 'g', 'a', 'q'];
-  var tasks = ['sass', 'fonts', 'imgs', 'js', 'html', 'index', 'angular'];
+  const choices = ['s', 'f', 'j', 'h', 'x', 'g', 'a', 'q'];
+  const tasks = ['sass', 'fonts', 'js', 'html', 'index', 'angular'];
   message();
 
   rl.on('line', function (line) {
-    var index = choices.indexOf(line);
+    const index = choices.indexOf(line);
     if (index > -1) {
       if (index == (choices.length - 1)) {
         process.exit();
@@ -284,34 +286,91 @@ gulp.task('type', function () {
         exec('start chrome "http://localhost:"' + portNumber + '/');
       } else {
         console.log('Iniciando task: ', tasks[index]);
-        gulp.start(tasks[index]);
+
+        console.log(gulp.task(tasks[index])());
+
+        gulp.task(tasks[index])();
+
       }
     } else {
       console.log('Comando inválido');
     }
   })
 });
+//endregion                k
 
-// Tarefa de monitoraçao caso algum arquivo seja modificado, deve ser executado e deixado aberto, comando "gulp watch".
 gulp.task('watch', function () {
-  console.log('\nAssistindo mudanças do projeto\n');
-  gulp.watch(baseSrc + 'assets/js/*.js', ['js']);
-  gulp.watch(filesSrc.html, ['html']);
-  gulp.watch(baseSrc + 'assets/css/**/*.scss', ['sass']);
-  gulp.watch(baseSrc + 'angular/**/*.js', ['angular']);
-  gulp.watch(filesSrc.imgs, ['imgs']);
-  gulp.watch(filesSrc.index, ['index']);
-});
-
-gulp.task('build', ['sass', 'fonts', 'imgs', 'js', 'angular', 'html', 'index'], function () {
-  return gulp.start(['watch', 'type', 'connect']);
-});
-
-gulp.task('buildProd', ['clean:dist'], function () {
-  return gulp.start(['cleanCSS', 'fonts', 'imgs', 'compressJS', 'compressAngular', 'html', 'index']);
+  gulp.watch(baseSrc + 'assets/js/*.js', gulp.parallel('js'));
+  gulp.watch(filesSrc.html, gulp.parallel('html', 'index'));
+  gulp.watch(baseSrc + 'assets/css/**/*.scss', gulp.parallel('sass'));
+  gulp.watch(baseSrc + 'angular/**/*.js', gulp.parallel('angular'));
+  gulp.watch(filesSrc.imgs, gulp.parallel('imgs'));
+  gulp.watch([filesSrc.index], gulp.parallel('index'));
 });
 
 // Tarefa padrao quando executado o comando GULP
-gulp.task('default', ['clean:dist'], function () {
-  return gulp.start('build');
-});
+//region Task Default
+gulp.task('default',
+          gulp.series(
+            'clean:dist',
+            gulp.parallel(
+              'fonts',
+              'html',
+              'index',
+              'imgs',
+              'sass',
+              'js',
+              'angular'
+            ),
+            gulp.parallel(
+              'watch',
+              'connect',
+              'type'
+            )
+          )
+);
+//endregion
+
+//region Build Prod
+gulp.task('buildProd',
+          gulp.series(
+            'clean:dist',
+            gulp.parallel(
+              'fonts',
+              'imgs',
+              'html',
+              'index',
+              'compressJS',
+              'compressAngular',
+              'cleanCSS'
+            )
+          )
+);
+//endregion
+
+//region Utils
+function returnArgs(args) {
+  console.log(args);
+  return args.filter(function (obj) {
+    return obj.toString().indexOf('=') > -1;
+  }).map(function (arg) {
+    var temp = arg.split('=');
+    var send = {};
+    var key = temp[0].replace('--', '');
+    send[key] = temp[1];
+    return send;
+  });
+}
+
+function returnKey(key) {
+  return args.find(function (row) {
+    return !!row[key];
+  })[key];
+}
+
+function hasKey(key) {
+  return args.filter(function (row) {
+      return !!row[key];
+    }).length > 0;
+}
+//endregion

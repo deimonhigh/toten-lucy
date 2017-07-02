@@ -50,6 +50,6 @@ class AdminPerfilController extends BaseController
         $update
     );
 
-    return redirect(route('perfil'));
+    return redirect(route('perfil'))->with('success', 'Dados atualizados com sucesso.');
   }
 }

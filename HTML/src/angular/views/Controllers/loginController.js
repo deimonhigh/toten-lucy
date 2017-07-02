@@ -15,26 +15,24 @@
         .then(function (res) {
           res.email = dados.user;
           apiService.setStorage('auth', res);
-          tema(dados.user);
-        }, function (err) {
-          console.log(err);
+          config(dados.user);
+        }, function () {
           alert('Usuário ou senha inválidos.')
         });
     };
 
-    var tema = function (dados) {
+    var config = function (dados) {
       if (!apiService.getStorage('auth')) {
-        tema();
         return;
       }
       apiService
-        .post('config/' + dados)
+        .get('config/' + dados)
         .then(function (res) {
           apiService.setStorage('tema', res.result);
           root.$broadcast('temaLoaded');
           $state.go('home');
-        }, function (err) {
-          
+        }, function () {
+
         });
     };
 

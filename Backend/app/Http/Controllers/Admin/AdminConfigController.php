@@ -72,54 +72,58 @@ class AdminConfigController extends BaseController
 
   public function cadastrarBanner(Request $request)
   {
-
     $config = Configuracao::where('userId', Auth::id())->first();
 
-    $banner = [
-        'banner' => 'image'
-    ];
-
-    if ($request->hasFile('banner')) {
-      $banner = [
-          'banner' => 'image',
-          'produto' => 'required'
-      ];
-    }
-
-    $this->validate($request, $banner);
-
-    $insert = [
-        'produto_id' => $request->get('produto'),
-        'userId' => Auth::id()
-    ];
+    $insert = [];
 
     if (!is_null($config->banner)) {
       \Storage::delete('public/' . $config->banner);
     }
 
     if ($request->get('action') == 'remove') {
+
       $insert['banner'] = null;
       $insert['produto_id'] = null;
-    } else {
-      if ($request->hasFile('banner')) {
-        $insert['banner'] = $request->file('banner')->store('banners', 'public');
-      }
-    }
 
+      $msg = 'Banner excluído com sucesso.';
+
+    } else {
+      $banner = [
+          'banner' => 'required|image'
+      ];
+
+      if ($request->hasFile('banner')) {
+        $banner = [
+            'banner' => 'required|image',
+            'produto' => 'required'
+        ];
+      }
+
+      $this->validate($request, $banner);
+
+      $insert = [
+          'produto_id' => $request->get('produto'),
+          'userId' => Auth::id()
+      ];
+
+      $insert['banner'] = $request->file('banner')->store('banners', 'public');
+
+      $msg = 'Banner cadastrado com sucesso.';
+    }
+    
     Configuracao::updateOrCreate(
         ['userId' => Auth::id()],
         $insert
     );
 
-    return redirect(route('banner'));
+    return redirect(route('banner'))->with('success', $msg);
   }
 
   public function cadastrar(Request $request)
   {
     $this->validate($request, [
         'empresa' => 'required',
-        'cor' => 'required',
-        'banner' => 'image',
+        'cor' => 'required'
     ]);
 
     $insert = [
@@ -141,7 +145,7 @@ class AdminConfigController extends BaseController
         $insert
     );
 
-    return redirect(route('config'));
+    return redirect(route('config'))->with('success', 'Identificação da empresa cadastrada com sucesso.');
   }
 
   public function cadastrarParcelas(Request $request)
@@ -168,6 +172,6 @@ class AdminConfigController extends BaseController
         $insert
     );
 
-    return redirect(route('parcelas'));
+    return redirect(route('parcelas'))->with('success', 'Informações de parcelas cadastrada com sucesso.');
   }
 }

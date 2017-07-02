@@ -53,6 +53,7 @@ class AdminPedidosController extends BaseController
     if (!is_null($data['dados']->parcelas)) {
       $juros = $config['parcela' . $data['dados']->parcelas] / 100;
       $data['dados']->totalComJuros = $data['dados']->total + ($data['dados']->total * $juros);
+      $data['dados']->totalComFrete = ($data['dados']->total + ($data['dados']->total * $juros)) + $data['dados']->frete;
     }
 
     foreach ($data['dados']->produtos as $item) {

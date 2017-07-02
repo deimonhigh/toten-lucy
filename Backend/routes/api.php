@@ -19,8 +19,10 @@ Route::group(['prefix' => 'config'], function () {
   Route::get('/{email}', 'Api\ApiConfigController@show');
 });
 
-Route::post('frete', 'Api\ApiFreteController@frete');
-
+Route::group(['prefix' => 'frete'], function () {
+  Route::post('', 'Api\ApiFreteController@frete');
+  Route::post('upload', 'Api\ApiFreteController@uploadFrete');
+});
 Route::group(['middleware' => 'auth:api'], function () {
   Route::group(['prefix' => 'vendedores'], function () {
     Route::post('/validate', 'Api\ApiVendedorController@validate');

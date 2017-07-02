@@ -57,6 +57,10 @@
                                 <p><strong>{{ $dados->cor }}</strong></p>
                             </div>
                         @endif
+                        <div class="col-sm-6">
+                            <h5>Peso do Produto</h5>
+                            <p><strong>{{ $dados->peso }}</strong></p>
+                        </div>
                     </div>
 
                     <div class="row">

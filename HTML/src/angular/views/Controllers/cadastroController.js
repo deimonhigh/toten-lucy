@@ -175,7 +175,6 @@
           "cidade": enviar.outro.cidade.nome,
           "enderecoOriginal": !enviar.enderecoCerto
         };
-
         enviarParaSalvar.enderecos.push(endereco2);
       }
 

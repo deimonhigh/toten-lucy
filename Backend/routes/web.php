@@ -117,6 +117,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'gate']], function (
     Route::get('/editar/{id}', 'Admin\AdminUsuariosController@editarLojas')->name('lojasEditar');
     Route::get('/deletar/{id}', 'Admin\AdminUsuariosController@excluirLojas')->name('lojasDeletar');
     Route::post('/cadastrar', 'Admin\AdminUsuariosController@cadastrarLojas')->name('lojasCadastrar');
+    Route::get('/frete', 'Admin\AdminFretesController@index')->name('frete');
+    Route::post('/frete/cadastrar', 'Admin\AdminFretesController@upload')->name('freteCadastrar');
   });
   //endregion
 

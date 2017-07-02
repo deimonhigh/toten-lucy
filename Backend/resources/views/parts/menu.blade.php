@@ -29,21 +29,21 @@
                     <span>Categorias</span>
                 </a>
                 <ul class="children" @if($menu == 'categorias') style="display: block;" @endif>
-                    <li @if($submenu == 'listagem') class="active" @endif>
+                    <li @if($menu == 'categorias' && $submenu == 'listagem') class="active" @endif>
                         <a href="{{ url(route('listagemCategoria')) }}">
                             <i class="fa fa-caret-right"></i>
                             Listagem
                         </a>
                     </li>
 
-                    <li @if($submenu == 'cadastrar') class="active" @endif>
+                    <li @if($menu == 'categorias' && $submenu == 'cadastrar') class="active" @endif>
                         <a href="{{ url(route('categoriasCadastro')) }}">
                             <i class="fa fa-caret-right"></i>
                             Cadastrar
                         </a>
                     </li>
 
-                    <li @if($submenu == 'relacionar') class="active" @endif>
+                    <li @if($menu == 'categorias' && $submenu == 'relacionar') class="active" @endif>
                         <a href="{{ url(route('categoriasRelacao')) }}">
                             <i class="fa fa-caret-right"></i>
                             Relacionar
@@ -65,13 +65,13 @@
                 <span>Vendedores</span>
             </a>
             <ul class="children" @if($menu == 'vendedores') style="display: block;" @endif>
-                <li @if($submenu == 'listagem') class="active" @endif>
+                <li @if($menu == 'vendedores' && $submenu == 'listagem') class="active" @endif>
                     <a href="{{ url(route('vendedores')) }}">
                         <i class="fa fa-caret-right"></i>
                         Listagem
                     </a>
                 </li>
-                <li @if($submenu == 'cadastro') class="active" @endif>
+                <li @if($menu == 'vendedores' && $submenu == 'cadastro') class="active" @endif>
                     <a href="{{ url(route('vendedoresCadastro')) }}">
                         <i class="fa fa-caret-right"></i>
                         Cadastrar
@@ -86,19 +86,19 @@
                 <span>Configurações</span>
             </a>
             <ul class="children" @if($menu == 'config') style="display: block;" @endif>
-                <li @if($submenu == 'tema') class="active" @endif>
+                <li @if($menu == 'config' && $submenu == 'tema') class="active" @endif>
                     <a href="{{ url(route('config')) }}">
                         <i class="fa fa-caret-right"></i>
                         Identificação
                     </a>
                 </li>
-                <li @if($submenu == 'banner') class="active" @endif>
+                <li @if($menu == 'config' && $submenu == 'banner') class="active" @endif>
                     <a href="{{ url(route('banner')) }}">
                         <i class="fa fa-caret-right"></i>
                         Banner promocional
                     </a>
                 </li>
-                <li @if($submenu == 'parcelas') class="active" @endif>
+                <li @if($menu == 'config' && $submenu == 'parcelas') class="active" @endif>
                     <a href="{{ url(route('parcelas')) }}">
                         <i class="fa fa-caret-right"></i>
                         Parcelas
@@ -114,13 +114,13 @@
                     <span>Lojas</span>
                 </a>
                 <ul class="children" @if($menu == 'lojas') style="display: block;" @endif>
-                    <li @if($submenu == 'listagem') class="active" @endif>
+                    <li @if($menu == 'lojas' && $submenu == 'listagem') class="active" @endif>
                         <a href="{{ url(route('lojas')) }}">
                             <i class="fa fa-caret-right"></i>
                             Listagem
                         </a>
                     </li>
-                    <li @if($submenu == 'cadastro') class="active" @endif>
+                    <li @if($menu == 'lojas' && $submenu == 'cadastro') class="active" @endif>
                         <a href="{{ url(route('lojasCadastro')) }}">
                             <i class="fa fa-caret-right"></i>
                             Cadastrar
@@ -137,13 +137,13 @@
                     <span>Usuários</span>
                 </a>
                 <ul class="children" @if($menu == 'usuarios') style="display: block;" @endif>
-                    <li @if($submenu == 'listagem') class="active" @endif>
+                    <li @if($menu == 'usuarios' && $submenu == 'listagem') class="active" @endif>
                         <a href="{{ url(route('usuarios')) }}">
                             <i class="fa fa-caret-right"></i>
                             Listagem
                         </a>
                     </li>
-                    <li @if($submenu == 'cadastro') class="active" @endif>
+                    <li @if($menu == 'usuarios' && $submenu == 'cadastro') class="active" @endif>
                         <a href="{{ url(route('usuariosCadastro')) }}">
                             <i class="fa fa-caret-right"></i>
                             Cadastrar

@@ -5,6 +5,10 @@
   apiService.$inject = ['$http', 'localStorageService', '$q', 'config', '$timeout'];
 
   function apiService($http, localStorageService, $q, config, $timeout) {
+    var apiToken = config.dev ? config.apiTokenDev : config.apiToken;
+    var apiUrl = config.dev ? config.apiUrlDev : config.apiUrl;
+    var client_secret = config.dev ? config.client_secret_dev : config.client_secret;
+
     //region STORAGE
     var _getStorage = function (storage) {
       var storage = localStorageService.get(storage);
@@ -98,13 +102,13 @@
       var enviar = {
         "grant_type": config.grant_type,
         "client_id": config.client_id,
-        "client_secret": config.client_secret,
+        "client_secret": client_secret,
         "scope": config.scope,
         "username": dados.user,
         "password": dados.pass
       }
 
-      $http.post(config.apiToken, enviar, config.header)
+      $http.post(apiToken, enviar, config.header)
            .then(function (retorno) {
              deferred.resolve(retorno.data);
            }, function (erro) {
@@ -123,7 +127,7 @@
       var separator = url.indexOf('?') === -1 ? '?' : '&';
       url = url + separator + 'noCache=' + new Date().valueOf();
 
-      $http.get(config.apiUrl + url, header)
+      $http.get(apiUrl + url, header)
            .then(function (retorno) {
              deferred.resolve(retorno.data);
            }, function (erro) {
@@ -138,7 +142,7 @@
       var separator = url.indexOf('?') === -1 ? '?' : '&';
       url = url + separator + 'noCache=' + new Date().valueOf();
 
-      $http.post(config.apiUrl + url, data, header)
+      $http.post(apiUrl + url, data, header)
            .then(function (retorno) {
              deferred.resolve(retorno.data);
            }, function (erro) {
@@ -155,7 +159,7 @@
       var separator = url.indexOf('?') === -1 ? '?' : '&';
       url = url + id + separator + 'noCache=' + new Date().valueOf();
 
-      $http.post(config.apiUrl + url, {})
+      $http.post(apiUrl + url, {})
            .then(function (retorno) {
              deferred.resolve(retorno.data);
            }, function (erro) {
@@ -174,7 +178,7 @@
       var separator = url.indexOf('?') === -1 ? '?' : '&';
       url = url + titulo + separator + 'noCache=' + new Date().valueOf().toString();
 
-      $http.get(config.apiUrl + url.toString())
+      $http.get(apiUrl + url.toString())
            .then(function (retorno) {
              deferred.resolve(retorno.data);
            }, function (erro) {
@@ -189,7 +193,7 @@
       return $q.all(
         urls
           .map(function (url) {
-            return $http.get(config.apiUrl + url)
+            return $http.get(apiUrl + url)
           })
       );
     };
@@ -198,7 +202,7 @@
       return $q.all(
         urls
           .map(function (url, i) {
-            return $http.post(config.apiUrl + url, data[i]);
+            return $http.post(apiUrl + url, data[i]);
           })
       );
     };

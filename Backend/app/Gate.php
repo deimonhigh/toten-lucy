@@ -8,7 +8,9 @@ class Gate
       'admin/categorias',
       'admin/lojas',
       'admin/usuarios',
-      'admin/produtos/importarProdutosView'
+      'admin/produtos/importarProdutosView',
+      'admin/lojas/frete',
+      'admin/lojas/frete/upload',
   ];
 
   public static function access($uri)
