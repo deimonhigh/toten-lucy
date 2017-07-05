@@ -75,7 +75,7 @@
           vm.totalCarrinho = vm.formaPagamento.total;
           var frete = 0;
           if (vm.frete) {
-            frete = vm.frete.valor;
+            frete = parseFloat(vm.frete.valor);
           }
           vm.totalCarrinhoFrete = vm.formaPagamento.total + frete;
         });
@@ -99,7 +99,7 @@
         .then(function (res) {
           apiService.setStorage('frete', res.result);
           vm.frete = res.result;
-          vm.totalCarrinhoFrete = dados.total + res.result.valor;
+          vm.totalCarrinhoFrete = dados.total + parseFloat(res.result.valor);
         });
     };
 

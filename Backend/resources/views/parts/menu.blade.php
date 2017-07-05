@@ -98,12 +98,14 @@
                         Banner promocional
                     </a>
                 </li>
-                <li @if($menu == 'config' && $submenu == 'parcelas') class="active" @endif>
-                    <a href="{{ url(route('parcelas')) }}">
-                        <i class="fa fa-caret-right"></i>
-                        Parcelas
-                    </a>
-                </li>
+                @if(\App\Gate::hasAccess('admin/lojas'))
+                    <li @if($menu == 'config' && $submenu == 'parcelas') class="active" @endif>
+                        <a href="{{ url(route('parcelas')) }}">
+                            <i class="fa fa-caret-right"></i>
+                            Parcelas
+                        </a>
+                    </li>
+                @endif
             </ul>
         </li>
 

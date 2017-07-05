@@ -156,17 +156,6 @@ gulp.task('imgs', function () {
              .pipe(connect.reload());
 });
 
-gulp.task('indexJS', function () {
-  return gulp.src(filesSrc.indexJS)
-             .pipe(plumber({
-                             errorHandler: onError
-                           }))
-             .pipe(decomment({trim: true}))
-             .pipe(compressor())
-             .pipe(gulp.dest(dist.indexJS))
-             .pipe(connect.reload());
-});
-
 gulp.task('fonts', function () {
   const sourceFonts = filesSrc.fonts.concat(filesSrc.fontsModules);
   return gulp.src(sourceFonts)
@@ -219,6 +208,7 @@ gulp.task('compressAngular', function () {
                              errorHandler: onError
                            }))
              .pipe(sourcemaps.init())
+             .pipe(include())
              .pipe(decomment({trim: true}))
              .pipe(compressor())
              .pipe(rename({
@@ -350,7 +340,6 @@ gulp.task('buildProd',
 
 //region Utils
 function returnArgs(args) {
-  console.log(args);
   return args.filter(function (obj) {
     return obj.toString().indexOf('=') > -1;
   }).map(function (arg) {

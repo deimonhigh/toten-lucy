@@ -96,7 +96,7 @@
 
       <div class="infoProduto">
         <h4><strong>DESCRIÇÃO:</strong></h4>
-        <p ng-if="produto.descricao.length > 0" ng-bind="produto.descricao"></p>
+        <p ng-if="produto.descricao.length > 0" ng-bind-html="trustResource(produto.descricao)"></p>
       </div>
 
     </div>
@@ -118,8 +118,8 @@
 </section>
 
 <footer class="grid middle begin">
-  <div class="collum align-left grid-6" ui-sref="produtos">
-    <button class="btn white">
+  <div class="collum align-left grid-6">
+    <button class="btn white" ui-sref="categorias">
       continuar comprando
     </button>
   </div>

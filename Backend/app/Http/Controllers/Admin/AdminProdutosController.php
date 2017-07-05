@@ -65,6 +65,8 @@ class AdminProdutosController extends BaseController
     $result = $client->__soapCall($function, $arguments);
 
     $protocoloProduto = [];
+    $estoqueIncluir = [];
+    $notInProdutos = [];
 
     if (isset($result->ProdutosDisponiveisResult->Rows)):
       $rows = $result->ProdutosDisponiveisResult->Rows->DadosProdutos;
@@ -75,6 +77,8 @@ class AdminProdutosController extends BaseController
         array_push($protocoloProduto, [
             'ProtocoloProduto' => $row->ProtocoloProduto
         ]);
+
+        array_push($estoqueIncluir, $row->CodigoProduto);
 
         if ($row->CategoriasDoSite->ResultadoOperacao->Tipo != 'tdreSucessoSemDados'):
           if (gettype($row->CategoriasDoSite->Rows->DadosCategoriasDoSite) == 'object') {
@@ -91,7 +95,6 @@ class AdminProdutosController extends BaseController
         });
 
         $cor = reset($cor);
-
         $produto = Produto::updateOrCreate(
             ['codigobarras' => $row->CodigoBarras],
             [
@@ -100,15 +103,18 @@ class AdminProdutosController extends BaseController
                 'codigoprodutopai' => $row->CodigoProdutoPai,
                 'codigoproduto' => $row->CodigoProduto,
                 'nomeproduto' => $row->NomeProduto,
-                'descricao' => $row->Descricao,
+                'descricao' => $row->CaracteristicasComplementares->Rows->DadosCaracteristicasComplementares->Texto,
                 'peso' => $row->Peso,
                 'preco1' => 0,
                 'precopromocao1' => 0,
                 'preco2' => 0,
                 'precopromocao2' => 0,
+                'disabled' => 0,
                 'cor' => $cor ? $cor->Descricao : null
             ]
         );
+
+        array_push($notInProdutos, $row->CodigoProduto);
 
         $produto->categorias()->detach();
         if ($categoriasIncluir) {
@@ -116,6 +122,9 @@ class AdminProdutosController extends BaseController
         }
       endforeach;
 
+      $this->atualizaEstoque($estoqueIncluir);
+
+      Produto::whereNotIn('codigoproduto', $notInProdutos)->update(['disabled' => true]);
       //region Confirma Produtos
       $this->confirmaProdutos($protocoloProduto);
       //endregion
@@ -176,6 +185,35 @@ class AdminProdutosController extends BaseController
     }
   }
 
+  private function atualizaEstoque($produtosEnviar)
+  {
+    if (count($produtosEnviar) > 0) {
+      $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2, "exceptions" => 0]);
+      $function = 'EstoqueOnLine';
+
+      $arguments = [
+          'EstoqueOnLine' => [
+              'ChaveIdentificacao' => '77AD990B-6138-4065-9B86-8D30119C09D3',
+              'ListaDeCodigosProdutos' => [
+                  'string' => $produtosEnviar
+              ]
+          ]
+      ];
+
+      try {
+        $result = $client->__soapCall($function, $arguments);
+        foreach ($result->EstoqueOnLineResult->Rows->DadosEstoqueResultado as $item) {
+          $produto = Produto::where('codigoproduto', $item->CodigoProduto)->first();
+          $produto->estoque = $item->SaldoDisponivel;
+          $produto->save();
+        }
+      }
+      catch (\Exception $e) {
+        
+      }
+    }
+  }
+
   private function findFiles()
   {
     Imagemproduto::truncate();
@@ -192,7 +230,7 @@ class AdminProdutosController extends BaseController
         if ($handle = opendir($path)) {
           while (false !== ($file = readdir($handle))) {
             $pathToImg = $path . '/' . $file;
-            if (($file != '.' && $file != '..') && getimagesize($pathToImg)) {
+            if (($file != '.' && $file != '..') && !is_dir($pathToImg) && getimagesize($pathToImg)) {
 
               $pathToSave = 'storage/' . str_replace(storage_path('app/public/'), '', $pathToImg);
 

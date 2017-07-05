@@ -28,6 +28,7 @@ class ApiProdutosController extends BaseController
       $itens = $request->get('itens');
 
       $produtos = Produto::with('imagens')->where(function ($q) use ($itens) {
+        $q->where('estoque', '>', 0);
         $q->whereHas('categorias', function ($query) use ($itens) {
           $query->whereIn('codigocategoria', $itens);
         });

@@ -56,7 +56,7 @@
                                            class="form-control"
                                     />
                                     @if ($errors->has('password'))
-                                        <label class="error">Campo senha é obrigatório.</label>
+                                        <label class="error">{{ str_replace('password', 'senha', $errors->first('password')) }}</label>
                                     @endif
                                 </div>
                             </div><!-- col-sm-6 -->
@@ -69,7 +69,7 @@
                                            class="form-control"
                                     />
                                     @if ($errors->has('password_confirmation'))
-                                        <label class="error">Campos de senha não conferem.</label>
+                                        <label class="error">{{ str_replace('password_confirmation', 'confirmação de senha', $errors->first('password_confirmation')) }}</label>
                                     @endif
                                 </div>
                             </div><!-- col-sm-6 -->

@@ -1,4 +1,3 @@
-//=require ../../../node_modules/jquery/dist/jquery.min.js
 //=require ../../../node_modules/angular/angular.min.js
 //=require ../../../node_modules/@uirouter/angularjs/release/angular-ui-router.min.js
 //=require ../../../node_modules/angular-animate/angular-animate.min.js

@@ -9,7 +9,7 @@
             </ul>
         </div>
     @endif
-    
+
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -36,23 +36,30 @@
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->email }}</td>
                                             <td>
-                                                <a class="btn btn-default"
-                                                   title="Detalhes do Usuários"
-                                                   href="{{ url(route('usuariosDetalhe', ['id' => $data->id])) }}">
-                                                    <i class="fa fa-search"></i>
-                                                </a>
+                                                @if($data->id !=  Auth::id())
+                                                    <a class="btn btn-default"
+                                                       title="Detalhes do Usuários"
+                                                       href="{{ url(route('usuariosDetalhe', ['id' => $data->id])) }}">
+                                                        <i class="fa fa-search"></i>
+                                                    </a>
+                                                    <a class="btn btn-default"
+                                                       title="Editar Usuários"
+                                                       href="{{ url(route('usuariosEditar', ['id' => $data->id])) }}">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
 
-                                                <a class="btn btn-default"
-                                                   title="Editar Usuários"
-                                                   href="{{ url(route('usuariosEditar', ['id' => $data->id])) }}">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-
-                                                <a class="btn btn-default"
-                                                   title="Excluir Usuários"
-                                                   href="{{ url(route('usuariosDeletar', ['id' => $data->id])) }}">
-                                                    <i class="fa fa-close"></i>
-                                                </a>
+                                                    <a class="btn btn-default"
+                                                       title="Excluir Usuários"
+                                                       href="{{ url(route('usuariosDeletar', ['id' => $data->id])) }}">
+                                                        <i class="fa fa-close"></i>
+                                                    </a>
+                                                @else
+                                                    <a class="btn btn-default"
+                                                       title="Detalhes do Usuários"
+                                                       href="{{ url(route('perfil')) }}">
+                                                        <i class="fa fa-search"></i>
+                                                    </a>
+                                                @endif
                                             </td>
                                         </tr>
                                     </tbody>

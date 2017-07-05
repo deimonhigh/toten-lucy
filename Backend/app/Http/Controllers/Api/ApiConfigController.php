@@ -5,14 +5,19 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Model\Configuracao;
 use App\Http\Controllers\RestController as BaseController;
 use App\User;
+use Illuminate\Http\Request;
 
 class ApiConfigController extends BaseController
 {
-  public function show($email)
+  public function show(Request $request)
   {
     try {
-      $user = User::where('email', $email)->firstOrFail();
-      $retorno = Configuracao::where('userId', $user->id)->firstOrFail();
+      if ($request->has('email')) {
+        $user = User::where('email', $request->get('email'))->firstOrFail();
+        $retorno = Configuracao::where('userId', $user->id)->firstOrFail();
+      } else {
+        $retorno = Configuracao::find($request->get('id'));
+      }
 
       if ($retorno->banner) {
         $retorno->banner = url('storage/' . $retorno->banner);

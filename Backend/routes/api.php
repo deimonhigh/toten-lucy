@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::get('begin', 'Controller@begin');
 
 Route::group(['prefix' => 'config'], function () {
-  Route::get('/{email}', 'Api\ApiConfigController@show');
+  Route::post('', 'Api\ApiConfigController@show');
 });
 
 Route::group(['prefix' => 'frete'], function () {

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller as BaseController;
 use App\Http\Controllers\Model\Configuracao;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AdminUsuariosController extends BaseController
@@ -26,7 +25,6 @@ class AdminUsuariosController extends BaseController
     //endregion
 
     $data['dados'] = User::where(function ($q) {
-      $q->where('id', '!=', Auth::id());
       $q->where('type', 1);
     })->paginate(15);
 
@@ -199,6 +197,7 @@ class AdminUsuariosController extends BaseController
     $data['submenu'] = "cadastro";
     //endregion
 
+    $data['dados'] = new User();
 
     return view('lojas.cadastro', $data);
   }

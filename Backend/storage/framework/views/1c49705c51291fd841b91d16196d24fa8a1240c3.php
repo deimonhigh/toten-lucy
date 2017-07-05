@@ -1,14 +1,12 @@
-@extends('template')
+<?php $__env->startSection('content'); ?>
 
-@section('content')
-
-    @if (\Session::has('success'))
+    <?php if(\Session::has('success')): ?>
         <div class="alert alert-success">
             <ul style="list-style: none; padding: 0;">
-                <li>{!! \Session::get('success') !!}</li>
+                <li><?php echo \Session::get('success'); ?></li>
             </ul>
         </div>
-    @endif
+    <?php endif; ?>
 
     <div class="row">
         <div class="col-md-12">
@@ -16,20 +14,20 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">Produtos</h4>
                     <p>Aqui você confere a lista de produtos cadastrados no momento</p>
-                    @if(\App\Gate::hasAccess('admin/produtos/importarProdutosView'))
+                    <?php if(\App\Gate::hasAccess('admin/produtos/importarProdutosView')): ?>
                         <a class="btn btn-default"
                            style="margin-top: 20px;"
-                           href="{{ url(route('importarProdutos')) }}">
+                           href="<?php echo e(url(route('importarProdutos'))); ?>">
                             Atualizar base de dados
                         </a>
-                    @endif
-                    @if(\App\Gate::hasAccess('admin/lojas/frete'))
+                    <?php endif; ?>
+                    <?php if(\App\Gate::hasAccess('admin/lojas/frete')): ?>
                         <a class="btn btn-default"
                            style="margin-top: 20px;"
-                           href="{{ url(route('frete')) }}">
+                           href="<?php echo e(url(route('frete'))); ?>">
                             Importar Lista de Fretes
                         </a>
-                    @endif
+                    <?php endif; ?>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -43,42 +41,45 @@
                                     <th>Ações</th>
                                 </tr>
                             </thead>
-                            @if(count($dados) > 0)
-                                @foreach($dados as $data)
+                            <?php if(count($dados) > 0): ?>
+                                <?php $__currentLoopData = $dados; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tbody>
                                         <tr>
-                                            <td>{{ $data->id }}</td>
-                                            <td>{{ $data->nomeproduto }}</td>
-                                            <td>{{ $data->codigoproduto }}</td>
-                                            <td>{{ $data->codigobarras }}</td>
+                                            <td><?php echo e($data->id); ?></td>
+                                            <td><?php echo e($data->nomeproduto); ?></td>
+                                            <td><?php echo e($data->codigoproduto); ?></td>
+                                            <td><?php echo e($data->codigobarras); ?></td>
                                             <td>
                                                 <a class="btn btn-default"
                                                    title="Detalhes de produtos"
-                                                   href="{{ url(route('produtosDetalhe', ['id' => $data->id])) }}">
+                                                   href="<?php echo e(url(route('produtosDetalhe', ['id' => $data->id]))); ?>">
                                                     <i class="fa fa-search"></i>
                                                 </a>
                                             </td>
                                         </tr>
                                     </tbody>
-                                @endforeach
-                            @else
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php else: ?>
                                 <tbody>
                                     <tr>
                                         <td colspan="4">Nenhum produto cadastrado no momento.</td>
                                     </tr>
                                 </tbody>
-                            @endif
+                            <?php endif; ?>
                         </table>
                     </div><!-- table-responsive -->
                 </div><!-- panel-body -->
                 <div class="panel-footer">
                     <div class="row">
-                        {{ $dados->render() }}
+                        <?php echo e($dados->render()); ?>
+
                     </div>
                 </div>
             </div>
         </div>
 
     </div><!-- row -->
-@endsection
+<?php $__env->stopSection(); ?>
 
+
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

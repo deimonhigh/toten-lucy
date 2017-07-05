@@ -23,7 +23,7 @@ class AdminFretesController extends BaseController
     $data['submenu'] = "";
     //endregion
 
-    return view('lojas.fretes', $data);
+    return view('produtos.fretes', $data);
   }
 
   public function upload(Request $request)
@@ -56,9 +56,9 @@ class AdminFretesController extends BaseController
             $obj = [];
             $obj['cep_inicial'] = $data[0];
             $obj['cep_final'] = $data[1];
-            $obj['peso_inicial'] = $data[2];
-            $obj['peso_final'] = $data[3];
-            $obj['valor'] = $data[4];
+            $obj['peso_inicial'] = (float)str_replace('%', '', str_replace(',', '.', str_replace('.', '%', $data[2])));
+            $obj['peso_final'] = (float)str_replace('%', '', str_replace(',', '.', str_replace('.', '%', $data[3])));
+            $obj['valor'] = (float)str_replace('%', '', str_replace(',', '.', str_replace('.', '%', $data[4])));
             $obj['prazo'] = $data[15];
             $obj['created_at'] = $now;
             $obj['updated_at'] = $now;

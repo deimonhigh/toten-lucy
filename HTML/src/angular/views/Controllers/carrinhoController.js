@@ -129,7 +129,7 @@
           vm.result.prazo = res.result.prazo;
           vm.result.show = true;
 
-          vm.totalProdutosFrete = angular.copy(vm.totalProdutos) + res.result.valor;
+          vm.totalProdutosFrete = angular.copy(vm.totalProdutos) + parseFloat(res.result.valor);
         }, function () {
           alert('CEP não encontrado em nossa base.');
         });

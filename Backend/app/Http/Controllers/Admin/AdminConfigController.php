@@ -45,9 +45,10 @@ class AdminConfigController extends BaseController
     $data['submenu'] = "parcelas";
     //endregion
 
-    $config = Configuracao::where('userId', Auth::id())->first();
+//    $configUser = Configuracao::where('userId', Auth::id())->first();
+    $config = Configuracao::find(1);
     $data['dados'] = is_null($config) ? new Configuracao() : $config;
-
+    
     return view('configuracoes.parcelas', $data);
   }
 
@@ -110,7 +111,7 @@ class AdminConfigController extends BaseController
 
       $msg = 'Banner cadastrado com sucesso.';
     }
-    
+
     Configuracao::updateOrCreate(
         ['userId' => Auth::id()],
         $insert
@@ -131,14 +132,6 @@ class AdminConfigController extends BaseController
         'cor' => $request->get('cor'),
         'userId' => Auth::id()
     ];
-
-    \Storage::deleteDirectory('public/banners');
-
-    if ($request->hasFile('banner')) {
-      $insert['banner'] = $request->file('banner')->store('banners', 'public');
-    } else {
-      $insert['banner'] = null;
-    }
 
     Configuracao::updateOrCreate(
         ['userId' => Auth::id()],
@@ -168,7 +161,7 @@ class AdminConfigController extends BaseController
     ];
 
     Configuracao::updateOrCreate(
-        ['userId' => Auth::id()],
+        ['id' => 1],
         $insert
     );
 

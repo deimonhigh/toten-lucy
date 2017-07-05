@@ -21,21 +21,52 @@
         });
     };
 
-    var config = function (dados) {
+    var config = function (email) {
       if (!apiService.getStorage('auth')) {
+        config();
         return;
       }
+
+      var dados = {
+        "email": email
+      };
+
       apiService
-        .get('config/' + dados)
+        .post('config', dados)
         .then(function (res) {
           apiService.setStorage('tema', res.result);
-          root.$broadcast('temaLoaded');
-          $state.go('home');
+          configGeral();
         }, function () {
-
+          configGeral();
         });
     };
+    var configGeral = function () {
+      var send = {
+        id: 1
+      };
 
+      apiService
+        .post('config', send)
+        .then(function (res) {
+          var tema = apiService.getStorage('tema');
+          if (!tema) {
+            tema = {};
+          }
+
+          var temaSalvar = res.result;
+          temaSalvar.banner = tema ? tema.banner : null;
+          temaSalvar.produto_id = tema ? tema.produto_id : null;
+          temaSalvar.listaPreco = tema ? tema.listaPreco : null;
+          temaSalvar.cor = tema ? tema.cor : null;
+          temaSalvar.empresa = tema ? tema.empresa : null;
+
+          apiService.setStorage('tema', temaSalvar);
+          root.$broadcast('temaLoaded');
+          $state.go('home');
+        }, function (err) {
+        });
+
+    };
   }
 
 })

@@ -21,7 +21,7 @@
                             <thead>
                                 <tr>
                                     <th>Código do pedido</th>
-                                    <th>Nome</th>
+                                    <th>Cliente</th>
                                     <th>Documento (CPF/CNPJ)</th>
                                     <th>Ações</th>
                                 </tr>

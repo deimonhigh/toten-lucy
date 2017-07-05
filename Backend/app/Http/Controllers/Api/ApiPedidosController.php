@@ -7,6 +7,7 @@ use App\Http\Controllers\Model\Cliente;
 use App\Http\Controllers\Model\Configuracao;
 use App\Http\Controllers\Model\Pedido;
 use App\Http\Controllers\Model\Pedidosproduto;
+use App\Http\Controllers\Model\Produto;
 use App\Http\Controllers\RestController as BaseController;
 use App\User;
 use Carbon\Carbon;
@@ -31,7 +32,7 @@ class ApiPedidosController extends BaseController
 
       $cliente = Cliente::find($request->idcliente);
 
-//      $this->savePedidosKpl($request, $cliente, $url);
+      $this->savePedidosKpl($request, $cliente, $url);
 
       foreach ($request->produtos as $produto) {
         $temp = new Pedidosproduto();
@@ -40,6 +41,8 @@ class ApiPedidosController extends BaseController
         $temp->idcliente = $request->idcliente;
         $temp->idpedido = $request->idPedido;
         $temp->save();
+
+        Produto::find($produto['produto_id'])->update(['estoque' => \DB::raw('estoque - 1')]);
       }
 
       $user = User::where('email', $request->email)->first();

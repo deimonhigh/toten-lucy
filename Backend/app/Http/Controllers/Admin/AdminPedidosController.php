@@ -22,8 +22,11 @@ class AdminPedidosController extends BaseController
     $data['menu'] = "pedidos";
     $data['submenu'] = "";
     //endregion
-
-    $data['dados'] = Pedido::where('user_id', Auth::id())->paginate(15);
+    if (Auth::user()->type) {
+      $data['dados'] = Pedido::paginate(15);
+    } else {
+      $data['dados'] = Pedido::where('user_id', Auth::id())->paginate(15);
+    }
 
     foreach ($data['dados'] as $item) {
       $item->pedido_id = 'SF.' . preg_replace("/^(\d{4})(\d{4})(\d+)(\d{2})/", '$1.$2.$3-$4', str_pad((string)$item->id, 13, 0, STR_PAD_LEFT));
@@ -67,7 +70,9 @@ class AdminPedidosController extends BaseController
   {
     Pedido::where(function ($q) {
       $q->Where(function ($query) {
-        $query->where('user_id', Auth::id());
+        if (!Auth::user()->type) {
+          $query->where('user_id', Auth::id());
+        }
         $query->where('total', 0);
         $query->orWhere('total', '=', NULL);
       });
@@ -85,7 +90,9 @@ class AdminPedidosController extends BaseController
         $query->orWhere('total', '!=', NULL);
       });
       $q->where('status', 0);
-      $q->where('user_id', Auth::id());
+      if (!Auth::user()->type) {
+        $q->where('user_id', Auth::id());
+      }
     })->get();
 
     foreach ($pedidos as $pedido) {
