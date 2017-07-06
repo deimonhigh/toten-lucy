@@ -25,18 +25,45 @@
   <ui-view class="ng-cloak"></ui-view>
 
   <div ng-controller="fotoController" class="hidden" ng-class="{'hidden': !foto}">
-    <div class="tableModal full fixed black animate-if" ng-if="foto">
+    <div class="tableModal full fixed black animate-if">
       <div class="tCell">
         <div class="dib foto">
-          <div class="grid middle">
+          <div class="grid">
             <div class="column">
-              <div class="img">
-                @@include('assets/imgs/fotos/webcam.svg')
-              </div>
               <div class="right">
-                <h3>ANEXAR<br>COMPROVANTE</h3>
-                <p>POSICIONE O COMPROVANTE DO PAGAMENTO EM FRENTE A CÂMERA</p>
+                <div class="btnHolder">
+                  <h3>COMPROVANTE <br> DE PAGAMENTO</h3>
+                </div>
               </div>
+              <form name="comprovantesForm" ng-submit="false">
+                <ul>
+                  <li ng-repeat="item in comprovantes">
+                    <button ng-click="removeItem(item)">- Excluir</button>
+                    <div class="formField">
+                      <select name="bandeira"
+                              ng-model="item.bandeira"
+                              required
+                              ng-options="item as item.descricao for item in bandeiras track by item.id"></select>
+                    </div>
+                    <div class="formField">
+                      <input type="number"
+                             required
+                             name="codigo"
+                             ng-model="item.codigo"
+                             placeholder="Digite o código do cupom">
+                    </div>
+                  </li>
+                </ul>
+                <div class="btnHolder">
+                  <button type="button"
+                          ng-if="!hideButtonComprovante"
+                          class="btn btnFoto no-animate"
+                          ng-click="addComprovante()">+
+                                                      ADICIONAR
+                                                      OUTRO
+                  </button>
+                </div>
+              </form>
             </div>
             <div class="column" ng-if="!confirmFoto">
               <div class="imgExample">
@@ -61,9 +88,9 @@
                   <div class="img">
                     @@include('assets/imgs/fotos/camera.svg')
                   </div>
-                  fotografar
+                  repetir foto
                 </button>
-                <button type="button" class="btn" ng-click="closeModal()">
+                <button type="button" class="btn no-animate" ng-click="closeModal()" ng-if="comprovantesForm.$valid">
                   <i class="fa fa-check" aria-hidden="true"></i>
                   confirmar
                 </button>

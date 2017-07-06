@@ -339,3 +339,8 @@ section {
 .noFlex {
   display : inline-block !important;
 }
+
+.no-animate {
+  -webkit-transition : none !important;
+  transition         : none !important;
+}
