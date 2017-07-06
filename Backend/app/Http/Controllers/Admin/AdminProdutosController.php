@@ -7,10 +7,11 @@ use App\Http\Controllers\Model\Atualizacao;
 use App\Http\Controllers\Model\Imagemproduto;
 use App\Http\Controllers\Model\Produto;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class AdminProdutosController extends BaseController
 {
-  public function index()
+  public function index(Request $request)
   {
     $data = [];
     //region Breadcrumb
@@ -22,7 +23,16 @@ class AdminProdutosController extends BaseController
     $data['submenu'] = "";
     //endregion
 
-    $data['dados'] = Produto::paginate(15);
+    if ($request->has('pesquisa')) {
+      $pesquisa = $request->get('pesquisa');
+      $data['dados'] = Produto::where(function ($q) use ($pesquisa) {
+        $q->Where('nomeproduto', 'LIKE', "%{$pesquisa}%");
+        $q->orWhere('codigoproduto', 'LIKE', "%{$pesquisa}%");
+        $q->orWhere('codigobarras', 'LIKE', "%{$pesquisa}%");
+      })->paginate(15);
+    } else {
+      $data['dados'] = Produto::paginate(15);
+    }
 
     return view('produtos.listagem', $data);
   }
@@ -74,6 +84,8 @@ class AdminProdutosController extends BaseController
       foreach ($rows as $row):
         $categoriasIncluir = [];
 
+        var_dump($row->CodigoProdutoPai);
+
         array_push($protocoloProduto, [
             'ProtocoloProduto' => $row->ProtocoloProduto
         ]);
@@ -96,11 +108,11 @@ class AdminProdutosController extends BaseController
 
         $cor = reset($cor);
         $produto = Produto::updateOrCreate(
-            ['codigobarras' => $row->CodigoBarras],
+            ['codigoprodutoabaco' => $row->CodigoProdutoAbacos],
             [
                 'codigobarras' => $row->CodigoBarras,
                 'codigoprodutoabaco' => $row->CodigoProdutoAbacos,
-                'codigoprodutopai' => $row->CodigoProdutoPai,
+                'codigoprodutopai' => strlen($row->CodigoProdutoPai) > 0 ? $row->CodigoProdutoPai : null,
                 'codigoproduto' => $row->CodigoProduto,
                 'nomeproduto' => $row->NomeProduto,
                 'descricao' => $row->CaracteristicasComplementares->Rows->DadosCaracteristicasComplementares->Texto,
@@ -109,7 +121,7 @@ class AdminProdutosController extends BaseController
                 'precopromocao1' => 0,
                 'preco2' => 0,
                 'precopromocao2' => 0,
-                'disabled' => 0,
+                'disabled' => false,
                 'cor' => $cor ? $cor->Descricao : null
             ]
         );
@@ -122,9 +134,9 @@ class AdminProdutosController extends BaseController
         }
       endforeach;
 
-      $this->atualizaEstoque($estoqueIncluir);
-
       Produto::whereNotIn('codigoproduto', $notInProdutos)->update(['disabled' => true]);
+
+      $this->atualizaEstoque($estoqueIncluir);
       //region Confirma Produtos
       $this->confirmaProdutos($protocoloProduto);
       //endregion
@@ -209,7 +221,7 @@ class AdminProdutosController extends BaseController
         }
       }
       catch (\Exception $e) {
-        
+
       }
     }
   }

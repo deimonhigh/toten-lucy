@@ -31,6 +31,19 @@
                         </a>
                     @endif
                 </div>
+
+                <div class="panel-body">
+                    <form method="get">
+                        <div class="form-group">
+                            <input type="text"
+                                   name="pesquisa"
+                                   placeholder="Pesquisar por Nome, código ou código de barras do produto"
+                                   class="form-control"
+                                   value="{{ isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '' }}">
+                        </div>
+                    </form>
+                </div>
+
                 <div class="panel-body">
                     <div class="table-responsive">
                         <table class="table table-striped mb30">
@@ -72,9 +85,7 @@
                     </div><!-- table-responsive -->
                 </div><!-- panel-body -->
                 <div class="panel-footer">
-                    <div class="row">
-                        {{ $dados->render() }}
-                    </div>
+                    {{ $dados->appends(['pesquisa' => (isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '')])->render() }}
                 </div>
             </div>
         </div>

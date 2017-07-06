@@ -12,6 +12,6 @@
     "client_secret": "aw8AFIdfQ280GTnGjnJGHJGRc6lZpop1Pz3xhOj3",
     "client_secret_dev": "N8bENBm0tCa2KToFezvaL2Ms8zNw2XNh00VU0fJG",
     "scope": "*",
-    "dev": true
+    "dev": false
   });
 

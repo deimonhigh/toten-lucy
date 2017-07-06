@@ -11,6 +11,7 @@ class Produto extends Model
   protected $fillable = [
       "codigobarras",
       "codigoprodutoabaco",
+      "codigoprodutopai",
       "codigoproduto",
       "nomeproduto",
       "descricao",
@@ -21,6 +22,7 @@ class Produto extends Model
       "preco2",
       "precopromocao2",
       "peso",
+      "disabled"
   ];
 
   protected $hidden = [

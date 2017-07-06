@@ -46,6 +46,13 @@
         }).map(function (obj) {
           obj.preco = obj['preco' + root.temaStorage.listaPreco];
           obj.precopromocao = obj['precopromocao' + root.temaStorage.listaPreco];
+
+          if (parseFloat(obj.precopromocao) == 0) {
+            obj.comJuros = ((parseFloat(obj.preco) + (parseFloat(obj.preco) * parseFloat(vm.maxParcelas)) / 100).toFixed(2)) / parseInt(root.temaStorage.max_parcelas);
+          } else {
+            obj.comJuros = ((parseFloat(obj.precopromocao) + (parseFloat(obj.precopromocao) * parseFloat(vm.maxParcelas)) / 100).toFixed(2)) / parseInt(root.temaStorage.max_parcelas);
+          }
+
           return obj;
         });
       });

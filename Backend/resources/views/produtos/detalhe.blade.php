@@ -33,6 +33,7 @@
                             <h5>Código do Produto</h5>
                             <p><strong>{{ $dados->codigoproduto }}</strong></p>
                         </div>
+
                         @if(strlen($dados->codigoprodutopai) > 0)
                             <div class="col-sm-6">
                                 <h5>Código do Produto Pai</h5>
@@ -60,6 +61,17 @@
                         <div class="col-sm-6">
                             <h5>Peso do Produto</h5>
                             <p><strong>{{ $dados->peso }}</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>Quantidade em estoque do Produto</h5>
+                            <p><strong>{{ $dados->estoque }}</strong></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <h5>Produto desabilitado?</h5>
+                            <p><strong>{{ ($dados->disabled ? 'Sim' : 'Não') }}</strong></p>
                         </div>
                     </div>
 

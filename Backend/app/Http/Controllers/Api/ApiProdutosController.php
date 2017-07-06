@@ -29,6 +29,7 @@ class ApiProdutosController extends BaseController
 
       $produtos = Produto::with('imagens')->where(function ($q) use ($itens) {
         $q->where('estoque', '>', 0);
+        $q->whereNotNull('codigoprodutopai');
         $q->whereHas('categorias', function ($query) use ($itens) {
           $query->whereIn('codigocategoria', $itens);
         });
@@ -78,6 +79,7 @@ class ApiProdutosController extends BaseController
       $result = Produto::with('imagens')->where(function ($q) use ($produto, $codigoProduto) {
         $q->where('codigoproduto', 'LIKE', $produto . '%');
         $q->where('codigoproduto', '!=', $codigoProduto);
+        $q->whereNotNull('codigoprodutopai');
       })->get();
 
       foreach ($result as $item) {

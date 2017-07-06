@@ -52,12 +52,7 @@
               </div>
               <div class="grid-5 parcelas">
                 <span class="parcelamento" ng-bind="temaStorage.max_parcelas + 'X'"></span>
-                <span class="totalParcela"
-                      ng-if="item.precopromocao > 0"
-                      ng-bind="((item.precopromocao + item.precopromocao * (maxParcelas / 100)) / temaStorage.max_parcelas) | currency:'R$ '"></span>
-                <span class="totalParcela"
-                      ng-if="item.precopromocao == 0"
-                      ng-bind="((item.preco  + item.precopromocao * (maxParcelas / 100)) / temaStorage.max_parcelas) | currency:'R$ '"></span>
+                <span class="totalParcela" ng-bind="item.comJuros | currency:'R$ '"></span>
               </div>
             </div>
 

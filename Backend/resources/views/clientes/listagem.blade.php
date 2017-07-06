@@ -59,7 +59,7 @@
                     </div><!-- table-responsive -->
                 </div><!-- panel-body -->
                 <div class="panel-footer">
-                  <?php echo $dados->appends(['pesquisa' => (isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '')])->render(); ?>
+                    {{ $dados->appends(['pesquisa' => (isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '')])->render() }}
                 </div>
             </div>
         </div>
