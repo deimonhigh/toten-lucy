@@ -48,7 +48,7 @@ class AdminConfigController extends BaseController
 //    $configUser = Configuracao::where('userId', Auth::id())->first();
     $config = Configuracao::find(1);
     $data['dados'] = is_null($config) ? new Configuracao() : $config;
-    
+
     return view('configuracoes.parcelas', $data);
   }
 
@@ -157,7 +157,8 @@ class AdminConfigController extends BaseController
         'parcela9' => ($request->get('parcela9') ? str_replace(',', '.', (string)$request->get('parcela9')) : 0),
         'parcela10' => ($request->get('parcela10') ? str_replace(',', '.', (string)$request->get('parcela10')) : 0),
         'parcela11' => ($request->get('parcela11') ? str_replace(',', '.', (string)$request->get('parcela11')) : 0),
-        'parcela12' => ($request->get('parcela12') ? str_replace(',', '.', (string)$request->get('parcela12')) : 0)
+        'parcela12' => ($request->get('parcela12') ? str_replace(',', '.', (string)$request->get('parcela12')) : 0),
+        'userId' => Auth::id()
     ];
 
     Configuracao::updateOrCreate(

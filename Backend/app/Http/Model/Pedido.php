@@ -32,4 +32,9 @@ class Pedido extends Model
     return $this->hasMany('App\Http\Controllers\Model\Pedidosproduto', 'idpedido');
   }
 
+  public function comprovantes()
+  {
+    return $this->hasMany('App\Http\Controllers\Model\Comprovante');
+  }
+
 }

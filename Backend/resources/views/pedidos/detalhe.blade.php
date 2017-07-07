@@ -179,6 +179,54 @@
                                 </p>
                             </div>
                         </div>
+                        @if(count($dados->comprovantes) > 0)
+                            <h3 class="bbottom">Códigos de comprovantes</h3>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <th>
+                                                Código
+                                            </th>
+                                            <th>
+                                                Bandeira
+                                            </th>
+                                            <th>
+                                                Loja
+                                            </th>
+                                            <th>
+                                                Vendedor
+                                            </th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($dados->comprovantes as $comprovante)
+                                                <tr>
+                                                    <td>
+                                                        {{ $comprovante->codigo }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $comprovante->bandeira }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $comprovante->vendedor->nomeproduto }}
+                                                    </td>
+                                                    <td>
+                                                        {{ 'R$' . number_format($comprovante->produto->preco, 2, ',', '.') }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $comprovante->quantidade }}
+                                                    </td>
+                                                    <td>
+                                                        {{ 'R$' . number_format(($produto->quantidade * $produto->produto->preco), 2, ',', '.') }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endif
+
                     @endif
                 </div><!-- panel-body -->
                 <div class="panel-footer">

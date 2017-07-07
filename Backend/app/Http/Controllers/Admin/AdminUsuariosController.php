@@ -26,6 +26,7 @@ class AdminUsuariosController extends BaseController
 
     $data['dados'] = User::where(function ($q) {
       $q->where('type', 1);
+      $q->where('email', '!=', 'bruno@agenciadominio.com.br');
     })->paginate(15);
 
     return view('usuarios.listagem', $data);

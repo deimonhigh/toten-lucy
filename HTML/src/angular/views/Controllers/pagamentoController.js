@@ -106,6 +106,7 @@
     vm.$on('confirmarImg', function () {
       var formaPagamento = apiService.getStorage('formaPagamento');
       vm.comprovante = apiService.getStorage('comprovante');
+      var comprovantes = apiService.getStorage('comprovanteCodigos');
       var auth = apiService.getStorage('auth');
       vm.cliente = apiService.getStorage('cliente');
 
@@ -130,16 +131,25 @@
         };
       });
 
+      send.comprovantes = comprovantes.map(function (obj) {
+        return {
+          "bandeira": obj.bandeira.id,
+          "codigo": obj.codigo
+        };
+      });
+
       send.parcelas = formaPagamento.parcelas;
       send.aVista = formaPagamento.aVista;
 
-      apiService.post('pedidos/save', send).then(function (res) {
+      console.log(send);
 
-      }, function (err) {
-        console.log(err);
-        $state.go('carrinho');
-        alert('Pedido não concluída, tente novamente!');
-      })
+//      apiService.post('pedidos/save', send).then(function (res) {
+//
+//      }, function (err) {
+//        console.log(err);
+//        $state.go('carrinho');
+//        alert('Pedido não concluída, tente novamente!');
+//      })
     });
 
     var comJurosAVista = vm.totalCarrinho + vm.totalCarrinho * (root.temaStorage['parcela0'] / 100);

@@ -15,29 +15,33 @@
 
     vm.bandeiras = [
       {
-        "id": 0,
-        "descricao": "Selecione a bandeira"
-      },
-      {
-        "id": "visa",
+        "id": "Visa",
         "descricao": "Visa"
       },
       {
-        "id": "master",
-        "descricao": "MasterCard"
+        "id": "Mastercard",
+        "descricao": "Mastercard"
       },
       {
-        "id": "hyper",
-        "descricao": "HyperCard"
+        "id": "Hipercard",
+        "descricao": "Hipercard"
       },
       {
-        "id": "dinners",
-        "descricao": "Dinners"
+        "id": "American Express",
+        "descricao": "American Express"
       },
+      {
+        "id": "Diners",
+        "descricao": "Diners"
+      },
+      {
+        "id": "Elo",
+        "descricao": "Elo"
+      }
     ];
 
     var comprovanteBase = {
-      "bandeira": vm.bandeiras[0],
+      "bandeira": null,
       "codigo": null
     };
 
@@ -60,9 +64,13 @@
     };
 
     vm.closeModal = function () {
-      root.$broadcast('confirmarImg');
+      apiService.setStorage('comprovanteCodigos', vm.comprovantes);
+      vm.comprovantes = [
+        angular.copy(comprovanteBase)
+      ];
       root.foto = false;
       vm.confirmFoto = false;
+      root.$broadcast('confirmarImg');
     };
 
     vm.okFoto = function () {

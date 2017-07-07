@@ -11,9 +11,10 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <!--<script type="text/javascript">if (document.location.protocol != "https:") {document.location = document.URL.replace(/^http:/i, "https:");}</script>-->
+  <script type="text/javascript">if (document.location.protocol != "https:") {document.location = document.URL.replace(/^http:/i, "https:");}</script>
 
-  <link rel="stylesheet" type="text/css" href="assets/css/style.min.css" />
+  <!--<link rel="stylesheet" type="text/css" href="assets/css/style.min.css" />-->
+  <link rel="stylesheet" type="text/css" href="{{ url('assets/css/style.min.css') }}" />
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,600,700" rel="stylesheet">
@@ -43,7 +44,9 @@
                       <select name="bandeira"
                               ng-model="item.bandeira"
                               required
-                              ng-options="item as item.descricao for item in bandeiras track by item.id"></select>
+                              ng-options="item as item.descricao for item in bandeiras track by item.id">
+                        <option value selected>Selecione a bandeira</option>
+                      </select>
                     </div>
                     <div class="formField">
                       <input type="number"
@@ -103,13 +106,21 @@
     </div>
   </div>
 
-  <script src="assets/js/scripts.min.js"></script>
-  <script src="assets/angular/app.min.js"></script>
-  <script src="assets/angular/config/configModule.min.js"></script>
-  <script src="assets/angular/views/viewsModule.min.js"></script>
-  <script src="assets/angular/service/serviceModule.min.js"></script>
-  <script src="assets/angular/directive/directiveModule.min.js"></script>
-  <script src="assets/angular/factory/factoryModule.min.js"></script>
+  <!--<script src="assets/js/scripts.min.js"></script>-->
+  <!--<script src="assets/angular/app.min.js"></script>-->
+  <!--<script src="assets/angular/config/configModule.min.js"></script>-->
+  <!--<script src="assets/angular/views/viewsModule.min.js"></script>-->
+  <!--<script src="assets/angular/service/serviceModule.min.js"></script>-->
+  <!--<script src="assets/angular/directive/directiveModule.min.js"></script>-->
+  <!--<script src="assets/angular/factory/factoryModule.min.js"></script>-->
+
+  <script src="{{ url('assets/js/scripts.min.js') }}"></script>
+  <script src="{{ url('assets/angular/app.min.js') }}"></script>
+  <script src="{{ url('assets/angular/config/configModule.min.js') }}"></script>
+  <script src="{{ url('assets/angular/views/viewsModule.min.js') }}"></script>
+  <script src="{{ url('assets/angular/service/serviceModule.min.js') }}"></script>
+  <script src="{{ url('assets/angular/directive/directiveModule.min.js') }}"></script>
+  <script src="{{ url('assets/angular/factory/factoryModule.min.js') }}"></script>
 
 </body>
 </html>

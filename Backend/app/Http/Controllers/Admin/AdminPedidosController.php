@@ -49,7 +49,7 @@ class AdminPedidosController extends BaseController
     //endregion
 
     $config = Configuracao::find(1)->toArray();
-    $data['dados'] = Pedido::with('produtos', 'cliente')->findOrFail($id);
+    $data['dados'] = Pedido::with('produtos', 'cliente', 'comprovantes')->findOrFail($id);
 
     $data['dados']->pedidos_id = 'SF.' . preg_replace("/^(\d{4})(\d{4})(\d+)(\d{2})/", '$1.$2.$3-$4', str_pad((string)$data['dados']->id, 13, 0, STR_PAD_LEFT));
 

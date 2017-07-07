@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Model\Atualizacao;
 use App\Http\Controllers\Model\Cliente;
+use App\Http\Controllers\Model\Comprovante;
 use App\Http\Controllers\Model\Configuracao;
 use App\Http\Controllers\Model\Pedido;
 use App\Http\Controllers\Model\Pedidosproduto;
@@ -56,6 +57,18 @@ class ApiPedidosController extends BaseController
       $pedido->status = TRUE;
       $pedido->user_id = $user->id;
       $pedido->save();
+
+      if (isset($request->comprovantes)) {
+        foreach ($request->comprovantes as $item) {
+          $comprovante = new Comprovante();
+          $comprovante->bandeira = $item['bandeira'];
+          $comprovante->codigo = $item['codigo'];
+          $comprovante->vendedor_id = $item['vendedor_id'];
+          $comprovante->cliente_id = $cliente->id;
+          $comprovante->user_id = $user->id;
+
+        }
+      }
 
       $update = Atualizacao::findOrNew(1);
       $update->pedidos = Carbon::now();
