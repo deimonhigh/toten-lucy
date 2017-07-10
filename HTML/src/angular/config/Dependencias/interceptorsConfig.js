@@ -1,6 +1,5 @@
-﻿
-//=require loadingInterceptor.js
-//=require autenticacaoInterceptor.js
+﻿//=require autenticacaoInterceptor.js
+//=require errorInterceptor.js
 
 (function (angular) {
   angular
@@ -9,7 +8,7 @@
               '$httpProvider',
               function ($httpProvider) {
                 $httpProvider.interceptors.push("autenticacaoInterceptor");
-                $httpProvider.interceptors.push("loadingInterceptor");
+                $httpProvider.interceptors.push("errorInterceptor");
               }
             ]);
 })(angular);

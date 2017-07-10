@@ -32,4 +32,14 @@ class ApiConfigController extends BaseController
       return $this->nonOk();
     }
   }
+
+  public function accessKey()
+  {
+    return $this->Ok(config('app.customVars.apiKey'));
+  }
+
+  public function mercadoPago(Request $request)
+  {
+    return $this->Ok(User::select('mercado_pago')->where('email', $request->get('email'))->first());
+  }
 }

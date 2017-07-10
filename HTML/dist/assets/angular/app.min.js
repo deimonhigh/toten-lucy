@@ -12,9 +12,9 @@
 
   angular.module("appToten").run(runApp);
 
-  runApp.$inject = ['$rootScope', '$sce', 'cfpLoadingBar', 'apiService', '$state', '$timeout', 'localStorageService', '$transitions'];
+  runApp.$inject = ['$rootScope', '$sce', 'cfpLoadingBar', 'apiService', '$state', '$timeout', 'mercadoPago', '$transitions'];
 
-  function runApp($rootScope, $sce, cfpLoadingBar, apiService, $state, $timeout, localStorageService, $transitions) {
+  function runApp($rootScope, $sce, cfpLoadingBar, apiService, $state, $timeout, mercadoPago, $transitions) {
     var root = $rootScope;
     root.inicio = true;
     root.foto = false;
@@ -35,45 +35,55 @@
     //endregion
 
     root.openFoto = function () {
-      root.foto = true;
+      $timeout(function () {
+        root.foto = true;
+      });
     };
 
 //    apiService.delStorage('carrinho');
 
     root.itensCarrinho = apiService.getStorage('carrinho') ? apiService.getStorage('carrinho').length : 0;
 
-    root.$watch(function () {
-      return localStorageService.get('carrinho');
-    }, function (newVal) {
-      if (newVal) {
-        root.itensCarrinho = JSON.parse(atob(newVal)).length;
-      }
-    });
+    //region Load Config
+    var getInfoMercadoPago = function (email) {
+      return apiService.post('config/mercadoPago', {
+        "email": email
+      }).then(function (res) {
+        if (!!res.result.mercado_pago) {
+          mercadoPago.loadMP().then(function () {
+            mercadoPago.setAccessKey();
+          });
 
-    var config = function (email) {
+          return res.result.mercado_pago;
+        }
+      })
+    };
+    root.loadConfig = function (email, redirect) {
       if (!apiService.getStorage('auth')) {
-        config();
+        $state.go('login');
         return;
       }
 
       var dados = {
         "email": email
       };
-
       apiService
         .post('config', dados)
         .then(function (res) {
-          apiService.setStorage('tema', res.result);
-          configGeral();
+          getInfoMercadoPago(email).then(function (response) {
+            res.result.mercado_pago = !!response ? response : 0;
+            apiService.setStorage('tema', res.result);
+            configGeral(redirect);
+          });
         }, function () {
-          configGeral();
+          configGeral(redirect);
         });
     };
-    var configGeral = function () {
+    var configGeral = function (redirect) {
       var send = {
         id: 1
       };
-      
+
       apiService
         .post('config', send)
         .then(function (res) {
@@ -88,18 +98,28 @@
           temaSalvar.listaPreco = tema ? tema.listaPreco : null;
           temaSalvar.cor = tema ? tema.cor : null;
           temaSalvar.empresa = tema ? tema.empresa : null;
+          temaSalvar.mercado_pago = tema ? tema.mercado_pago : 0;
 
           apiService.setStorage('tema', temaSalvar);
+
           root.$broadcast('temaLoaded');
+
+          if (redirect) {
+            $state.go('home');
+          }
+
         }, function (err) {
         });
 
     };
+    //endregion
 
+    //region LoadConfig() se tiver autorização
     var auth = apiService.getStorage('auth');
     if (auth) {
-      config(auth.email);
+      root.loadConfig(auth.email);
     }
+    //endregion
 
     //region Loading
     root.angularNotLoaded = true;
@@ -127,21 +147,31 @@
     $transitions.onStart({}, function ($transition) {
       var name = $transition.$to().name;
       var auth = apiService.getStorage('auth');
+      var formasPgMP = apiService.getStorage('formasPgMP');
 
-      if (name == 'login') {
-        if (auth) {
-          $timeout(function () { $state.go('home'); });
-        }
+      cfpLoadingBar.start();
+
+      if (!formasPgMP && mercadoPago.mp()) {
+        mercadoPago.getPaymentsMethods().then(function (res) {
+          apiService.setStorage('formasPgMP', res.response);
+        });
+      }
+
+      if (name === 'login' && auth) {
+        return $transition.router.stateService.target('home');
       } else {
-        if (!auth) {
-          $timeout(function () { $state.go('login'); });
+        if (name !== 'login' && !auth) {
+          return $transition.router.stateService.target('login');
         }
       }
-      cfpLoadingBar.start();
     });
 
     $transitions.onSuccess({}, function ($transition) {
       var name = $transition.$to().name;
+
+      $timeout(function () {
+        root.itensCarrinho = (apiService.getStorage('carrinho') || []).length;
+      });
 
       root.inicio = ["login", "home"].indexOf(name) > -1;
 

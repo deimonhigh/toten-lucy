@@ -178,8 +178,6 @@ return [
     // App\Providers\BroadcastServiceProvider::class,
     App\Providers\EventServiceProvider::class,
     App\Providers\RouteServiceProvider::class,
-
-    Maatwebsite\Excel\ExcelServiceProvider::class,
   ],
 
   /*
@@ -207,9 +205,6 @@ return [
       'DB' => Illuminate\Support\Facades\DB::class,
       'Eloquent' => Illuminate\Database\Eloquent\Model::class,
       'Event' => Illuminate\Support\Facades\Event::class,
-
-      'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-
       'File' => Illuminate\Support\Facades\File::class,
       'Gate' => Illuminate\Support\Facades\Gate::class,
       'Hash' => Illuminate\Support\Facades\Hash::class,
@@ -230,8 +225,17 @@ return [
       'URL' => Illuminate\Support\Facades\URL::class,
       'Validator' => Illuminate\Support\Facades\Validator::class,
       'View' => Illuminate\Support\Facades\View::class,
-      'SoapWrapper' => 'Artisaninweb\SoapWrapper\Facade',
-
   ],
 
+  'customVars' => [
+      'apiKey' => env('ACCESSKEY'),
+      'apiKeyPriv' => env('ACCESSKEYPRIV'),
+      'host' => env('DB_HOST', '127.0.0.1'),
+      'port' => env('DB_PORT', '3306'),
+      'database' => env('DB_DATABASE', 'toten'),
+      'username' => env('DB_USERNAME', 'root'),
+      'password' => env('DB_PASSWORD', ''),
+      'unix_socket' => env('DB_SOCKET', ''),
+      'connection' => env('DB_CONNECTION', ''),
+  ]
 ];

@@ -6,7 +6,6 @@
   routeFn.$inject = ['$stateProvider', '$urlRouterProvider', 'localStorageServiceProvider', 'cfpLoadingBarProvider'];
 
   function routeFn($stateProvider, $urlRouterProvider, localStorageServiceProvider, cfpLoadingBarProvider) {
-
     cfpLoadingBarProvider.includeSpinner = false;
 
     localStorageServiceProvider
@@ -68,10 +67,16 @@
         controller: "pagamentoController"
       })
 
+      .state("pagamentoMP", {
+        url: "/pagamento/mp",
+        templateUrl: "./views/pagamento_mp.html",
+        controller: "pagamentoMpController"
+      })
+
       .state("finalizacao", {
         url: "/finalizacao",
         templateUrl: "./views/finalizacao.html",
-        controller: "pagamentoController"
-      })
+        controller: "finalizacaoController"
+      });
   }
 })(angular);

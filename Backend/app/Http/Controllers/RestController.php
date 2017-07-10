@@ -14,9 +14,9 @@ class RestController extends Controller
     return \Response::json($payload, $statusCode, ['Content-type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
   }
 
-  protected function nonOk($message = "Ocorreu um erro inesperado", $statusCode = 404)
+  protected function nonOk($message = "Ocorreu um erro inesperado", $code = 0, $statusCode = 404)
   {
-    return $this->jsonResponse(['error' => $message], $statusCode);
+    return $this->jsonResponse(['error' => $message, 'code' => $code], $statusCode);
   }
 
   protected function Ok($message = "Sucesso!", $statusCode = 200)

@@ -23,10 +23,11 @@
           if (value) {
             var transformedInput = value.toString().replace(/[^0-9]/g, '');
             var tamanho = transformedInput.length <= 11 ? 11 : 14;
-            ngModelCtrl.$setViewValue(chooseFormatter(transformedInput.substring(0, tamanho)));
-            ngModelCtrl.$render();
 
             $timeout(function () {
+              ngModelCtrl.$setViewValue(chooseFormatter(transformedInput.substring(0, tamanho)));
+              ngModelCtrl.$render();
+
               if (ngModelCtrl.$viewValue) {
                 setCaretPosition(element[0], ngModelCtrl.$viewValue.length);
               }

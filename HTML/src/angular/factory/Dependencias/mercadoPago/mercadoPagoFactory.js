@@ -146,5 +146,3 @@
   }
 
 })();
-
-//# sourceMappingURL=../map/factory/factoryModule.min.js.map

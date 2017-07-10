@@ -26,8 +26,7 @@
       }, 0);
 
       if (vm.result.show) {
-        vm.totalProdutosFrete = angular.copy(vm.totalProdutos);
-        vm.result.show = false;
+        vm.totalProdutosFrete = angular.copy(vm.totalProdutos) + parseFloat(vm.result.valor);
       } else {
         vm.totalProdutosFrete = angular.copy(vm.totalProdutos);
       }
@@ -36,7 +35,7 @@
 
     vm.removerItem = function (item) {
       vm.listaCompras = vm.listaCompras.filter(function (filtro) {
-        return filtro.codigobarras != item.codigobarras;
+        return filtro.codigobarras !== item.codigobarras;
       });
 
       apiService.setStorage('carrinho', vm.listaCompras);
@@ -45,9 +44,7 @@
     };
 
     vm.calcTotalItem = function (item) {
-      if (item.qnt.length === 0 || item.qnt === 0) {
-        item.qnt = 0;
-
+      if (item.qnt === 0) {
         vm.removerItem(item)
       }
 
@@ -61,11 +58,11 @@
         item.qnt -= 1;
       }
 
-      if (item.qnt == 0) {
+      if (item.qnt === 0) {
         $timeout(function () { vm.removerItem(item); });
+      } else {
+        helperCarrinho(item, item.qnt);
       }
-
-      helperCarrinho(item, item.qnt);
 
       calcTotal();
     };
@@ -78,12 +75,12 @@
 
     var helperCarrinho = function (item, qnt) {
       var exist = vm.listaCompras.filter(function (obj) {
-        return obj.codigobarras == item.codigobarras;
+        return obj.codigobarras === item.codigobarras;
       });
 
       if (exist.length > 0) {
         vm.carrinho = vm.listaCompras.map(function (obj) {
-          if (obj.codigobarras) {
+          if (obj.codigobarras === item.codigobarras) {
             obj.qnt = qnt;
           }
           return obj;

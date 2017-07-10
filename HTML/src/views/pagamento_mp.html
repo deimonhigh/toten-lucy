@@ -1,0 +1,232 @@
+<header>
+  <a ui-sref="home" class="logo">
+    <h1 ng-bind="temaStorage.empresa"></h1>
+  </a>
+
+  <h2>
+    pagamento mp
+  </h2>
+
+  <ul>
+    <li class="jaPassou">
+      <button disabled>
+        1
+        <p>carrinho</p>
+      </button>
+    </li>
+    <li class="jaPassou">
+      <button disabled>
+        2
+        <p>identificação</p>
+      </button>
+    </li>
+    <li class="active">
+      <button disabled>
+        3
+        <p>pagamento</p>
+      </button>
+    </li>
+  </ul>
+</header>
+<section class="pagamento">
+  <div class="grid">
+    <article class="grid-7 resumoCompra">
+      <div class="tableHolder">
+        <h2>
+          Resumo do pedido <b ng-bind="idPedido"></b>
+        </h2>
+        <table class="table table-responsive">
+          <tbody ng-if="listaCompras.length > 0">
+            <tr ng-repeat="item in listaCompras">
+              <td ng-bind="item.qnt"></td>
+              <td>
+                <span>
+                  {{ item.nomeproduto }} <strong ng-bind="' - ' + item.cor" ng-if="item.cor.length > 0"></strong>
+                </span>
+
+              </td>
+              <td>
+                <div class="preco" ng-bind="(item.preco * item.qnt) | currency:'R$'"></div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody ng-if="listaCompras.length == 0">
+            <tr>
+              <td colspan="5">
+                <p class="noResult">
+                  Nenhum produto adicionado ao carrinho!
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="total">
+        <div class="field">
+          <div class="cifra">
+            valor total do pedido
+          </div>
+          <div class="number" ng-bind="totalCarrinho | currency"></div>
+        </div>
+        <div class="field">
+          <div class="cifra">
+            valor total com frete
+          </div>
+          <div class="number" ng-bind="totalCarrinhoFrete | currency"></div>
+        </div>
+      </div>
+    </article>
+    <div class="grid-5 loginVendedor">
+      <h3>Pagamento</h3>
+      <p>Selecione a forma de pagamento.</p>
+      <div class="formField" style="padding: 0 0 20px 0;">
+        <form name="pagamentoForm" autocomplete="off">
+          <div class="input-group" style="width: 100%;">
+            <select class="formapagamento form-control"
+                    ng-disabled="editarPagamentoFlag"
+                    ng-class="{'noBg': editarPagamentoFlag}"
+                    ng-model="formaPagamento"
+                    required
+                    name="formaPagamento"
+                    ng-options="item as item.descricao for item in listaPagamentos track by item.index">
+              <option value selected>Selecione uma forma de pagamento</option>
+            </select>
+            <span class="input-group-addon" ng-if="editarPagamentoFlag" ng-click="editarPagamento()">editar</span>
+          </div>
+          <button class="btn blockButton no-animate"
+                  style="margin-top: 20px; width: 100%;"
+                  ng-disabled="pagamentoForm.$invalid"
+                  ng-if="!editarPagamentoFlag"
+                  ng-click="editarPagamento()">
+            confirmar pagamento
+          </button>
+        </form>
+      </div>
+
+      <div ng-if="formaPagamento && editarPagamentoFlag">
+        <h3>FORMA DE PAGAMENTO</h3>
+        <p>Quase tudo pronto, vamos escolher a forma de pagamento.</p>
+
+        <div class="formField noPadLeft">
+          <form name="formaPagamentoForm" ng-submit="salvarPagamento()" id="formaPagamento">
+            <ul class="listaCartoes grid middle">
+              <li ng-repeat="item in tipoPagamento" ng-class="{'active' : item.active}">
+                <img ng-src="{{ item.secure_thumbnail }}" alt="{{ item.name }}">
+              </li>
+            </ul>
+            <div class="inforNeeded no-animate" ng-if="infoNeeded">
+              <input type="hidden" name="docType" data-checkout="docType" value="{{ dados.type }}">
+              <input type="hidden" name="docNumber" data-checkout="docNumber" value="{{ dados.cpf }}">
+              <input type="hidden" name="paymentMethodId" data-checkout="paymentMethodId" value="{{ dados.typeId }}">
+              <div class="grid middle">
+                <div class="grid-12">
+                  <div class="form-group">
+                    <label class="required">Número do cartão</label>
+                    <div class="input-group">
+                      <input type="text"
+                             name="numero"
+                             cartao-credito
+                             data-checkout="cardNumber"
+                             ng-model="dados.numero"
+                             class="form-control"
+                             ng-blur="validaCartao(dados.numero)"
+                             required
+                             ng-class="{'errorBorder': (formaPagamentoForm.numero.$invalid || okCartaoCredito) && formaPagamentoForm.numero.$touched}"
+                      >
+                      <div class="input-group-addon" style="color: green;">
+                        <i class="fa fa-lock"
+                           style="line-height: 150%; margin-right: 5px;"></i><span>Ambiente 100% seguro</span>
+                      </div>
+                    </div>
+                    <div class="error"
+                         ng-if="formaPagamentoForm.numero.$invalid && formaPagamentoForm.numero.$touched">
+                      O número do cartão é obrigatório.
+                    </div>
+                    <div class="error"
+                         ng-if="okCartaoCredito && formaPagamentoForm.numero.$touched">
+                      O número do cartão é inválido.
+                    </div>
+                  </div>
+                </div>
+                <div class="grid-12">
+                  <div class="form-group">
+                    <label class="required">Nome impresso no cartão</label>
+                    <input type="text"
+                           name="nome"
+                           ng-model="dados.nome"
+                           class="form-control"
+                           data-checkout="cardholderName"
+                           required
+                           ng-class="{'errorBorder': formaPagamentoForm.nome.$invalid && formaPagamentoForm.nome.$touched}"
+                    >
+                    <div class="error"
+                         ng-if="(formaPagamentoForm.nome.$invalid) && formaPagamentoForm.nome.$touched">
+                      O número do cartão é obrigatório.
+                    </div>
+                  </div>
+                </div>
+                <div class="grid-12">
+                  <div class="form-group">
+                    <label class="required">Data de validade</label>
+                    <div class="input-group">
+                      <select name="mes"
+                              ng-model="dados.mes"
+                              class="form-control form-inline"
+                              required
+                              data-checkout="cardExpirationMonth"
+                              ng-options="item.id as item.name for item in mesValidade track by item.id"
+                              ng-class="{'errorBorder': cadastroForm.mes.$invalid && cadastroForm.mes.$touched}"
+                      >
+                      </select>
+                      <div class="input-group-addon" style="background: #F5F5F5; border: 1px solid #E4E4E4;">
+                        /
+                      </div>
+                      <select name="ano"
+                              ng-model="dados.ano"
+                              class="form-control form-inline"
+                              required
+                              data-checkout="cardExpirationYear"
+                              ng-options="item.id as item.name for item in anoValidade track by item.id"
+                              ng-class="{'errorBorder': cadastroForm.ano.$invalid && cadastroForm.ano.$touched}"
+                      >
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="grid-12">
+                  <div class="form-group">
+                    <label class="required">Código de segurança</label>
+                    <div class="input-group" style="width: 150px;">
+                      <input type="text"
+                             name="codigo"
+                             ng-model="dados.codigo"
+                             class="form-control"
+                             data-checkout="securityCode"
+                             required
+                             ng-class="{'errorBorder': formaPagamentoForm.codigo.$invalid && formaPagamentoForm.codigo.$touched}"
+                      >
+                      <div class="input-group-addon">
+                        <img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjMycHgiIGhlaWdodD0iMzJweCIgdmlld0JveD0iMCAwIDQ1OC4yNzUgNDU4LjI3NSIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDU4LjI3NSA0NTguMjc1OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPGc+CgkJPHBhdGggZD0iTTI3My4yNTYsMjU0LjgzOWMxLjM1MiwwLDIuNzAzLTAuMDc4LDQuMDQ1LTAuMjQ0YzEuMDItMC4xMjcsMi4xOTgtMC4yMSwzLjExNS0wLjcxMSAgICBjMS45MjQtMS4wNTQsMS45NDUtMi45NzYsMS42NDMtNC44NjZjLTAuMzU1LTIuMjE1LTIuMjkxLTMuMzU1LTQuNDIyLTMuMDc4Yy0yLjI2LDAuMjk1LTQuNjY4LDAuMjI3LTYuNzExLTAuODg5ICAgIGMtMy45OC0yLjE3LTQuOTk2LTcuNzQtMy4yMTMtMTEuNjY5YzEuMDY5LTIuMzU2LDMuMjI5LTMuOTE2LDUuNzY0LTQuMzUxYzEuMzExLTAuMjI1LDIuNjg0LTAuMTYzLDMuOTk2LDAuMDA4ICAgIGMxLjI4OSwwLjE2OCwyLjUzMy0wLjA2MiwzLjQ2OS0xLjA1YzEuMTE1LTEuMTgzLDEuNjA0LTMuNzEyLDAuOTU3LTUuMTkyYy0xLjE0OC0yLjYzOC00LjgzNi0yLjUyNC03LjI1OC0yLjUyNCAgICBjLTQuMzI1LDAtOC43MzQsMS4wNjctMTIuMjYsMy42NTVjLTYuNzM0LDQuOTQxLTguNTIzLDE0Ljg5My00Ljg1NSwyMi4yNDVDMjYwLjQ5MiwyNTIuMTIxLDI2Ni44NDgsMjU0LjgzOSwyNzMuMjU2LDI1NC44Mzl6IiBmaWxsPSIjNDQ0NDQ0Ii8+CgkJPHBhdGggZD0iTTI5NC41ODYsMjUxLjgxYzEuMTc4LDMuMjQ0LDUuNjg5LDIuMzY5LDguMzg1LDIuMzY5YzEuNzI5LDAsMy4zNTQtMC41NzcsNC4wMTItMi4zNDdjMC4xNDMtMC4zNCwwLjI1OC0wLjY5LDAuMzg3LTEuMDM0ICAgIGMxLjk2NS01LjI3OCwzLjkzLTEwLjU1OCw1Ljg5NS0xNS44MzVjMC45MTItMi40NTEsMS44MjQtNC45MDIsMi43MzgtNy4zNTRjMC44MTEtMi4xOCwxLjYyNy00Ljc5OS0xLjA1Ny02LjIgICAgYy0xLjI3NS0wLjY2Ny0zLjAyMy0wLjQwOS00LjQxNi0wLjQwOWMtMS44MTYsMC0zLjU3LDAuNDUyLTQuMjY4LDIuMzY3Yy0wLjc1OCwyLjA3Ny0xLjIwOSw0LjMxMy0xLjc5OSw2LjQ0MSAgICBjLTEuMTY2LDQuMjA1LTIuMzUyLDguMzg2LTMuMjQ0LDEyLjY2Yy0xLjIyMy02LjA0OS0zLjIxNy0xMS45NzgtNC45MzgtMTcuODk3Yy0wLjMwMy0xLjA0Mi0wLjU3NC0yLjA0MS0xLjQ3My0yLjc2OSAgICBjLTEuMjUyLTEuMDE0LTIuODc5LTAuODAzLTQuMzc5LTAuODAzYy0xLjYwMiwwLTMuMjY0LTAuMTc3LTQuNDk2LDEuMDg2Yy0xLjA2OCwxLjA5Ni0xLjIxNywyLjYwOC0wLjcxMywzLjk5MyAgICBDMjg4LjM0MiwyMzQuNjU2LDI5MS40NjUsMjQzLjIzMiwyOTQuNTg2LDI1MS44MXoiIGZpbGw9IiM0NDQ0NDQiLz4KCQk8cGF0aCBkPSJNMzI5LjUwNCwyNTEuODFjMS4xODIsMy4yNDMsNS42ODksMi4zNjksOC4zODcsMi4zNjljMS43MjksMCwzLjM1NC0wLjU3Nyw0LjAxLTIuMzQ3YzAuMTQzLTAuMzQsMC4yNTgtMC42OSwwLjM4Ny0xLjAzNCAgICBjMS45NjUtNS4yNzgsMy45My0xMC41NTgsNS44OTUtMTUuODM1YzAuOTEyLTIuNDUxLDEuODI0LTQuOTAyLDIuNzM4LTcuMzU0YzAuODExLTIuMTgsMS42MjctNC44LTEuMDU1LTYuMiAgICBjLTEuMjc1LTAuNjY3LTMuMDIzLTAuNDA5LTQuNDE4LTAuNDA5Yy0xLjgxNiwwLTMuNTY4LDAuNDUxLTQuMjY2LDIuMzY3Yy0wLjc1OCwyLjA3OC0xLjIwOSw0LjMxMy0xLjgwMSw2LjQ0MSAgICBjLTEuMTY2LDQuMjA1LTIuMzU0LDguMzg2LTMuMjQyLDEyLjY2Yy0xLjIyOS02LjA0OC0zLjIxNy0xMS45NzYtNC45MzgtMTcuODk3Yy0wLjMwMy0xLjA0My0wLjU3Ni0yLjA0MS0xLjQ3NS0yLjc2OSAgICBjLTEuMjUtMS4wMTQtMi44NzktMC44MDMtNC4zNzktMC44MDNjLTEuNjAyLDAtMy4yNjItMC4xNzctNC40OTQsMS4wODZjLTEuMDcsMS4wOTgtMS4yMTksMi42MDYtMC43MTUsMy45OTMgICAgQzMyMy4yNjIsMjM0LjY1NiwzMjYuMzgzLDI0My4yMzIsMzI5LjUwNCwyNTEuODF6IiBmaWxsPSIjNDQ0NDQ0Ii8+CgkJPHBhdGggZD0iTTMwNC4wNTEsMzM5LjAxN2MtMjEuNjA0LDAtNDEuNjk3LTYuNTk0LTU4LjM3My0xNy44NzVINDkuNDUyYy0xMi4xODEsMC0yMi4wOS05LjkwNy0yMi4wOS0yMi4wOVYxNzkuODc4SDIxNS4xMiAgICBjMTAuMzEzLTE2LjcwNSwyNS4xOTgtMzAuMjk3LDQyLjg5Ni0zOS4wMjVsLTIzMC42NTMsMC4wMTZ2LTE5LjY0OGMwLTEyLjE4Miw5LjkwOS0yMi4wOSwyMi4wOS0yMi4wOWgzMTQuNzg2ICAgIGMxMi4xOCwwLDIyLjA5LDkuOTA4LDIyLjA5LDIyLjA5djE5LjYyM2wtMzYuMjU4LDAuMDAyYzM0LjU3MiwxNy4wNDMsNTguNDE4LDUyLjY1NCw1OC40MTgsOTMuNzM0ICAgIGMwLDE0Ljc1OC0zLjA2NCwyOS4xMjUtOC45NjksNDIuMzc5bDE0LjE3LDEzLjE3MnYtMTY4LjkxYzAtMjcuMjY4LTIyLjE4NC00OS40NTEtNDkuNDUxLTQ5LjQ1MUg0OS40NTIgICAgQzIyLjE4Myw3MS43NywwLDkzLjk1NCwwLDEyMS4yMjF2MTc3LjgzMmMwLDI3LjI2OCwyMi4xODQsNDkuNDUxLDQ5LjQ1Miw0OS40NTFoMzE0LjAwOWwtMTguOTY3LTE3LjYzMSAgICBDMzMxLjc1NiwzMzYuMjMyLDMxOC4wMzUsMzM5LjAxNywzMDQuMDUxLDMzOS4wMTd6IiBmaWxsPSIjNDQ0NDQ0Ii8+CgkJPHBhdGggZD0iTTY4LjE5NCwyMTkuOTc2Yy0zLjk3NywwLTcuMiwzLjIyMy03LjIsNy4xOTl2MjEuNDQyYzAsMy45NzgsMy4yMjQsNy4xOTksNy4yLDcuMTk5aDEzMy41OTIgICAgYy0xLjQyMy02Ljg1OC0yLjE3My0xMy45NjMtMi4xNzMtMjEuMjM4YzAtNC45NTQsMC4zNTUtOS44MywxLjAyNi0xNC42MDRMNjguMTk0LDIxOS45NzZMNjguMTk0LDIxOS45NzZ6IiBmaWxsPSIjNDQ0NDQ0Ii8+CgkJPHBhdGggZD0iTTQ1Mi41NTcsMzU1LjQ2NGwtNzMuNDUzLTY4LjI3OWMxMC4zOTYtMTQuODkxLDE2LjUxLTMyLjk4OSwxNi41MS01Mi41MjRjMC01MC43NS00MS4xNDMtOTEuODk0LTkxLjg5My05MS44OTQgICAgcy05MS44OTIsNDEuMTQzLTkxLjg5Miw5MS44OTRjMCw1MC43NSw0MS4xNDIsOTEuODkxLDkxLjg5Miw5MS44OTFjMTguMjM2LDAsMzUuMjE1LTUuMzMyLDQ5LjUwOC0xNC40OTRsNzQuOTMsNjkuNjU0ICAgIGMzLjQ1MSwzLjIwOSw3LjgyOCw0Ljc5NSwxMi4xOTUsNC43OTVjNC44MDcsMCw5LjYtMS45MjIsMTMuMTI3LTUuNzE5QzQ2MC4yMTksMzczLjUzOCw0NTkuODA1LDM2Mi4xOTksNDUyLjU1NywzNTUuNDY0eiAgICAgTTMwMy43MjEsMTczLjk3OGMzMy40NTksMCw2MC42OCwyNy4yMjMsNjAuNjgsNjAuNjgzYzAsMzMuNDU5LTI3LjIyMSw2MC42OC02MC42OCw2MC42OHMtNjAuNjgtMjcuMjIxLTYwLjY4LTYwLjY4ICAgIEMyNDMuMDQxLDIwMS4yMDEsMjcwLjI2MiwxNzMuOTc4LDMwMy43MjEsMTczLjk3OHoiIGZpbGw9IiM0NDQ0NDQiLz4KCTwvZz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K" />
+                      </div>
+                    </div>
+                    <div class="error"
+                         ng-if="(formaPagamentoForm.codigo.$invalid) && formaPagamentoForm.codigo.$touched">
+                      O código de segurança é obrigatório.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn blockButton no-animate"
+                    style="margin-top: 20px; width: 100%;"
+                    ng-disabled="formaPagamentoForm.$invalid || okCartaoCredito"
+            >
+              enviar pagamento
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

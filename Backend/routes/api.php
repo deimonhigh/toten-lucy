@@ -17,6 +17,8 @@ Route::get('begin', 'Controller@begin');
 
 Route::group(['prefix' => 'config'], function () {
   Route::post('', 'Api\ApiConfigController@show');
+  Route::get('accessKey', 'Api\ApiConfigController@accessKey');
+  Route::post('mercadoPago', 'Api\ApiConfigController@mercadoPago');
 });
 
 Route::group(['prefix' => 'frete'], function () {
@@ -46,6 +48,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
   Route::group(['prefix' => 'pedidos'], function () {
     Route::post('/save', 'Api\ApiPedidosController@save');
+    Route::post('/saveMp', 'Api\ApiPedidosController@saveMP');
+    Route::post('/checarComprovantes', 'Api\ApiPedidosController@checarComprovantes');
   });
 });
 

@@ -76,6 +76,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'gate']], function (
     Route::get('/', 'Admin\AdminProdutosController@index')->name('produtos');
     Route::get('/detalhes/{id}', 'Admin\AdminProdutosController@detalhes')->name('produtosDetalhe');
     Route::get('/importarProdutosView', 'Admin\AdminProdutosController@importarProdutosView')->name('importarProdutos');
+    Route::get('/habilitar/{id}', 'Admin\AdminProdutosController@habilitar')->name('habilitar');
+    Route::get('/desabilitar/{id}', 'Admin\AdminProdutosController@desabilitar')->name('desabilitar');
   });
   //endregion
 

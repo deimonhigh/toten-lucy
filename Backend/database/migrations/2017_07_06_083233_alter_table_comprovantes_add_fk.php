@@ -30,7 +30,7 @@ class AlterTableComprovantesAddFk extends Migration
   public function down()
   {
     Schema::table('comprovantes', function (Blueprint $table) {
-      $table->dropForeign(['cliente_id']);
+      $table->dropForeign(['pedido_id']);
       $table->dropForeign(['vendedor_id']);
       $table->dropForeign(['user_id']);
       $table->dropIndex(['pedido_id']);

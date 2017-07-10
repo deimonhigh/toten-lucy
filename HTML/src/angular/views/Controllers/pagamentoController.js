@@ -51,18 +51,11 @@
       enviar.identificacao = vm.dadosVendedor.identificacao;
       enviar.senha = vm.dadosVendedor.senha;
       apiService.post('vendedores/validate', enviar).then(function (res) {
-        $state.go('finalizacao');
+        apiService.setStorage('vendedor', res.result);
         root.openFoto();
       }, function (err) {
         alert(err.error);
       })
-    };
-
-    vm.limparSessao = function () {
-      apiService.delStorage('comprovante');
-      apiService.delStorage('cliente');
-      apiService.delStorage('carrinho');
-      root.itensCarrinho = 0;
     };
 
     vm.editarPagamento = function () {
@@ -109,6 +102,7 @@
       var comprovantes = apiService.getStorage('comprovanteCodigos');
       var auth = apiService.getStorage('auth');
       vm.cliente = apiService.getStorage('cliente');
+      var vendedor = apiService.getStorage('vendedor');
 
       var send = {};
       send.idcliente = vm.cliente.id;
@@ -131,25 +125,31 @@
         };
       });
 
-      send.comprovantes = comprovantes.map(function (obj) {
-        return {
-          "bandeira": obj.bandeira.id,
-          "codigo": obj.codigo
-        };
-      });
+      if (comprovantes) {
+        send.comprovantes = comprovantes.map(function (obj) {
+          return {
+            "bandeira": obj.bandeira.id,
+            "codigo": obj.codigo,
+            "vendedor_id": vendedor.id
+          };
+        });
+      }
 
       send.parcelas = formaPagamento.parcelas;
       send.aVista = formaPagamento.aVista;
 
-      console.log(send);
-
-//      apiService.post('pedidos/save', send).then(function (res) {
-//
-//      }, function (err) {
-//        console.log(err);
-//        $state.go('carrinho');
-//        alert('Pedido não concluída, tente novamente!');
-//      })
+      apiService.post('pedidos/save', send).then(function (res) {
+        alert('Pedido finalizado com sucesso!');
+        apiService.setStorage('boleto', res.result);
+        $state.go('finalizacao');
+      }, function (err) {
+        if (err.code === 1) {
+          alert(err.msg);
+        } else {
+          alert('Pedido não concluída, por favor tente novamente!');
+        }
+        $state.go('pagamento');
+      });
     });
 
     var comJurosAVista = vm.totalCarrinho + vm.totalCarrinho * (root.temaStorage['parcela0'] / 100);

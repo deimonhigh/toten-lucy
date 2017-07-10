@@ -20,10 +20,10 @@ class ApiVendedorController extends BaseController
   public function validate(Request $request)
   {
     try {
-      $request = $request->all();
-      $vendedor = Vendedor::where('identificacao', $request['identificacao'])->firstOrFail();
+      $request = (object)$request->all();
+      $vendedor = Vendedor::where('identificacao', $request->identificacao)->firstOrFail();
 
-      if (!Hash::check($request['senha'], $vendedor->senha)) {
+      if (!Hash::check($request->senha, $vendedor->senha)) {
         throw new \Exception("Identificação ou senha inválidos.");
       }
 

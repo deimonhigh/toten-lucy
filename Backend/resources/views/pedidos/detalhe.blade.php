@@ -205,19 +205,13 @@
                                                         {{ $comprovante->codigo }}
                                                     </td>
                                                     <td>
-                                                        {{ $comprovante->bandeira }}
+                                                        {{ strcmp($comprovante->bandeira, 'aVista') ? "À vista" : $comprovante->bandeira  }}
                                                     </td>
                                                     <td>
-                                                        {{ $comprovante->vendedor->nomeproduto }}
+                                                        {{ $comprovante->user->name }}
                                                     </td>
                                                     <td>
-                                                        {{ 'R$' . number_format($comprovante->produto->preco, 2, ',', '.') }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $comprovante->quantidade }}
-                                                    </td>
-                                                    <td>
-                                                        {{ 'R$' . number_format(($produto->quantidade * $produto->produto->preco), 2, ',', '.') }}
+                                                        {{ $comprovante->vendedor->nome }}
                                                     </td>
                                                 </tr>
                                             @endforeach

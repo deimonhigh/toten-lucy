@@ -92,13 +92,14 @@
     });
     //endregion
 
+    //region Cliente
     vm.procurarCliente = function (cpf) {
       if (!cpf || cpf.length < 11) {
         return;
       }
 
       apiService
-        .procurar('clientes', cpf)
+        .search('clientes', cpf)
         .then(function (res) {
           vm.dados.documento = res.result.documento;
           vm.dados.nome = res.result.nome;
@@ -180,12 +181,18 @@
 
       apiService.post('clientes/save', enviarParaSalvar).then(function (res) {
         apiService.setStorage('cliente', res.result);
-        $state.go('pagamento');
+        if (root.temaStorage.mercado_pago) {
+          $state.go('pagamentoMP');
+        } else {
+          $state.go('pagamento');
+        }
       }, function (err) {
-//        console.log(err);
+        alert('Ocorreu um erro ao salvar os dados do Cliente.')
       })
     };
+    //endregion
 
+    //region Limpar Endereços
     var limpaEndereco = function () {
       vm.dados.endereco = "";
       vm.dados.bairro = "";
@@ -199,7 +206,9 @@
       vm.dados.outro.uf = "";
       delete vm.dados.outro.cidadeTempOutro;
     };
+    //endregion
 
+    //region Procurar CEP's
     vm.procuraCep = function (cep) {
       apiService.cep(cep).then(function (res) {
         limpaEndereco();
@@ -219,6 +228,7 @@
         vm.dados.outro.cidadeTempOutro = res.localidade;
       });
     };
+    //endregion
   }
 })
 (angular);

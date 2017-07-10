@@ -10,6 +10,14 @@
         </div>
     @endif
 
+    @if (\Session::has('error'))
+        <div class="alert alert-danger">
+            <ul style="list-style: none; padding: 0;">
+                <li>{!! \Session::get('error') !!}</li>
+            </ul>
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -53,6 +61,8 @@
                                     <th>Nome do Produto</th>
                                     <th>Código do Produto</th>
                                     <th>Código de barras</th>
+                                    <th>Estoque</th>
+                                    <th>Habilitado</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
@@ -64,12 +74,29 @@
                                             <td>{{ $data->nomeproduto }}</td>
                                             <td>{{ $data->codigoproduto }}</td>
                                             <td>{{ $data->codigobarras }}</td>
+                                            <td>{{ $data->estoque }}</td>
+                                            <td>{{ ($data->disabled ? 'Não' : 'Sim') }}</td>
                                             <td>
                                                 <a class="btn btn-default"
-                                                   title="Detalhes de produtos"
+                                                   title="Detalhes de produto"
                                                    href="{{ url(route('produtosDetalhe', ['id' => $data->id])) }}">
                                                     <i class="fa fa-search"></i>
                                                 </a>
+                                                @if(\App\Gate::hasAccess('admin/produtos/habilitar'))
+                                                    @if($data->disabled)
+                                                        <a class="btn btn-default"
+                                                           title="Habilitar produto"
+                                                           href="{{ url(route('habilitar', ['id' => $data->id])) }}">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    @else
+                                                        <a class="btn btn-default"
+                                                           title="Desabilitar produto"
+                                                           href="{{ url(route('desabilitar', ['id' => $data->id])) }}">
+                                                            <i class="fa fa-eye-slash"></i>
+                                                        </a>
+                                                    @endif
+                                                @endif
                                             </td>
                                         </tr>
                                     </tbody>

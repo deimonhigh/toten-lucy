@@ -11,6 +11,7 @@ class Comprovante extends Model
   protected $fillable = [
       "vendedor_id",
       "user_id",
+      "pedido_id",
       "codigo",
       "bandeira",
   ];
@@ -22,12 +23,12 @@ class Comprovante extends Model
 
   public function vendedor()
   {
-    return $this->hasOne('App\Http\Controllers\Model\Vendedor');
+    return $this->belongsTo('App\Http\Controllers\Model\Vendedor');
   }
 
   public function user()
   {
-    return $this->hasOne('App\User');
+    return $this->belongsTo('App\User');
   }
 
 }

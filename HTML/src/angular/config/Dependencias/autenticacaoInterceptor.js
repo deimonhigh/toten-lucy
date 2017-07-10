@@ -1,36 +1,33 @@
-﻿angular
-  .module("appToten")
-  .factory("autenticacaoInterceptor", [
-    'localStorageService', 'config', 'base64Factory', '$location', function (localStorageService, config, base64Factory, $location) {
-      return {
-        request: function (requisicao) {
+﻿(function (angular) {
+  angular
+    .module("appToten")
+    .factory('autenticacaoInterceptor', autenticacaoInterceptor);
 
-          try {
-            var storage = localStorageService.get('auth');
+  autenticacaoInterceptor.$inject = ['$q', '$state', '$injector'];
 
-            if (
-              storage == null || requisicao.url.indexOf('.html') > -1
-            ) {
-              throw "Invalid"
-            }
-
-            var autorizacaoDados = JSON.parse(base64Factory.decode(storage));
-
-            if (autorizacaoDados) {
-              if (requisicao.url.indexOf("api") > -1 && requisicao.url.indexOf('oauth') == -1) {
-                requisicao.headers["Authorization"] = "Bearer " + autorizacaoDados.access_token;
-              }
-            }
-
-            return requisicao;
-          }
-          catch (e) {
-            if (requisicao.url.indexOf("apigopharma") == -1) {
-              return requisicao;
-            }
-          }
-
+  function autenticacaoInterceptor($q, $state, $injector) {
+    return {
+      request: function (requisicao) {
+        var api = $injector.get('apiService');
+        var autorizacaoDados = api.getStorage('auth');
+        if (requisicao.url.indexOf('.html') === -1 && requisicao.url.indexOf("api") > -1 && autorizacaoDados.access_token) {
+          requisicao.headers["Authorization"] = "Bearer " + autorizacaoDados.access_token;
         }
+
+        return requisicao || $q.when(requisicao);
+      },
+      response: function (response) {
+        if (response.status === 401) {
+          var api = $injector.get('apiService');
+          api.clearStorage();
+          return $q.reject(response);
+        }
+        if ([404, 500, 400].indexOf(response.status) > -1) {
+          return $q.reject(response);
+        }
+        return response || $q.when(response);
       }
     }
-  ]);
+  }
+
+})(angular);

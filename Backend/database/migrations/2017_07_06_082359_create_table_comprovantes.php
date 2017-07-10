@@ -19,7 +19,7 @@ class CreateTableComprovantes extends Migration
       $table->unsignedInteger('user_id');
       $table->unsignedInteger('pedido_id');
       $table->string('codigo');
-      $table->string('bandeira', 15);
+      $table->string('bandeira', 30);
       $table->timestamps();
     });
   }

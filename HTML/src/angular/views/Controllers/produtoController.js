@@ -3,9 +3,9 @@
   angular.module('appToten')
          .controller('produtoController', produtoController);
 
-  produtoController.$inject = ['$scope', '$rootScope', 'apiService', '$state', '$stateParams'];
+  produtoController.$inject = ['$scope', '$rootScope', 'apiService', '$state', '$stateParams', '$timeout'];
 
-  function produtoController($scope, $rootScope, apiService, $state, $stateParams) {
+  function produtoController($scope, $rootScope, apiService, $state, $stateParams, $timeout) {
     var vm = $scope;
     var root = $rootScope;
 
@@ -14,7 +14,6 @@
 
     vm.carrinho = apiService.getStorage('carrinho') || [];
     vm.produto = {};
-    vm.temasItem = apiService.getStorage('tema');
 
     vm.maxParcelas = root.temaStorage['parcela' + root.temaStorage.max_parcelas];
 
@@ -44,7 +43,7 @@
 
     }, function (err) {
       alert(err.error);
-    })
+    });
 
     vm.minus = function () {
       if (vm.qnt - 1 < 0) {
@@ -72,7 +71,7 @@
 
     vm.changeImg = function (item) {
       vm.imagemGrande = item;
-    }
+    };
 
     vm.addCarrinho = function (item) {
       var exist = vm.carrinho.filter(function (obj) {
@@ -86,6 +85,11 @@
           }
           return obj;
         });
+
+        $timeout(function () {
+          root.itensCarrinho = vm.carrinho.length;
+        });
+
         apiService.setStorage('carrinho', vm.carrinho);
       } else {
         item.qnt = vm.qnt;

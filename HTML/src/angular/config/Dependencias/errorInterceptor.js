@@ -1,16 +1,20 @@
-﻿angular
-  .module("appToten")
-  .factory("errorInterceptor", errorInterceptor);
+﻿(function (angular) {
+  angular
+    .module("appToten")
+    .factory('errorInterceptor', errorInterceptor);
 
-errorInterceptor.$inject = ['$location'];
-
-function errorInterceptor($location) {
-  return {
-    responseError: function (rejection) {
-      if (rejection.status === 404) {
-        $location.path("/404");
+  errorInterceptor.$inject = ['$q', '$state', '$injector'];
+  function errorInterceptor($q, $state, $injector) {
+    return {
+      responseError: function (rejection) {
+        if (rejection.status === 401) {
+          var api = $injector.get('apiService');
+          api.clearStorage();
+          $state.go("login");
+        }
+        return $q.reject(rejection);
       }
-      return $q.reject(rejection);
     }
-  };
-};
+  }
+
+})(angular);

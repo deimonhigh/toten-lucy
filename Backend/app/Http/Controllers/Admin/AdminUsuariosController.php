@@ -252,12 +252,11 @@ class AdminUsuariosController extends BaseController
     $insert = [
         'name' => $request->get('name'),
         'email' => $request->get('email'),
-        'password' => Hash::make($request->get('password')),
         'mercado_pago' => $request->get('mercadoPago'),
         'type' => false
     ];
 
-    if (!$request->has('password')) {
+    if ($request->has('password')) {
       $insert = [
           'name' => $request->get('name'),
           'email' => $request->get('email'),

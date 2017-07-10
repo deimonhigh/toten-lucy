@@ -11,11 +11,12 @@
 
     //region STORAGE
     var _getStorage = function (storage) {
-      var storage = localStorageService.get(storage);
-      return storage ? JSON.parse(atob(storage)) : false;
+      var storageResult = localStorageService.get(storage);
+      return storageResult ? JSON.parse(atob(storageResult)) : false;
     };
 
     var _setStorage = function (storage, data) {
+      data = !!data ? data : {};
       localStorageService.set(storage, btoa(JSON.stringify(data)));
     };
 
@@ -24,167 +25,156 @@
     };
 
     var _clearStorage = function () {
-      localStorageService.keys().map(function (chave) {
-        localStorageService.remove(chave);
-      });
+      localStorageService.clearAll();
     };
     //endregion
 
     //region CEP e CNPJ
     var _cep = function (cep) {
-      var deferred = $q.defer();
+      cep = cep.replace(/[^0-9]/g, "");
 
-      cep = cep.replace(/\.|-/g, "");
-
+      var defer = $q.defer();
       $http.get('https://viacep.com.br/ws/' + cep + '/json/')
            .then(function (retorno) {
-             deferred.resolve(retorno.data);
+             defer.resolve(retorno.data);
            }, function (erro) {
-             deferred.reject(erro.data);
+             defer.reject(erro.data);
            });
-      return deferred.promise;
+
+      return defer.promise;
     };
 
     var _cnpj = function (cnpj) {
       if (cnpj == undefined) {
         return;
       }
-      var deferred = $q.defer();
-      cnpj = cnpj.replace(/\.|\/|-/g, "");
+      cnpj = cnpj.replace(/[^0-9]/g, "");
       var url = '//www.receitaws.com.br/v1/cnpj/' + cnpj + '?callback=JSON_CALLBACK';
 
+      var defer = $q.defer();
       $http({
               method: 'jsonp',
               url: url,
               timeout: 1000
             })
         .then(function (retorno) {
-          deferred.resolve(retorno.data);
+          defer.resolve(retorno.data);
         }, function (erro) {
-          deferred.reject(erro.data);
+          defer.reject(erro.data);
         });
-      return deferred.promise;
+
+      return defer.promise;
     };
     //endregion
 
     //region GEOLOCATION
     var _geocoder = function (endereco) {
-      var deferred = $q.defer();
-      $timeout(function () {
-        $http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURI(endereco) + '&key=' + config.apiKeyGoogle)
-             .then(function (retorno) {
-               deferred.resolve(retorno.data);
-             }, function (erro) {
-               deferred.reject(erro.data);
-             });
-      }, 250);
-      return deferred.promise;
+      var defer = $q.defer();
+      $http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURI(endereco) + '&key=' + config.apiKeyGoogle)
+           .then(function (retorno) {
+             defer.resolve(retorno.data);
+           }, function (erro) {
+             defer.reject(erro.data);
+           });
+
+      return defer.promise;
     };
 
     var _reverseGeocoder = function (lat, long) {
-      var deferred = $q.defer();
-      $timeout(function () {
-        $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + long + '&key=' + config.apiKeyGoogle)
-             .then(function (retorno) {
-               deferred.resolve(retorno.data);
-             }, function (erro) {
-               deferred.reject(erro.data);
-             });
-      }, 250);
-      return deferred.promise;
-    };
+          var defer = $q.defer();
+          $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + long + '&key=' + config.apiKeyGoogle)
+               .then(function (retorno) {
+                 defer.resolve(retorno.data);
+               }, function (erro) {
+                 defer.reject(erro.data);
+               });
+
+          return defer.promise;
+        }
+    ;
     //endregion
 
     //region Token
     var _token = function (dados) {
-      var deferred = $q.defer();
-
-      var enviar = {
+      var defer = $q.defer();
+      var dadosToken = {
         "grant_type": config.grant_type,
         "client_id": config.client_id,
         "client_secret": client_secret,
         "scope": config.scope,
         "username": dados.user,
         "password": dados.pass
-      }
+      };
 
-      $http.post(apiToken, enviar, config.header)
+      $http.post(apiToken, dadosToken, config.header)
            .then(function (retorno) {
-             deferred.resolve(retorno.data);
+             defer.resolve(retorno.data);
            }, function (erro) {
-             deferred.reject(erro.data);
+             defer.reject(erro.data);
            });
-      return deferred.promise;
 
+      return defer.promise;
     };
     //endregion
 
     //region Metodos API
     var _get = function (url, header) {
-
-      var deferred = $q.defer();
-
       var separator = url.indexOf('?') === -1 ? '?' : '&';
       url = url + separator + 'noCache=' + new Date().valueOf();
 
+      var defer = $q.defer();
       $http.get(apiUrl + url, header)
            .then(function (retorno) {
-             deferred.resolve(retorno.data);
+             defer.resolve(retorno.data);
            }, function (erro) {
-             deferred.reject(erro.data);
+             defer.reject(erro.data);
            });
-      return deferred.promise;
+
+      return defer.promise;
     };
 
     var _post = function (url, data, header) {
-      var deferred = $q.defer();
-
-      var separator = url.indexOf('?') === -1 ? '?' : '&';
-      url = url + separator + 'noCache=' + new Date().valueOf();
-
+      var defer = $q.defer();
       $http.post(apiUrl + url, data, header)
            .then(function (retorno) {
-             deferred.resolve(retorno.data);
+             defer.resolve(retorno.data);
            }, function (erro) {
-             deferred.reject(erro.data);
+             defer.reject(erro.data);
            });
-      return deferred.promise;
+
+      return defer.promise;
     };
 
-    var _deletar = function (url, id) {
-      var deferred = $q.defer();
-
+    var _delete = function (url, id) {
       url = url.match(/\/$/) ? url : url + '/';
-
       var separator = url.indexOf('?') === -1 ? '?' : '&';
       url = url + id + separator + 'noCache=' + new Date().valueOf();
 
+      var defer = $q.defer();
       $http.post(apiUrl + url, {})
            .then(function (retorno) {
-             deferred.resolve(retorno.data);
+             defer.resolve(retorno.data);
            }, function (erro) {
-             deferred.reject(erro.data);
+             defer.reject(erro.data);
            });
 
-      return deferred.promise;
-
+      return defer.promise;
     };
 
-    var _procurar = function (url, titulo) {
-      var deferred = $q.defer();
-
+    var _search = function (url, titulo) {
       url = url.match(/\/$/) ? url : url + '/';
-
       var separator = url.indexOf('?') === -1 ? '?' : '&';
       url = url + titulo + separator + 'noCache=' + new Date().valueOf().toString();
 
+      var defer = $q.defer();
       $http.get(apiUrl + url.toString())
            .then(function (retorno) {
-             deferred.resolve(retorno.data);
+             defer.resolve(retorno.data);
            }, function (erro) {
-             deferred.reject(erro.data);
+             defer.reject(erro.data);
            });
-      return deferred.promise;
+
+      return defer.promise;
     };
     //endregion
 
@@ -237,8 +227,8 @@
       "reverseGeocoder": _reverseGeocoder,
       "get": _get,
       "post": _post,
-      "procurar": _procurar,
-      "deletar": _deletar,
+      "search": _search,
+      "delete": _delete,
       "getAll": _getAll,
       "postAll": _postAll,
       "saveAs": _saveAs,

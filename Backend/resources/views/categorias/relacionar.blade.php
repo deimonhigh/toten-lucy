@@ -44,7 +44,7 @@
                                     <select name="categoria_id" class="form-control">
                                         <option value="" selected>Selecione uma categoria</option>
                                         @foreach($categoriasImportadas as $admin)
-                                            <option value="{{ $admin->id }}">{{ $admin->descricao }}</option>
+                                            <option value="{{ $admin->id }}">{{ $admin->id .  ' - ' . $admin->descricao }}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('categoriasImportadas'))

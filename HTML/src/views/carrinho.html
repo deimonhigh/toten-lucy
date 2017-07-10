@@ -1,5 +1,5 @@
 <header>
-  <a ui-sref="produtos" class="logo">
+  <a ui-sref="categorias" class="logo">
     <h1 ng-bind="temaStorage.empresa"></h1>
   </a>
 
@@ -60,13 +60,13 @@
             </td>
             <td>
               <div class="input-group">
-                <span class="input-group-addon pointer" ng-click="minus(item)">
+                <button type="button" class="input-group-addon pointer" ng-click="minus(item)">
                   <i class="fa fa-minus"></i>
-                </span>
+                </button>
                 <input type="text" class="form-control" ng-change="calcTotalItem(item)" ng-model="item.qnt">
-                <span class="input-group-addon pointer" ng-click="more(item)">
+                <button type="button" class="input-group-addon pointer" ng-click="more(item)">
                   <i class="fa fa-plus"></i>
-                </span>
+                </button>
               </div>
             </td>
             <td>

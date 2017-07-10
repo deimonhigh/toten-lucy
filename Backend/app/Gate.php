@@ -11,6 +11,7 @@ class Gate
       'admin/produtos/importarProdutosView',
       'admin/lojas/frete',
       'admin/lojas/frete/upload',
+      'admin/produtos/habilitar',
   ];
 
   public static function access($uri)

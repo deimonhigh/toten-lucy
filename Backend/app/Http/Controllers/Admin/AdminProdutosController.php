@@ -55,8 +55,20 @@ class AdminProdutosController extends BaseController
     $data['dados']->imagens = array_filter($data['dados']->imagens->toArray(), function ($obj) {
       return strpos($obj['path'], 'noImg') == FALSE;
     });
-    
+     
     return view('produtos.detalhe', $data);
+  }
+
+  public function habilitar($id)
+  {
+    Produto::find($id)->update(['disabled' => false]);
+    return redirect(route('produtos'))->with('success', 'Produto habilitado com sucesso.');
+  }
+
+  public function desabilitar($id)
+  {
+    Produto::find($id)->update(['disabled' => true]);
+    return redirect(route('produtos'))->with('success', 'Produto desabilitado com sucesso.');
   }
 
   public function importarProdutos()
@@ -81,7 +93,7 @@ class AdminProdutosController extends BaseController
       foreach ($rows as $row):
         try {
           $categoriasIncluir = [];
-          
+
           array_push($protocoloProduto, [
               'ProtocoloProduto' => $row->ProtocoloProduto
           ]);

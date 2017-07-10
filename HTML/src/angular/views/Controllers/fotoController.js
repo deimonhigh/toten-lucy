@@ -15,6 +15,10 @@
 
     vm.bandeiras = [
       {
+        "id": "aVista",
+        "descricao": "À vista"
+      },
+      {
         "id": "Visa",
         "descricao": "Visa"
       },
@@ -65,12 +69,14 @@
 
     vm.closeModal = function () {
       apiService.setStorage('comprovanteCodigos', vm.comprovantes);
-      vm.comprovantes = [
-        angular.copy(comprovanteBase)
-      ];
-      root.foto = false;
-      vm.confirmFoto = false;
-      root.$broadcast('confirmarImg');
+      apiService.post('pedidos/checarComprovantes', vm.comprovantes).then(function (res) {
+        root.foto = false;
+        vm.confirmFoto = false;
+        root.$broadcast('confirmarImg');
+      }, function (err) {
+        err.error.bandeira = (err.error.bandeira == 'aVista') ? 'Á vista' : err.error.bandeira;
+        alert('O comprovante da bandeira \'' + err.error.bandeira + '\' e código \'' + err.error.codigo + '\' já existe em nossa base.') ;
+      });
     };
 
     vm.okFoto = function () {

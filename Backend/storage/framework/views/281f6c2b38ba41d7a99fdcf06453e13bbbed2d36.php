@@ -7,50 +7,22 @@
             </ul>
         </div>
     <?php endif; ?>
-
+    
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Produtos</h4>
-                    <p>Aqui você confere a lista de produtos cadastrados no momento</p>
-                    <?php if(\App\Gate::hasAccess('admin/produtos/importarProdutosView')): ?>
-                        <a class="btn btn-default"
-                           style="margin-top: 20px;"
-                           href="<?php echo e(url(route('importarProdutos'))); ?>">
-                            Atualizar base de dados
-                        </a>
-                    <?php endif; ?>
-                    <?php if(\App\Gate::hasAccess('admin/lojas/frete')): ?>
-                        <a class="btn btn-default"
-                           style="margin-top: 20px;"
-                           href="<?php echo e(url(route('frete'))); ?>">
-                            Importar Lista de Fretes
-                        </a>
-                    <?php endif; ?>
+                    <h4 class="panel-title">Vendedores</h4>
+                    <p>Aqui você confere a lista de vendedores cadastrados no momento</p>
                 </div>
-
-                <div class="panel-body">
-                    <form method="get">
-                        <div class="form-group">
-                            <input type="text"
-                                   name="pesquisa"
-                                   placeholder="Pesquisar por Nome, código ou código de barras do produto"
-                                   class="form-control"
-                                   value="<?php echo e(isset($_GET['pesquisa']) ? $_GET['pesquisa'] : ''); ?>">
-                        </div>
-                    </form>
-                </div>
-
                 <div class="panel-body">
                     <div class="table-responsive">
                         <table class="table table-striped mb30">
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Nome do Produto</th>
-                                    <th>Código do Produto</th>
-                                    <th>Código de barras</th>
+                                    <th>Nome do vendedor</th>
+                                    <th>Códido de identificação</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
@@ -59,14 +31,25 @@
                                     <tbody>
                                         <tr>
                                             <td><?php echo e($data->id); ?></td>
-                                            <td><?php echo e($data->nomeproduto); ?></td>
-                                            <td><?php echo e($data->codigoproduto); ?></td>
-                                            <td><?php echo e($data->codigobarras); ?></td>
+                                            <td><?php echo e($data->nome); ?></td>
+                                            <td><?php echo e($data->identificacao); ?></td>
                                             <td>
                                                 <a class="btn btn-default"
-                                                   title="Detalhes de produtos"
-                                                   href="<?php echo e(url(route('produtosDetalhe', ['id' => $data->id]))); ?>">
+                                                   title="Detalhes do Vendedor"
+                                                   href="<?php echo e(url(route('vendedoresDetalhe', ['id' => $data->id]))); ?>">
                                                     <i class="fa fa-search"></i>
+                                                </a>
+
+                                                <a class="btn btn-default"
+                                                   title="Editar Vendedor"
+                                                   href="<?php echo e(url(route('vendedoresEditar', ['id' => $data->id]))); ?>">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+
+                                                <a class="btn btn-default"
+                                                   title="Excluir Vendedor"
+                                                   href="<?php echo e(url(route('vendedoresDeletar', ['id' => $data->id]))); ?>">
+                                                    <i class="fa fa-close"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -75,7 +58,7 @@
                             <?php else: ?>
                                 <tbody>
                                     <tr>
-                                        <td colspan="4">Nenhum produto cadastrado no momento.</td>
+                                        <td colspan="4">Nenhum vendedor cadastrado no momento.</td>
                                     </tr>
                                 </tbody>
                             <?php endif; ?>
@@ -83,8 +66,10 @@
                     </div><!-- table-responsive -->
                 </div><!-- panel-body -->
                 <div class="panel-footer">
-                    <?php echo e($dados->appends(['pesquisa' => (isset($_GET['pesquisa']) ? $_GET['pesquisa'] : '')])->render()); ?>
+                    <div class="row">
+                        <?php echo e($dados->render()); ?>
 
+                    </div>
                 </div>
             </div>
         </div>

@@ -34,8 +34,7 @@
       <h3>OBRIGADO!</h3>
       <h4 ng-bind="cliente.nome"></h4>
       <p>Estamos muito felizes por você estar adiquirindo estes belísimos móveis, temos certeza que sua casa ou
-         escritório
-         vai ficar ainda mais bonito.</p>
+         escritório vai ficar ainda mais bonito.</p>
     </div>
     <div class="grid-3 blocos">
       <ul>
@@ -53,9 +52,13 @@
     </div>
     <div class="grid-5 finalizacao">
       <h3>PEDIDO<br>REALIZADO</h3>
-      <div class="img">
+      <div class="img" ng-if="hideComprovante">
         <img ng-src="{{ comprovante }}" alt="Comprovante do Pedido">
       </div>
+      <p ng-if="showBoleto.show">Para finalizar a compra, por favor faça o pagamento do boleto abaixo.</p>
+      <a ng-if="showBoleto.show" ng-href="{{ showBoleto.boleto }}" target="_blank" class="btn">
+        Boleto
+      </a>
     </div>
   </div>
 </section>
