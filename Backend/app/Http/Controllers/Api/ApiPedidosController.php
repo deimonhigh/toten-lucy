@@ -50,7 +50,7 @@ class ApiPedidosController extends BaseController
         foreach ($request->produtos as $produto) {
           $prod = Produto::find($produto['produto_id']);
           if ($prod->estoque <= 0) {
-            throw new \Exception("Não temos mais o produto {$prod->nome} em estoque.", 789);
+            throw new \Exception("Não temos mais o produto {$prod->nomeproduto} em estoque.", 789);
           }
         }
 

@@ -144,7 +144,7 @@
         $state.go('finalizacao');
       }, function (err) {
         if (err.code === 1) {
-          alert(err.msg);
+          alert(err.error);
         } else {
           alert('Pedido não concluída, por favor tente novamente!');
         }

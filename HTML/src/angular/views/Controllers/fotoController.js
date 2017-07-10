@@ -73,9 +73,12 @@
         root.foto = false;
         vm.confirmFoto = false;
         root.$broadcast('confirmarImg');
+        vm.comprovantes = [
+          angular.copy(comprovanteBase)
+        ];
       }, function (err) {
         err.error.bandeira = (err.error.bandeira == 'aVista') ? 'Á vista' : err.error.bandeira;
-        alert('O comprovante da bandeira \'' + err.error.bandeira + '\' e código \'' + err.error.codigo + '\' já existe em nossa base.') ;
+        alert('O comprovante da bandeira \'' + err.error.bandeira + '\' e código \'' + err.error.codigo + '\' já existe em nossa base.');
       });
     };
 
