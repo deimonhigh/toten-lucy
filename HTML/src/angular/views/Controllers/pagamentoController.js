@@ -43,7 +43,7 @@
       return Array(n - String(nr).length + 1).join(str || '0') + nr;
     };
 
-    vm.idPedido = 'SF.' + padLeft(vm.cliente.idPedido, 13).replace(/^(\d{4})(\d{4})(\d+)(\d{2})/, '$1.$2.$3-$4');
+    vm.idPedido = 'TESTE.' + padLeft(vm.cliente.idPedido, 13).replace(/^(\d{4})(\d{4})(\d+)(\d{2})/, '$1.$2.$3-$4');
 
     vm.validarVendedor = function () {
       var enviar = {};
@@ -152,7 +152,7 @@
       });
     });
 
-    var comJurosAVista = vm.totalCarrinho + vm.totalCarrinho * (root.temaStorage['parcela0'] / 100);
+    var comJurosAVista = (vm.totalCarrinho + vm.totalCarrinho * (parseFloat(root.temaStorage['parcela0']) / 100)) + parseFloat(vm.frete.valor);
     vm.listaPagamentos = [
       {
         "index": 0,
@@ -166,7 +166,7 @@
     var maxParcelas = root.temaStorage.max_parcelas;
 
     for (var i = 1; i <= maxParcelas; i++) {
-      var comJuros = vm.totalCarrinho + vm.totalCarrinho * (root.temaStorage['parcela' + i] / 100);
+      var comJuros = (vm.totalCarrinho + vm.totalCarrinho * (parseFloat(root.temaStorage['parcela' + i]) / 100)) + parseFloat(vm.frete.valor);
       var pagamento = {
         "index": i + 1,
         "parcelas": i,

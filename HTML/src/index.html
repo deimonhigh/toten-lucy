@@ -11,24 +11,23 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <!--<script type="text/javascript">if (document.location.protocol != "https:") {document.location = document.URL.replace(/^http:/i, "https:");}</script>-->
+  <script type="text/javascript">if (document.location.protocol != "https:") {document.location = document.URL.replace(/^http:/i, "https:");}</script>
 
   <link rel="stylesheet" type="text/css" href="assets/css/style.min.css" />
   <!--<link rel="stylesheet" type="text/css" href="{{ url('assets/css/style.min.css') }}" />-->
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,600,700" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
 
   <style ng-bind="tema"></style>
 
 </head>
 <body ng-class="{'inicio': inicio}">
   <ui-view class="ng-cloak"></ui-view>
-
-  {{ foto }}
-
-  <div ng-controller="fotoController" class="hidden" ng-class="{'hidden': !foto}">
-    <div class="tableModal full fixed black animate-if" ng-if="foto">
+  <div class="hidden" ng-class="{'hidden': !foto}">
+    <div ng-controller="fotoController" class="tableModal full fixed black animate-if" ng-if="foto">
       <div class="tCell">
         <div class="dib foto">
           <div class="grid">
@@ -88,7 +87,7 @@
             </div>
             <div class="column" ng-if="confirmFoto">
               <div class="imgExample OkFoto">
-                <img ng-src="{{ imgResponse }}" alt="Foto">
+                <img ng-src="@{{ imgResponse }}" alt="Foto">
                 <button type="button" class="btn tp" ng-click="notOkFoto()">
                   <div class="img">
                     @@include('assets/imgs/fotos/camera.svg')

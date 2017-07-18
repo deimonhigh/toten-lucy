@@ -65,22 +65,22 @@ class ApiPedidosController extends BaseController
 
         $cliente = Cliente::find($request->idcliente);
 
-//        $retornoKpl = $this->savePedidosKpl($request, $cliente, $url);
-//
-//        \Log::info(json_decode($retornoKpl));
+        $retornoKpl = $this->savePedidosKpl($request, $cliente, $url);
 
-//        if (
-//            (
-//                isset($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo) &&
-//                !strcmp($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo, 'tdreSucesso')
-//            ) ||
-//            (
-//                isset($retornoKpl->flag) &&
-//                !$retornoKpl->flag
-//            )
-//        ) {
-//          throw new \Exception("Ocorreu um problema ao finalizar seu pedido..", 789);
-//        }
+        \Log::info(json_encode($retornoKpl));
+
+        if (
+            (
+                isset($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo) &&
+                !strcmp($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo, 'tdreSucesso')
+            ) ||
+            (
+                isset($retornoKpl->flag) &&
+                !$retornoKpl->flag
+            )
+        ) {
+          throw new \Exception("Ocorreu um problema ao finalizar seu pedido..", 789);
+        }
 
         foreach ($request->produtos as $produto) {
           $temp = new Pedidosproduto();
@@ -129,6 +129,14 @@ class ApiPedidosController extends BaseController
       return $this->Ok($request);
     }
     catch (\Exception $e) {
+      $except = new \StdClass();
+      $except->error = $e->getMessage();
+      $except->line = $e->getLine();
+      $except->trace = $e->getTraceAsString();
+      $except->flag = false;
+
+      \Log::error(json_encode($except));
+
       if ($this->isModelNotFoundException($e)) {
         return $this->modelNotFound();
       }
@@ -184,14 +192,14 @@ class ApiPedidosController extends BaseController
             'installments' => (int)$request->parcelas > 0 ? $request->parcelas : 1,
             "payer" => [
                 "email" => "bruno@agenciadominio.com.br"
-                //                "email" => $cliente->email
+                ///                "email" => $cliente->email
             ],
             "additional_info" => [
                 "items" => $itens
             ]
         ];
 
-        if (!strcmp($request->method, 'bolbradesco')) {
+        if ($request->method != 'bolbradesco') {
           $payment_data["token"] = $request->token;
         }
 
@@ -201,7 +209,7 @@ class ApiPedidosController extends BaseController
           throw new \Exception("Pedido não aprovado pela emissora do cartão.", 789);
         }
 
-        $pagamento = $payment;
+        $url = $payment['response']['id'];
 
         if (!strcmp($request->method, 'bolbradesco')) {
           $request->boleto = $payment['response']['transaction_details']['external_resource_url'];
@@ -209,10 +217,10 @@ class ApiPedidosController extends BaseController
         $request->mp = true;
 
         //region KPL
-        //        $retornoKpl = $this->savePedidosKpl($request, $cliente, $url);
+//        $retornoKpl = $this->savePedidosKpl($request, $cliente, $url);
 //
-//        \Log::info(json_decode($retornoKpl));
-
+//        \Log::info(json_encode($retornoKpl));
+//
 //        if (
 //            (
 //                isset($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo) &&
@@ -248,7 +256,7 @@ class ApiPedidosController extends BaseController
         $pedido->total = $request->totalSemJuros;
         $pedido->parcelas = $request->parcelas;
         $pedido->frete = $request->frete;
-        $pedido->comprovante = null;
+        $pedido->comprovante = $url;
         $pedido->status = TRUE;
         $pedido->user_id = $user->id;
         $pedido->save();
@@ -319,7 +327,7 @@ class ApiPedidosController extends BaseController
       $insertKpl['InserirPedido']['ChaveIdentificacao'] = '77AD990B-6138-4065-9B86-8D30119C09D3';
       $insertKpl['InserirPedido']['ListaDePedidos'] = [
           'DadosPedidos' => [
-              "NumeroDoPedido" => 'SF' . str_pad((string)$pedido->idPedido, 13, 0, STR_PAD_LEFT),
+              "NumeroDoPedido" => 'TESTE' . str_pad((string)$pedido->idPedido, 13, 0, STR_PAD_LEFT),
               "Email" => $cliente->email,
               "CPFouCNPJ" => $cliente->documento,
               "CodigoCliente" => $cliente->codigo_cliente,
@@ -370,7 +378,7 @@ class ApiPedidosController extends BaseController
       $except = new \StdClass();
       $except->error = $e->getMessage();
       $except->line = $e->getLine();
-      $except->error = $e->getTraceAsString();
+      $except->trace = $e->getTraceAsString();
       $except->flag = false;
 
       \Log::error(json_encode($except));
@@ -410,24 +418,5 @@ class ApiPedidosController extends BaseController
   protected function tipoLocalEntrega($sexo)
   {
     return $sexo == 'E' ? 'tleeComercial' : 'tleeResidencial';
-  }
-
-  // parse the excepetion "message" to get the code and detail, if exists
-  private function parseException($message)
-  {
-    $error = new \stdClass();
-    $error->code = 0;
-    $error->detail = '';
-    $posA = strpos($message, '-');
-    $posB = strpos($message, ':');
-    if ($posA && $posB) {
-      $posA += 2;
-      $length = $posB - $posA;
-      // get code
-      $error->code = substr($message, $posA, $length);
-      // get message
-      $error->detail = substr($message, $posB + 2);
-    }
-    return $error;
   }
 }

@@ -321,6 +321,23 @@ gulp.task('default',
 );
 //endregion
 
+gulp.task('defaultProd',
+          gulp.series(
+            gulp.parallel(
+              'fonts',
+              'html',
+              'index',
+              'imgs',
+              'sass',
+              'js',
+              'angular'
+            ),
+            gulp.parallel(
+              'watch'
+            )
+          )
+);
+
 //region Build Prod
 gulp.task('buildProd',
           gulp.series(

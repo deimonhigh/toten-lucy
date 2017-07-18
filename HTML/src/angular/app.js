@@ -49,7 +49,7 @@
       return apiService.post('config/mercadoPago', {
         "email": email
       }).then(function (res) {
-        if (!!res.result.mercado_pago) {
+        if (parseInt(res.result.mercado_pago) === 1) {
           mercadoPago.loadMP().then(function () {
             mercadoPago.setAccessKey();
           });

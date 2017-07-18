@@ -17,7 +17,8 @@
   "scripts": {
     "preinstall": "npm i -g gulp-cli",
     "postinstall": "gulp",
-    "buildProd": "gulp buildProd --dist=../Backend/public/ --del=false"
+    "buildProd": "gulp buildProd --dist=../Backend/public/ --del=false",
+    "defaultProd": "gulp defaultProd --dist=../Backend/public/ --del=false"
   },
   "devDependencies": {
     "del": "^3.0.0",

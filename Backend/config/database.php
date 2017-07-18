@@ -41,12 +41,12 @@ return [
 
       'mysql' => [
           'driver' => 'mysql',
-          'host' => config('app.customVars.host', '127.0.0.1'),
-          'port' => config('app.customVars.port', '3306'),
-          'database' => config('app.customVars.database', 'toten'),
-          'username' => config('app.customVars.username', 'root'),
-          'password' => config('app.customVars.password', ''),
-          'unix_socket' => config('app.customVars.unix_socket', ''),
+          'host' => env('DB_HOST', '127.0.0.1'),
+          'port' => env('DB_PORT', '3306'),
+          'database' => env('DB_DATABASE', 'toten'),
+          'username' => env('DB_USERNAME', 'root'),
+          'password' => env('DB_PASSWORD', ''),
+          'unix_socket' => env('DB_SOCKET', ''),
           'charset' => 'utf8',
           'collation' => 'utf8_unicode_ci',
           'prefix' => '',

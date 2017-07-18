@@ -26,7 +26,7 @@
                                 <p><strong>Lista de Precos 2 (TABELA DE PRECOS)</strong></p>
                             @endif
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 hidden">
                             <h5>Utiliza Mercado Pago</h5>
                             @if($dados->mercado_pago)
                                 <p><strong>Sim</strong></p>

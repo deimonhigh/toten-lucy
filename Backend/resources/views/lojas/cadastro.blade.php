@@ -62,7 +62,7 @@
                                     </select>
                                 </div>
                             </div><!-- col-sm-6 -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 hidden">
                                 <div class="form-group">
                                     <label class="control-label" style="width: 100%;">Utiliza Mercado Pago</label>
                                     <select name="mercadoPago" class="form-control">

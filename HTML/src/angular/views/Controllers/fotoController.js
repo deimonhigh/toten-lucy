@@ -3,9 +3,9 @@
   angular.module('appToten')
          .controller('fotoController', fotoController);
 
-  fotoController.$inject = ['$scope', '$rootScope', 'apiService'];
+  fotoController.$inject = ['$scope', '$rootScope', 'apiService', '$timeout'];
 
-  function fotoController($scope, $rootScope, apiService) {
+  function fotoController($scope, $rootScope, apiService, $timeout) {
     var vm = $scope;
     var root = $rootScope;
 
