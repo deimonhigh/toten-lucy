@@ -191,8 +191,7 @@ class ApiPedidosController extends BaseController
             "description" => "Lucy Home",
             'installments' => (int)$request->parcelas > 0 ? $request->parcelas : 1,
             "payer" => [
-                "email" => "bruno@agenciadominio.com.br"
-                ///                "email" => $cliente->email
+                "email" => $cliente->email
             ],
             "additional_info" => [
                 "items" => $itens
@@ -217,22 +216,22 @@ class ApiPedidosController extends BaseController
         $request->mp = true;
 
         //region KPL
-//        $retornoKpl = $this->savePedidosKpl($request, $cliente, $url);
-//
-//        \Log::info(json_encode($retornoKpl));
-//
-//        if (
-//            (
-//                isset($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo) &&
-//                !strcmp($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo, 'tdreSucesso')
-//            ) ||
-//            (
-//                isset($retornoKpl->flag) &&
-//                !$retornoKpl->flag
-//            )
-//        ) {
-//          throw new \Exception("Ocorreu um problema ao finalizar seu pedido..", 789);
-//        }
+        $retornoKpl = $this->savePedidosKpl($request, $cliente, $url);
+
+        \Log::info(json_encode($retornoKpl));
+
+        if (
+            (
+                isset($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo) &&
+                !strcmp($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo, 'tdreSucesso')
+            ) ||
+            (
+                isset($retornoKpl->flag) &&
+                !$retornoKpl->flag
+            )
+        ) {
+          throw new \Exception("Ocorreu um problema ao finalizar seu pedido..", 789);
+        }
         //endregion
 
         //region Salva produtos
