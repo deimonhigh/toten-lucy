@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Model\Cliente;
 use App\Http\Controllers\Model\Endereco;
+use App\Http\Controllers\Model\Frete;
 use App\Http\Controllers\Model\Pedido;
 use App\Http\Controllers\RestController as BaseController;
 use Illuminate\Http\Request;
@@ -77,6 +78,8 @@ class ApiClientesController extends BaseController
         $newEndereco->idcliente = $idCliente->id;
         $newEndereco->save();
       }
+
+      $json->freteValor = Frete::select('valor', 'prazo')->whereRaw("({$json->cep} between `cep_inicial` and `cep_final` and {$json->peso} between `peso_inicial` and `peso_final`)")->first();
 
       $newPedido = new Pedido();
       $newPedido->cliente_id = $idCliente->id;

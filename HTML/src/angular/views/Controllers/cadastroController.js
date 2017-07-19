@@ -179,6 +179,10 @@
         enviarParaSalvar.enderecos.push(endereco2);
       }
 
+      enviarParaSalvar.peso = apiService.getStorage('carrinho').reduce(function (carry, next) {
+        return carry + parseFloat(next.peso);
+      }, 0);
+
       apiService.post('clientes/save', enviarParaSalvar).then(function (res) {
         apiService.setStorage('cliente', res.result);
         if (root.temaStorage.mercado_pago) {

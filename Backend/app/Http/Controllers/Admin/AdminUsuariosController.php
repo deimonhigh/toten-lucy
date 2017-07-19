@@ -113,7 +113,7 @@ class AdminUsuariosController extends BaseController
         'name' => $request->get('name'),
         'email' => $request->get('email'),
         'password' => Hash::make($request->get('password')),
-        'mercado_pago' => $request->get('mercadoPago'),
+        'mercado_pago' => true,
         'type' => true
     ];
 
@@ -122,7 +122,7 @@ class AdminUsuariosController extends BaseController
           'name' => $request->get('name'),
           'email' => $request->get('email'),
           'password' => Hash::make($request->get('password')),
-          'mercado_pago' => $request->get('mercadoPago'),
+          'mercado_pago' => true,
           'type' => true
       ];
     }

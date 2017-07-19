@@ -24,6 +24,13 @@
     vm.totalCarrinho = 0;
     vm.totalCarrinhoFrete = 0;
 
+    $timeout(function () {
+      root.itensCarrinho = 0;
+    });
+
+    apiService.delStorage('cliente');
+    apiService.delStorage('carrinho');
+
     if (boleto.boleto) {
       vm.showBoleto.show = true;
       vm.showBoleto.boleto = boleto.boleto;
@@ -47,8 +54,8 @@
 
     var calcTotal = function () {
       return vm.listaCompras.reduce(function (previousValue, obj) {
-        return previousValue + (obj.preco * obj.qnt);
-      }, 0);
+          return previousValue + (obj.preco * obj.qnt);
+        }, 0) + parseFloat(vm.cliente.freteValor.valor);
     };
 
     vm.totalCarrinho = calcTotal();
@@ -68,7 +75,9 @@
       apiService.delStorage('vendedor');
       apiService.delStorage('frete');
       apiService.delStorage('boleto');
-      root.itensCarrinho = 0;
+      $timeout(function () {
+        root.itensCarrinho = 0;
+      });
     };
   }
 

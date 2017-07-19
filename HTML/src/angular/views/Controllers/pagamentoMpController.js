@@ -161,12 +161,11 @@
 
       if (vm.editarPagamentoFlag && vm.formaPagamento.total) {
         $timeout(function () {
-          vm.totalCarrinho = vm.formaPagamento.total;
           var frete = 0;
           if (vm.frete) {
-            frete = parseFloat(vm.frete.valor);
+            frete = parseFloat(vm.cliente.freteValor.valor);
           }
-          vm.totalCarrinhoFrete = vm.formaPagamento.total + frete;
+          vm.totalCarrinhoFrete = angular.copy(vm.totalCarrinho) + frete;
         });
       }
 
@@ -178,6 +177,8 @@
             obj.active = obj.id === 'bolbradesco';
           });
         });
+      } else {
+        vm.infoNeeded = true;
       }
     };
 
@@ -211,7 +212,7 @@
     //endregion
 
     //region Gerar Select Pagamento
-    var comJurosAVista = (vm.totalCarrinho + vm.totalCarrinho * (parseFloat(root.temaStorage['parcela0']) / 100)) + parseFloat(vm.frete.valor);
+    var comJurosAVista = (vm.totalCarrinho + vm.totalCarrinho * (parseFloat(root.temaStorage['parcela0']) / 100)) + parseFloat(vm.cliente.freteValor.valor);
     vm.listaPagamentos = [
       {
         "index": 90,
@@ -234,7 +235,7 @@
     var maxParcelas = root.temaStorage.max_parcelas;
 
     for (var i = 1; i <= maxParcelas; i++) {
-      var comJuros = (vm.totalCarrinho + vm.totalCarrinho * (parseFloat(root.temaStorage['parcela' + i]) / 100)) + parseFloat(vm.frete.valor);
+      var comJuros = (vm.totalCarrinho + vm.totalCarrinho * (parseFloat(root.temaStorage['parcela' + i]) / 100)) + parseFloat(vm.cliente.freteValor.valor);
       var pagamento = {
         "index": i + 1,
         "parcelas": i,
@@ -247,7 +248,7 @@
       if (root.temaStorage['parcela' + i] == 0) {
         pagamento.descricao += " s/ juros"
       }
-      
+
       vm.listaPagamentos.push(pagamento);
     }
     //endregion

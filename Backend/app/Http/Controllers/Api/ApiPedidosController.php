@@ -72,7 +72,7 @@ class ApiPedidosController extends BaseController
         if (
             (
                 isset($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo) &&
-                !strcmp($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo, 'tdreSucesso')
+                $retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo != 'tdreSucesso'
             ) ||
             (
                 isset($retornoKpl->flag) &&
@@ -204,13 +204,13 @@ class ApiPedidosController extends BaseController
 
         $payment = $mp->post("/v1/payments", $payment_data);
 
-        if (!strcmp($payment['response']['status'], 'approved')) {
+        if ($payment['response']['status'] != 'approved' && $request->method != 'bolbradesco') {
           throw new \Exception("Pedido não aprovado pela emissora do cartão.", 789);
         }
 
         $url = $payment['response']['id'];
 
-        if (!strcmp($request->method, 'bolbradesco')) {
+        if ($request->method == 'bolbradesco') {
           $request->boleto = $payment['response']['transaction_details']['external_resource_url'];
         }
         $request->mp = true;
@@ -223,7 +223,7 @@ class ApiPedidosController extends BaseController
         if (
             (
                 isset($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo) &&
-                !strcmp($retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo, 'tdreSucesso')
+                $retornoKpl->InserirPedidoResult->ResultadoOperacao->Tipo != 'tdreSucesso'
             ) ||
             (
                 isset($retornoKpl->flag) &&

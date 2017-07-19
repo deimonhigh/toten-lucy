@@ -148,6 +148,8 @@
       var name = $transition.$to().name;
       var auth = apiService.getStorage('auth');
       var formasPgMP = apiService.getStorage('formasPgMP');
+      var cliente = apiService.getStorage('cliente');
+      var carrinho = apiService.getStorage('carrinho');
 
       cfpLoadingBar.start();
 
@@ -164,6 +166,16 @@
           return $transition.router.stateService.target('login');
         }
       }
+
+      console.log(['finalizacao', 'pagamento', 'pagamentoMP'].indexOf(name) > -1);
+      console.log(cliente);
+
+      if (['finalizacao', 'pagamento', 'pagamentoMP'].indexOf(name) > -1 && !cliente) {
+        return $transition.router.stateService.target('home');
+      } else if (['cadastro'].indexOf(name) > -1 && !carrinho) {
+        return $transition.router.stateService.target('home');
+      }
+
     });
 
     $transitions.onSuccess({}, function ($transition) {

@@ -1,3 +1,15 @@
+<style>
+  .pagamento .resumoCompra .total div.field {
+    height : auto;
+  }
+
+  .pagamento .resumoCompra .total div.cifra, .pagamento .resumoCompra .total div.number {
+    display : inline-block;
+    width   : auto;
+    padding : 0;
+    margin  : 0;
+  }
+</style>
 <header>
   <a ui-sref="home" class="logo">
     <h1 ng-bind="temaStorage.empresa"></h1>
@@ -64,13 +76,19 @@
       <div class="total">
         <div class="field">
           <div class="cifra">
-            valor total do pedido
+            subtotal
           </div>
           <div class="number" ng-bind="totalCarrinho | currency"></div>
         </div>
         <div class="field">
           <div class="cifra">
-            valor total com frete
+            frete
+          </div>
+          <div class="number" ng-bind="cliente.freteValor.valor | currency"></div>
+        </div>
+        <div class="field">
+          <div class="cifra">
+            total
           </div>
           <div class="number" ng-bind="totalCarrinhoFrete | currency"></div>
         </div>

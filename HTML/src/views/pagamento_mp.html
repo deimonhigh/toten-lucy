@@ -1,3 +1,15 @@
+<style>
+  .pagamento .resumoCompra .total div.field {
+    height : auto;
+  }
+
+  .pagamento .resumoCompra .total div.cifra, .pagamento .resumoCompra .total div.number {
+    display : inline-block;
+    width   : auto;
+    padding : 0;
+    margin  : 0;
+  }
+</style>
 <header>
   <a ui-sref="home" class="logo">
     <h1 ng-bind="temaStorage.empresa"></h1>
@@ -64,17 +76,24 @@
       <div class="total">
         <div class="field">
           <div class="cifra">
-            valor total do pedido
+            subtotal
           </div>
           <div class="number" ng-bind="totalCarrinho | currency"></div>
         </div>
         <div class="field">
           <div class="cifra">
-            valor total com frete
+            frete
+          </div>
+          <div class="number" ng-bind="cliente.freteValor.valor | currency"></div>
+        </div>
+        <div class="field">
+          <div class="cifra">
+            total
           </div>
           <div class="number" ng-bind="totalCarrinhoFrete | currency"></div>
         </div>
       </div>
+
     </article>
     <div class="grid-5 loginVendedor">
       <h3>Pagamento</h3>
@@ -104,16 +123,9 @@
       </div>
 
       <div ng-if="formaPagamento && editarPagamentoFlag">
-        <h3>FORMA DE PAGAMENTO</h3>
-        <p>Quase tudo pronto, vamos escolher a forma de pagamento.</p>
-
+        <h3 ng-if="infoNeeded">INFORME OS DADOS</h3>
         <div class="formField noPadLeft">
           <form name="formaPagamentoForm" ng-submit="salvarPagamento()" id="formaPagamento">
-            <ul class="listaCartoes grid middle">
-              <li ng-repeat="item in tipoPagamento" ng-class="{'active' : item.active}">
-                <img ng-src="{{ item.secure_thumbnail }}" alt="{{ item.name }}">
-              </li>
-            </ul>
             <div class="inforNeeded no-animate" ng-if="infoNeeded">
               <input type="hidden" name="docType" data-checkout="docType" value="{{ dados.type }}">
               <input type="hidden" name="docNumber" data-checkout="docNumber" value="{{ dados.cpf }}">
