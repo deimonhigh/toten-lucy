@@ -166,7 +166,7 @@ class ApiPedidosController extends BaseController
         $cliente = Cliente::find($request->idcliente);
 
         $mp = new \MP(config('app.customVars.apiKeyPriv'));
-        $mp->sandbox_mode = TRUE;
+        $mp->sandbox_mode = FALSE;
 
         $itens = [];
         $somaProdutos = 0;
@@ -185,7 +185,7 @@ class ApiPedidosController extends BaseController
         }
 
         $payment_data = [
-            "transaction_amount" => $somaProdutos,
+            "transaction_amount" => $somaProdutos + (float)$request->frete,
             "statement_descriptor" => 'Lucy Home',
             "payment_method_id" => $request->method,
             "description" => "Lucy Home",
@@ -326,7 +326,7 @@ class ApiPedidosController extends BaseController
       $insertKpl['InserirPedido']['ChaveIdentificacao'] = '77AD990B-6138-4065-9B86-8D30119C09D3';
       $insertKpl['InserirPedido']['ListaDePedidos'] = [
           'DadosPedidos' => [
-              "NumeroDoPedido" => 'TESTE' . str_pad((string)$pedido->idPedido, 13, 0, STR_PAD_LEFT),
+              "NumeroDoPedido" => 'TLH' . str_pad((string)$pedido->idPedido, 13, 0, STR_PAD_LEFT),
               "Email" => $cliente->email,
               "CPFouCNPJ" => $cliente->documento,
               "CodigoCliente" => $cliente->codigo_cliente,

@@ -67,7 +67,7 @@ const dist = {
 };
 
 //region Server
-const portNumber = 5555;
+const portNumber = 8000;
 gulp.task('connect', function () {
   connect.server({
                    port: portNumber,

@@ -221,14 +221,6 @@
         "aVista": true,
         "descricao": 'Boleto | R$ ' + comJurosAVista.toFixed(2).replace('.', ','),
         "total": comJurosAVista
-      },
-      {
-        "index": 0,
-        "parcelas": 0,
-        "boleto": false,
-        "aVista": true,
-        "descricao": 'À vista | R$ ' + comJurosAVista.toFixed(2).replace('.', ','),
-        "total": comJurosAVista
       }
     ];
 

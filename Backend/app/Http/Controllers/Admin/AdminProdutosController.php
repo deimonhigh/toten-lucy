@@ -55,7 +55,7 @@ class AdminProdutosController extends BaseController
     $data['dados']->imagens = array_filter($data['dados']->imagens->toArray(), function ($obj) {
       return strpos($obj['path'], 'noImg') == FALSE;
     });
-     
+
     return view('produtos.detalhe', $data);
   }
 
@@ -147,11 +147,14 @@ class AdminProdutosController extends BaseController
         }
       endforeach;
 
-      Produto::whereNotIn('codigoproduto', $notInProdutos)->update(['disabled' => true]);
+      if (count($notInProdutos) > 0) {
+        Produto::whereNotIn('codigoproduto', $notInProdutos)->update(['disabled' => true]);
+        
+        //region Confirma Produtos
+        $this->confirmaProdutos($protocoloProduto);
+        //endregion
+      }
 
-      //region Confirma Produtos
-      $this->confirmaProdutos($protocoloProduto);
-      //endregion
     endif;
     //endregion
 

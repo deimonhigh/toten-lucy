@@ -166,18 +166,27 @@
 
                     @if(!is_null($dados->comprovante) && strlen($dados->comprovante) > 0)
                         <div class="row">
-                            <div class="col-sm-3">
-                                <h5>Comprovante</h5>
-                                <p>
-                                    <a href="{{ asset(str_replace('public', 'storage', $dados->comprovante)) }}"
-                                       download>
-                                        <img src="{{ asset(str_replace('public', 'storage', $dados->comprovante)) }}"
-                                             class="img-responsive"
-                                             alt="{{ $dados->cliente->nome }}"
-                                             style="width: 100%; margin-top: 20px;">
-                                    </a>
-                                </p>
-                            </div>
+                            @if(strpos($dados->comprovante, '.'))
+                                <div class="col-sm-3">
+                                    <h5>Comprovante</h5>
+                                    <p>
+                                        <a href="{{ asset(str_replace('public', 'storage', $dados->comprovante)) }}"
+                                           download>
+                                            <img src="{{ asset(str_replace('public', 'storage', $dados->comprovante)) }}"
+                                                 class="img-responsive"
+                                                 alt="{{ $dados->cliente->nome }}"
+                                                 style="width: 100%; margin-top: 20px;">
+                                        </a>
+                                    </p>
+                                </div>
+                            @else
+                                <div class="col-sm-12">
+                                    <h5>Comprovante</h5>
+                                    <p>
+                                        <strong>Comprovante MercadoPago: {{ $dados->comprovante }}</strong>
+                                    </p>
+                                </div>
+                            @endif
                         </div>
                         @if(count($dados->comprovantes) > 0)
                             <h3 class="bbottom">Códigos de comprovantes</h3>
