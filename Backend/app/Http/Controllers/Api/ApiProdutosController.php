@@ -73,11 +73,10 @@ class ApiProdutosController extends BaseController
   public function relacionados(Request $request)
   {
     try {
-      $codigoProduto = (string)$request->get('produtocodigo');
-      $produto = preg_replace('/\..*/', '', $codigoProduto);
+      $codigoProduto = $request->get('produtocodigo');
 
-      $result = Produto::select('id', 'cor')->where(function ($q) use ($produto) {
-        $q->where('codigoprodutopai', $produto);
+      $result = Produto::select('id', 'cor')->where(function ($q) use ($codigoProduto) {
+        $q->where('codigoprodutopai', $codigoProduto);
         $q->where('estoque', '>', 0);
         $q->where('disabled', false);
       })->get();

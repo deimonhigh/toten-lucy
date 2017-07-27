@@ -189,7 +189,6 @@ gulp.task('compressJS', function () {
              .pipe(plumber({
                              errorHandler: onError
                            }))
-             .pipe(sourcemaps.init())
              .pipe(include())
              .pipe(decomment({trim: true}))
              .pipe(compressor())
@@ -197,9 +196,7 @@ gulp.task('compressJS', function () {
                             basename: 'scripts',
                             suffix: '.min'
                           }))
-             .pipe(sourcemaps.write(dist.mapJS))
-             .pipe(gulp.dest(dist.js))
-             .pipe(connect.reload());
+             .pipe(gulp.dest(dist.js));
 });
 
 gulp.task('compressAngular', function () {
@@ -207,16 +204,13 @@ gulp.task('compressAngular', function () {
              .pipe(plumber({
                              errorHandler: onError
                            }))
-             .pipe(sourcemaps.init())
              .pipe(include())
              .pipe(decomment({trim: true}))
              .pipe(compressor())
              .pipe(rename({
                             suffix: '.min'
                           }))
-             .pipe(sourcemaps.write(dist.mapJSAngular))
-             .pipe(gulp.dest(dist.angular))
-             .pipe(connect.reload());
+             .pipe(gulp.dest(dist.angular));
 });
 
 gulp.task('cleanCSS', function () {
@@ -224,7 +218,6 @@ gulp.task('cleanCSS', function () {
              .pipe(plumber({
                              errorHandler: onError
                            }))
-             .pipe(sourcemaps.init())
              .pipe(sass({
                           outputStyle: 'compressed'
                         }))
@@ -235,7 +228,6 @@ gulp.task('cleanCSS', function () {
                               }
                             }))
              .pipe(rename('style.min.css'))
-             .pipe(sourcemaps.write(dist.mapCSS))
              .pipe(gulp.dest(dist.css));
 });
 //endregion

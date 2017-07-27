@@ -38,7 +38,7 @@
       vm.loadingProduto = false;
 
       apiService.post('produtos/relacionados', {
-        "produtocodigo": vm.produto.codigoproduto
+        "produtocodigo": vm.produto.codigoprodutopai || vm.produto.codigoproduto
       }).then(function (res) {
         vm.produtosRelacionados = res.result;
       }, function (err) {

@@ -99,6 +99,36 @@
                         </div>
                     </div>
 
+                    @if(count($dados->categorias) > 0)
+                        <h3 class="bbottom">Categorias do produto</h3>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th style="width: 160px;">
+                                            Código Categoria KPL
+                                        </th>
+                                        <th>
+                                            Nome
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($dados->categorias as $categoria)
+                                            <tr>
+                                                <td>
+                                                    {{ $categoria->codigocategoria }}
+                                                </td>
+                                                <td>
+                                                    {{ $categoria->descricao }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    @endif
+
                 </div><!-- panel-body -->
 
                 @if(!isset($dados->imagens) || count($dados->imagens) == 0)
