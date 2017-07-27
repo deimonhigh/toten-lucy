@@ -64,11 +64,20 @@
       </div>
 
       <div class="infoProduto" ng-if="produtosRelacionados.length > 0">
-        <h4><strong>Cor:</strong><span class="itemSelected" ng-bind="produto.cor"></span>
+        <h4><strong>Cor:</strong>
         </h4>
         <ul class="cores" ng-if="produtosRelacionados.length > 0">
-          <li ng-repeat="item in produtosRelacionados" ng-if="item.cor != produto.cor">
-            <button type="button" class="btn" ng-bind="item.cor" ui-sref="produto({'id' : item.id})"></button>
+          <li ng-repeat="item in produtosRelacionados">
+            <button type="button"
+                    class="btn btnActive tp"
+                    ng-bind="item.cor"
+                    disabled
+                    ng-if="item.cor == produto.cor"></button>
+            <button type="button"
+                    class="btn"
+                    ng-bind="item.cor"
+                    ui-sref="produto({'id' : item.id})"
+                    ng-if="item.cor != produto.cor"></button>
           </li>
         </ul>
 

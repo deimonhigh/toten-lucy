@@ -98,6 +98,11 @@ body {
     background : none;
   }
 
+  &.btnActive{
+    color: #212121;
+    border: 1px solid #212121;
+  }
+
   &.white {
     background : #FFFFFF;
     color      : #333333;
