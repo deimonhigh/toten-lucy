@@ -22,7 +22,26 @@
 
       .state("home", {
         url: "/home",
-        templateUrl: "./views/home.html"
+        templateUrl: "./views/home.html",
+        resolve: {
+          deleteStorage: [
+            'apiService',
+            '$timeout',
+            function (apiService, $timeout) {
+              apiService.delStorage('comprovante');
+              apiService.delStorage('cliente');
+              apiService.delStorage('carrinho');
+              apiService.delStorage('formaPagamento');
+              apiService.delStorage('comprovanteCodigos');
+              apiService.delStorage('vendedor');
+              apiService.delStorage('frete');
+              apiService.delStorage('boleto');
+              $timeout(function () {
+                root.itensCarrinho = 0;
+              });
+            }
+          ]
+        }
       })
 
       .state("login", {

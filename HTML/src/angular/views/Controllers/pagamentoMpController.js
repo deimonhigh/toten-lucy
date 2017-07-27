@@ -20,9 +20,11 @@
       'cpf': vm.cliente.documento
     };
 
+    vm.mostrarPedidoVendedor = true;
+
     vm.okCartaoCredito = false;
 
-    vm.infoNeeded = true;
+    vm.infoNeeded = false;
 
     vm.tipoPagamento = apiService.getStorage('tiposPagamentoMP') || [];
 
@@ -76,6 +78,8 @@
     };
 
     vm.salvarPagamento = function () {
+      vm.loading = true;
+
       var formaPagamento = apiService.getStorage('formaPagamento');
       var comprovante = apiService.getStorage('comprovante');
       var auth = apiService.getStorage('auth');
@@ -83,9 +87,8 @@
       var vendedor = apiService.getStorage('vendedor');
       var formaPagamentoStorage = apiService.getStorage('formaPagamento');
 
-      cfpLoadingBar.start();
-
       mercadoPago.getIdTypes().then(function (res) {
+        vm.loading = false;
         vm.dados.type = res.response[0].id;
         mercadoPago.mPago().clearSession();
 
@@ -97,6 +100,7 @@
             alert('Algumas informações do seu cartão não estão corretas, por favor verifique.');
             return;
           }
+
           var send = {};
           send.token = res.response.id;
           send.method = vm.dados.typeId;
@@ -123,26 +127,43 @@
           send.parcelas = formaPagamento.parcelas;
           send.aVista = formaPagamento.aVista;
 
-          apiService.post('pedidos/saveMp', send).then(function (res) {
-            if (res.result.boleto) {
-              alert('Pedido esperando finalização!');
-            } else {
-              alert('Pedido finalizado com sucesso!');
-            }
+          apiService.setStorage('dadosPedido', send);
 
-            apiService.setStorage('boleto', res.result);
-            $state.go('finalizacao');
-          }, function (err) {
-            if (err.code == 1) {
-              alert(err.error.msg);
-            } else {
-              alert('Pedido não concluída, por favor tente novamente!');
-            }
-            $state.go('pagamentoMP');
-          });
-
+          vm.mostrarPedidoVendedor = false;
         });
       });
+    };
+
+    vm.validarVendedor = function () {
+      var enviar = {};
+      apiService.delStorage('comprovante');
+      enviar.identificacao = vm.dadosVendedor.identificacao;
+      enviar.senha = vm.dadosVendedor.senha;
+      apiService.post('vendedores/validate', enviar).then(function (res) {
+        var send = apiService.getStorage('dadosPedido');
+
+        send.vendedor_id = res.result.id;
+
+        apiService.post('pedidos/saveMp', send).then(function (res) {
+          if (res.result.boleto) {
+            alert('Pedido esperando finalização!');
+          } else {
+            alert('Pedido finalizado com sucesso!');
+          }
+
+          apiService.setStorage('boleto', res.result);
+          $state.go('finalizacao');
+        }, function (err) {
+          if (err.code == 1) {
+            alert(err.error.msg);
+          } else {
+            alert('Pedido não concluída, por favor tente novamente!');
+          }
+          $state.go('pagamentoMP');
+        });
+      }, function (err) {
+        alert(err.error);
+      })
     };
 
     //region Informações do pagamento
@@ -156,6 +177,11 @@
 
     vm.editarPagamento = function () {
       vm.editarPagamentoFlag = !vm.editarPagamentoFlag;
+      vm.mostrarPedidoVendedor = true;
+
+      if (!vm.editarPagamentoFlag) {
+        return;
+      }
 
       apiService.setStorage('formaPagamento', vm.formaPagamento);
 
@@ -173,10 +199,12 @@
         $timeout(function () {
           vm.infoNeeded = false;
           vm.dados.typeId = 'bolbradesco';
-          vm.tipoPagamento.map(function (obj) {
-            obj.active = obj.id === 'bolbradesco';
-          });
         });
+
+        $timeout(function () {
+          vm.salvarPagamento();
+        }, 100);
+
       } else {
         vm.infoNeeded = true;
       }

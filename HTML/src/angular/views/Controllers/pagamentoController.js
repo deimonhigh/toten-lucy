@@ -114,6 +114,7 @@
       }, 0);
       send.idPedido = vm.cliente.idPedido;
       send.img = vm.comprovante;
+      send.vendedor_id = vendedor.id;
 
       send.produtos = vm.listaCompras.map(function (obj) {
         return {

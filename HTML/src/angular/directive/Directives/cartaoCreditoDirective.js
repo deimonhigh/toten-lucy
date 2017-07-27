@@ -23,7 +23,7 @@
           if (value) {
             var transformedInput = value.toString().replace(/[^0-9]/g, '');
             $timeout(function () {
-              ngModelCtrl.$setViewValue(formatCartao(transformedInput.substring(0, 16)));
+              ngModelCtrl.$setViewValue(formatCartao(transformedInput.substring(0, 18)));
               ngModelCtrl.$render();
 
               if (ngModelCtrl.$viewValue) {

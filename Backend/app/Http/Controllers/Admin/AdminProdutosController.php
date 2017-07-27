@@ -59,20 +59,23 @@ class AdminProdutosController extends BaseController
     return view('produtos.detalhe', $data);
   }
 
-  public function habilitar($id)
+  public function habilitar($id, $pesquisa = null)
   {
     Produto::find($id)->update(['disabled' => false]);
-    return redirect(route('produtos'))->with('success', 'Produto habilitado com sucesso.');
+    return redirect(route('produtos', ['pesquisa' => $pesquisa]))->with('success', 'Produto habilitado com sucesso.');
   }
 
-  public function desabilitar($id)
+  public function desabilitar($id, $pesquisa = null)
   {
     Produto::find($id)->update(['disabled' => true]);
-    return redirect(route('produtos'))->with('success', 'Produto desabilitado com sucesso.');
+    return redirect(route('produtos', ['pesquisa' => $pesquisa]))->with('success', 'Produto desabilitado com sucesso.');
   }
 
   public function importarProdutos()
   {
+
+    ini_set('max_execution_time', 0);
+
     //region Salva Produtos
     $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
     $function = 'ProdutosDisponiveis';
@@ -146,10 +149,10 @@ class AdminProdutosController extends BaseController
           \Log::error($e->getLine());
         }
       endforeach;
-
+      
       if (count($notInProdutos) > 0) {
         Produto::whereNotIn('codigoproduto', $notInProdutos)->update(['disabled' => true]);
-        
+
         //region Confirma Produtos
         $this->confirmaProdutos($protocoloProduto);
         //endregion

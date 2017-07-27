@@ -3,9 +3,9 @@
   angular.module('appToten')
          .controller('produtoController', produtoController);
 
-  produtoController.$inject = ['$scope', '$rootScope', 'apiService', '$state', '$stateParams', '$timeout'];
+  produtoController.$inject = ['$scope', '$rootScope', 'apiService', '$state', '$stateParams', '$timeout', 'produtoModel'];
 
-  function produtoController($scope, $rootScope, apiService, $state, $stateParams, $timeout) {
+  function produtoController($scope, $rootScope, apiService, $state, $stateParams, $timeout, produtoModel) {
     var vm = $scope;
     var root = $rootScope;
 
@@ -13,9 +13,11 @@
     vm.produtosRelacionados = [];
 
     vm.carrinho = apiService.getStorage('carrinho') || [];
-    vm.produto = {};
+    vm.produto = new produtoModel(true);
 
     vm.maxParcelas = root.temaStorage['parcela' + root.temaStorage.max_parcelas];
+
+    vm.loadingProduto = true;
 
     apiService.get('produtos/' + $stateParams.id).then(function (res) {
       vm.produto = res.result;
@@ -32,6 +34,8 @@
         vm.produto.comJuros = ((parseFloat(vm.produto.precopromocao) + (parseFloat(vm.produto.precopromocao) * parseFloat(vm.maxParcelas)) / 100).toFixed(2)) / parseInt(root.temaStorage.max_parcelas);
         vm.produto.semJuros = (parseFloat(vm.produto.precopromocao) + (parseFloat(vm.produto.precopromocao) * parseFloat(root.temaStorage.parcela0)) / 100).toFixed(2);
       }
+
+      vm.loadingProduto = false;
 
       apiService.post('produtos/relacionados', {
         "produtocodigo": vm.produto.codigoproduto

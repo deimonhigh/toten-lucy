@@ -1,11 +1,9 @@
-@extends('template')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Pedido <strong>{{ $dados->pedidos_id }}</strong></h4>
+                    <h4 class="panel-title">Pedido <strong><?php echo e($dados->pedidos_id); ?></strong></h4>
                     <p>Aqui você visualiza as informações dos clientes cadastrados.</p>
                 </div>
                 <div class="panel-body">
@@ -14,53 +12,53 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <h5>Nome</h5>
-                            <p><strong>{{ $dados->cliente->nome }}</strong></p>
+                            <p><strong><?php echo e($dados->cliente->nome); ?></strong></p>
                         </div>
                         <div class="col-sm-6">
                             <h5>Documento CPF/CNPJ</h5>
-                            <p><strong>{{ $dados->cliente->documento }}</strong></p>
+                            <p><strong><?php echo e($dados->cliente->documento); ?></strong></p>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-sm-6">
                             <h5>Data de solicitação do pedido</h5>
-                            <p><strong>{{ date('d/m/Y', strtotime($dados->created_at)) }}</strong></p>
+                            <p><strong><?php echo e(date('d/m/Y', strtotime($dados->created_at))); ?></strong></p>
                         </div>
                     </div>
 
-                    @if($dados->cliente->enderecos && count($dados->cliente->enderecos) > 0)
+                    <?php if($dados->cliente->enderecos && count($dados->cliente->enderecos) > 0): ?>
                         <h3 class="bbottom">Endereço(s)</h3>
-                        @foreach($dados->cliente->enderecos as $key => $endereco)
-                            <h4>Endereço {{ $key + 1 }}</h4>
+                        <?php $__currentLoopData = $dados->cliente->enderecos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $endereco): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <h4>Endereço <?php echo e($key + 1); ?></h4>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <h5>CEP</h5>
-                                    <p><strong>{{ $endereco->cep}}</strong></p>
+                                    <p><strong><?php echo e($endereco->cep); ?></strong></p>
                                 </div>
                                 <div class="col-sm-6">
                                     <h5>Endereço</h5>
-                                    <p><strong>{{ $endereco->endereco }}, {{ $endereco->numero }}</strong></p>
+                                    <p><strong><?php echo e($endereco->endereco); ?>, <?php echo e($endereco->numero); ?></strong></p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <h5>Complemento</h5>
-                                    <p><strong>{{ $endereco->complemento }}</strong></p>
+                                    <p><strong><?php echo e($endereco->complemento); ?></strong></p>
                                 </div>
                                 <div class="col-sm-6">
                                     <h5>Bairro</h5>
-                                    <p><strong>{{ $endereco->bairro }}</strong></p>
+                                    <p><strong><?php echo e($endereco->bairro); ?></strong></p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <h5>Cidade</h5>
-                                    <p><strong>{{ $endereco->cidade }}</strong></p>
+                                    <p><strong><?php echo e($endereco->cidade); ?></strong></p>
                                 </div>
                                 <div class="col-sm-6">
                                     <h5>Estado</h5>
-                                    <p><strong>{{ $endereco->uf }}</strong></p>
+                                    <p><strong><?php echo e($endereco->uf); ?></strong></p>
                                 </div>
                             </div>
                             <div class="row">
@@ -68,22 +66,22 @@
                                     <h5>Endereço de entrega</h5>
                                     <p>
                                         <strong>
-                                            @if($endereco->enderecooriginal)
+                                            <?php if($endereco->enderecooriginal): ?>
                                                 Sim
-                                            @else
+                                            <?php else: ?>
                                                 Não
-                                            @endif
+                                            <?php endif; ?>
                                         </strong>
                                     </p>
                                 </div>
                             </div>
-                            @if($key != 1)
+                            <?php if($key != 1): ?>
                                 <hr>
-                            @endif
-                        @endforeach
-                    @endif
+                            <?php endif; ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php endif; ?>
 
-                    @if(count($dados->produtos) > 0)
+                    <?php if(count($dados->produtos) > 0): ?>
                         <h3 class="bbottom">Produtos</h3>
                         <div class="row">
                             <div class="col-sm-12">
@@ -109,39 +107,45 @@
                                         </th>
                                     </thead>
                                     <tbody>
-                                        @foreach($dados->produtos as $produto)
+                                        <?php $__currentLoopData = $dados->produtos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $produto): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
                                                 <td>
-                                                    {{ $produto->produto->id }}
+                                                    <?php echo e($produto->produto->id); ?>
+
                                                 </td>
                                                 <td>
-                                                    {{ $produto->produto->codigoproduto }}
+                                                    <?php echo e($produto->produto->codigoproduto); ?>
+
                                                 </td>
                                                 <td>
-                                                    {{ $produto->produto->nomeproduto }}
+                                                    <?php echo e($produto->produto->nomeproduto); ?>
+
                                                 </td>
                                                 <td>
-                                                    {{ 'R$' . number_format($produto->produto->preco, 2, ',', '.') }}
+                                                    <?php echo e('R$' . number_format($produto->produto->preco, 2, ',', '.')); ?>
+
                                                 </td>
                                                 <td>
-                                                    {{ $produto->quantidade }}
+                                                    <?php echo e($produto->quantidade); ?>
+
                                                 </td>
                                                 <td>
-                                                    {{ 'R$' . number_format(($produto->quantidade * $produto->produto->preco), 2, ',', '.') }}
+                                                    <?php echo e('R$' . number_format(($produto->quantidade * $produto->produto->preco), 2, ',', '.')); ?>
+
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    @endif
+                    <?php endif; ?>
 
                     <h3 class="bbottom">Dados do vendedor</h3>
                     <div class="row">
                         <div class="col-sm-12">
                             <h5>Nome</h5>
-                            <p><strong>{{ $dados->vendedor->nome }}</strong></p>
+                            <p><strong><?php echo e($dados->vendedor->nome); ?></strong></p>
                         </div>
                     </div>
 
@@ -149,58 +153,54 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <h5>Total sem juros</h5>
-                            <p><strong>{{ 'R$' . number_format($dados->total , 2, ',', '.') }}</strong></p>
+                            <p><strong><?php echo e('R$' . number_format($dados->total , 2, ',', '.')); ?></strong></p>
                         </div>
                         <div class="col-sm-6">
                             <h5>Total a pagar</h5>
-                            <p><strong>{{ 'R$' . number_format($dados->totalComJuros, 2, ',', '.') }}</strong></p>
+                            <p><strong><?php echo e('R$' . number_format($dados->totalComJuros, 2, ',', '.')); ?></strong></p>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-sm-6">
                             <h5>Total com Frete</h5>
-                            <p><strong>{{ 'R$' . number_format($dados->totalComFrete, 2, ',', '.') }}</strong></p>
+                            <p><strong><?php echo e('R$' . number_format($dados->totalComFrete, 2, ',', '.')); ?></strong></p>
                         </div>
                         <div class="col-sm-6">
                             <h5>Número de parcelas</h5>
-                            @if($dados->parcelas)
-                                <p><strong>{{ $dados->parcelas }}</strong></p>
-                            @else
-                                @if(strpos($dados->comprovante, '.'))
-                                    <p><strong>À vista</strong></p>
-                                @else
-                                    <p><strong>Boleto</strong></p>
-                                @endif
-                            @endif
+                            <?php if($dados->parcelas): ?>
+                                <p><strong><?php echo e($dados->parcelas); ?></strong></p>
+                            <?php else: ?>
+                                <p><strong>À vista</strong></p>
+                            <?php endif; ?>
                         </div>
                     </div>
 
-                    @if(!is_null($dados->comprovante) && strlen($dados->comprovante) > 0)
+                    <?php if(!is_null($dados->comprovante) && strlen($dados->comprovante) > 0): ?>
                         <div class="row">
-                            @if(strpos($dados->comprovante, '.'))
+                            <?php if(strpos($dados->comprovante, '.')): ?>
                                 <div class="col-sm-3">
                                     <h5>Comprovante</h5>
                                     <p>
-                                        <a href="{{ asset(str_replace('public', 'storage', $dados->comprovante)) }}"
+                                        <a href="<?php echo e(asset(str_replace('public', 'storage', $dados->comprovante))); ?>"
                                            download>
-                                            <img src="{{ asset(str_replace('public', 'storage', $dados->comprovante)) }}"
+                                            <img src="<?php echo e(asset(str_replace('public', 'storage', $dados->comprovante))); ?>"
                                                  class="img-responsive"
-                                                 alt="{{ $dados->cliente->nome }}"
+                                                 alt="<?php echo e($dados->cliente->nome); ?>"
                                                  style="width: 100%; margin-top: 20px;">
                                         </a>
                                     </p>
                                 </div>
-                            @else
+                            <?php else: ?>
                                 <div class="col-sm-12">
                                     <h5>Comprovante</h5>
                                     <p>
-                                        <strong>Comprovante MercadoPago: {{ $dados->comprovante }}</strong>
+                                        <strong>Comprovante MercadoPago: <?php echo e($dados->comprovante); ?></strong>
                                     </p>
                                 </div>
-                            @endif
+                            <?php endif; ?>
                         </div>
-                        @if(count($dados->comprovantes) > 0)
+                        <?php if(count($dados->comprovantes) > 0): ?>
                             <h3 class="bbottom">Códigos de comprovantes</h3>
                             <div class="row">
                                 <div class="col-sm-12">
@@ -220,29 +220,33 @@
                                             </th>
                                         </thead>
                                         <tbody>
-                                            @foreach($dados->comprovantes as $comprovante)
+                                            <?php $__currentLoopData = $dados->comprovantes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comprovante): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <tr>
                                                     <td>
-                                                        {{ $comprovante->codigo }}
+                                                        <?php echo e($comprovante->codigo); ?>
+
                                                     </td>
                                                     <td>
-                                                        {{ strcmp($comprovante->bandeira, 'aVista') ? "À vista" : $comprovante->bandeira  }}
+                                                        <?php echo e(strcmp($comprovante->bandeira, 'aVista') ? "À vista" : $comprovante->bandeira); ?>
+
                                                     </td>
                                                     <td>
-                                                        {{ $comprovante->user->name }}
+                                                        <?php echo e($comprovante->user->name); ?>
+
                                                     </td>
                                                     <td>
-                                                        {{ $comprovante->vendedor->nome }}
+                                                        <?php echo e($comprovante->vendedor->nome); ?>
+
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                        @endif
+                        <?php endif; ?>
 
-                    @endif
+                    <?php endif; ?>
                 </div><!-- panel-body -->
                 <div class="panel-footer">
                     <button class="btn btn-default" onclick="window.history.back(-1);">Voltar</button>
@@ -251,5 +255,7 @@
         </div>
 
     </div><!-- row -->
-@endsection
+<?php $__env->stopSection(); ?>
 
+
+<?php echo $__env->make('template', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

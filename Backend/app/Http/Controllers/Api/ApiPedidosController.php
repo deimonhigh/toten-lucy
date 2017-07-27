@@ -97,6 +97,7 @@ class ApiPedidosController extends BaseController
 
         $pedido = Pedido::find($request->idPedido);
         $pedido->cliente_id = $request->idcliente;
+        $pedido->vendedor_id = $request->vendedor_id;
         $pedido->total = $request->totalSemJuros;
         $pedido->parcelas = $request->parcelas;
         $pedido->frete = $request->frete;
@@ -251,6 +252,7 @@ class ApiPedidosController extends BaseController
 
         //region Altera pedido
         $pedido = Pedido::find($request->idPedido);
+        $pedido->vendedor_id = $request->vendedor_id;
         $pedido->cliente_id = $request->idcliente;
         $pedido->total = $request->totalSemJuros;
         $pedido->parcelas = $request->parcelas;

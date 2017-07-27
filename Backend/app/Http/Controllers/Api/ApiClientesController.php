@@ -88,6 +88,7 @@ class ApiClientesController extends BaseController
       $newPedido->save();
 
       $json->idPedido = $newPedido->id;
+      $json->id = $idCliente['id'];
 
       return $this->Ok($json);
     }

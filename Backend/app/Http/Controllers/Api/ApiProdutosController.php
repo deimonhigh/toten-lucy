@@ -28,9 +28,8 @@ class ApiProdutosController extends BaseController
       $itens = $request->get('itens');
 
       $produtos = Produto::with('imagens')->where(function ($q) use ($itens) {
-        $q->where('estoque', '>', 0);
         $q->where('disabled', false);
-        $q->whereNotNull('codigoprodutopai');
+        $q->whereNull('codigoprodutopai');
         $q->whereHas('categorias', function ($query) use ($itens) {
           $query->whereIn('codigocategoria', $itens);
         });
@@ -77,17 +76,11 @@ class ApiProdutosController extends BaseController
       $codigoProduto = (string)$request->get('produtocodigo');
       $produto = preg_replace('/\..*/', '', $codigoProduto);
 
-      $result = Produto::with('imagens')->where(function ($q) use ($produto, $codigoProduto) {
-        $q->where('codigoproduto', 'LIKE', $produto . '%');
-        $q->where('codigoproduto', '!=', $codigoProduto);
-        $q->whereNotNull('codigoprodutopai');
+      $result = Produto::select('id', 'cor')->where(function ($q) use ($produto) {
+        $q->where('codigoprodutopai', $produto);
+        $q->where('estoque', '>', 0);
+        $q->where('disabled', false);
       })->get();
-
-      foreach ($result as $item) {
-        foreach ($item->imagens as $img) {
-          $img->url = url($img->path);
-        }
-      }
 
       return $this->Ok($result);
     }

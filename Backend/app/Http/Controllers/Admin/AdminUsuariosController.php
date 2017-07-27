@@ -220,7 +220,7 @@ class AdminUsuariosController extends BaseController
 
     $configLoja = Configuracao::where('userId', $data['dados']->id)->first();
 
-    $data['dados']->listaPreco = $configLoja->listaPreco;
+    $data['dados']->listaPreco = isset($configLoja->listaPreco) ? $configLoja->listaPreco : 1;
 
     return view('lojas.cadastro', $data);
   }

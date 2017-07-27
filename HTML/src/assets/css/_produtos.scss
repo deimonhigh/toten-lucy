@@ -153,6 +153,8 @@
 }
 
 .produto {
+  padding-bottom : 140px;
+
   .listaImagens {
     list-style     : none;
     padding        : 0 10px;
@@ -282,17 +284,16 @@
         margin-top : 10px;
 
         li {
-          cursor                : pointer;
-          display               : inline-block;
-          margin-right          : 5px;
-          -webkit-border-radius : 50%;
-          -moz-border-radius    : 50%;
-          border-radius         : 50%;
-          height                : 30px;
-          width                 : 30px;
+          cursor  : pointer;
+          display : inline-block;
 
           &.active {
             border : 2px solid #212121;
+          }
+
+          button {
+            padding : 10px;
+            margin  : 0 5px 5px 0;
           }
 
         }
