@@ -24,9 +24,9 @@ class AdminPedidosController extends BaseController
     $data['submenu'] = "";
     //endregion
     if (Auth::user()->type) {
-      $data['dados'] = Pedido::paginate(15);
+      $data['dados'] = Pedido::orderBy('id', 'DESC')->paginate(15);
     } else {
-      $data['dados'] = Pedido::where('user_id', Auth::id())->paginate(15);
+      $data['dados'] = Pedido::where('user_id', Auth::id())->orderBy('id', 'DESC')->paginate(15);
     }
 
     foreach ($data['dados'] as $item) {
