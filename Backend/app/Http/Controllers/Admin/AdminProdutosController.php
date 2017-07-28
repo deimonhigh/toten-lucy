@@ -75,6 +75,9 @@ class AdminProdutosController extends BaseController
   {
 
     ini_set('max_execution_time', 0);
+    ini_set("xdebug.var_display_max_children", -1);
+    ini_set("xdebug.var_display_max_data", -1);
+    ini_set("xdebug.var_display_max_depth", -1);
 
     //region Salva Produtos
     $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
@@ -116,6 +119,7 @@ class AdminProdutosController extends BaseController
           });
 
           $cor = reset($cor);
+
           $produto = Produto::updateOrCreate(
               ['codigoprodutoabaco' => $row->CodigoProdutoAbacos],
               [
@@ -149,7 +153,7 @@ class AdminProdutosController extends BaseController
           \Log::error($e->getLine());
         }
       endforeach;
-      
+
       if (count($notInProdutos) > 0) {
         Produto::whereNotIn('codigoproduto', $notInProdutos)->update(['disabled' => true]);
 

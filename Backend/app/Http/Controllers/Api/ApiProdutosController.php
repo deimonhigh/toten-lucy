@@ -31,7 +31,7 @@ class ApiProdutosController extends BaseController
         $q->where('disabled', false);
         $q->whereNull('codigoprodutopai');
         $q->whereHas('categorias', function ($query) use ($itens) {
-          $query->whereIn('codigocategoria', $itens);
+          $query->whereIn('codigocategoria_id', $itens);
         });
       })->get();
 
