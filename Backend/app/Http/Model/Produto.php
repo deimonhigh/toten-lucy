@@ -31,7 +31,7 @@ class Produto extends Model
 
   public function categorias()
   {
-    return $this->belongsToMany('App\Http\Controllers\Model\Categoria', 'categoria_produto', 'produto_id', 'codigocategoria_id');
+    return $this->hasMany('App\Http\Controllers\Model\CategoriaProduto', 'produto_id', 'id');
   }
 
   public function imagens()
