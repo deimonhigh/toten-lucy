@@ -73,11 +73,7 @@ class AdminProdutosController extends BaseController
 
   public function importarProdutos()
   {
-
     ini_set('max_execution_time', 0);
-    ini_set("xdebug.var_display_max_children", -1);
-    ini_set("xdebug.var_display_max_data", -1);
-    ini_set("xdebug.var_display_max_depth", -1);
 
     //region Salva Produtos
     $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
@@ -91,7 +87,6 @@ class AdminProdutosController extends BaseController
     $result = $client->__soapCall($function, $arguments);
 
     $protocoloProduto = [];
-    $notInProdutos = [];
 
     if (isset($result->ProdutosDisponiveisResult->Rows)):
       $rows = $result->ProdutosDisponiveisResult->Rows->DadosProdutos;
@@ -134,12 +129,9 @@ class AdminProdutosController extends BaseController
                   'precopromocao1' => 0,
                   'preco2' => 0,
                   'precopromocao2' => 0,
-                  'disabled' => false,
                   'cor' => $cor ? $cor->Descricao : null
               ]
           );
-
-          array_push($notInProdutos, $row->CodigoProduto);
 
           $produto->categorias()->detach();
           if ($categoriasIncluir) {
@@ -154,8 +146,8 @@ class AdminProdutosController extends BaseController
         }
       endforeach;
 
-      if (count($notInProdutos) > 0) {
-        Produto::whereNotIn('codigoproduto', $notInProdutos)->update(['disabled' => true]);
+      if (count($protocoloProduto) > 0) {
+//        Produto::whereNotIn('codigoproduto', $notInProdutos)->update(['disabled' => true]);
 
         //region Confirma Produtos
         $this->confirmaProdutos($protocoloProduto);
