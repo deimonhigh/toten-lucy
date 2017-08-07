@@ -133,11 +133,14 @@ class AdminProdutosController extends BaseController
               ]
           );
 
-          $produto->categorias()->detach();
           if ($categoriasIncluir) {
-            $produto->categorias()->attach($categoriasIncluir);
+            foreach ($categoriasIncluir as $item) {
+              $catProduto = new CategoriaProduto();
+              $catProduto->produto_id = $produto->id;
+              $catProduto->codigocategoria_id = $item;
+              $catProduto->save();
+            }
           }
-
         }
         catch (\Exception $e) {
           \Log::error($e->getMessage());
@@ -147,8 +150,6 @@ class AdminProdutosController extends BaseController
       endforeach;
 
       if (count($protocoloProduto) > 0) {
-//        Produto::whereNotIn('codigoproduto', $notInProdutos)->update(['disabled' => true]);
-
         //region Confirma Produtos
         $this->confirmaProdutos($protocoloProduto);
         //endregion
