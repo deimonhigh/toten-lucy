@@ -14,7 +14,7 @@ class AlterTableProdutosAddDisabled extends Migration
   public function up()
   {
     Schema::table('produtos', function (Blueprint $table) {
-      $table->boolean('disabled')->default(true);
+      $table->boolean('disabled')->default(false);
     });
   }
 

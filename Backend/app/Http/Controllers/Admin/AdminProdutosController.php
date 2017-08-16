@@ -88,7 +88,6 @@ class AdminProdutosController extends BaseController
     $result = $client->__soapCall($function, $arguments);
 
     $protocoloProduto = [];
-    $notInProdutos = [];
 
     if (isset($result->ProdutosDisponiveisResult->Rows)):
       $rows = $result->ProdutosDisponiveisResult->Rows->DadosProdutos;
@@ -131,13 +130,9 @@ class AdminProdutosController extends BaseController
                   'precopromocao1' => 0,
                   'preco2' => 0,
                   'precopromocao2' => 0,
-                  'disabled' => false,
                   'cor' => $cor ? $cor->Descricao : null
               ]
           );
-
-          CategoriaProduto::where('produto_id', $produto->id)->delete();
-
           if ($categoriasIncluir) {
             foreach ($categoriasIncluir as $item) {
               $catProduto = new CategoriaProduto();
