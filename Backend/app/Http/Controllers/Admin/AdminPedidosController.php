@@ -30,7 +30,7 @@ class AdminPedidosController extends BaseController
     }
 
     foreach ($data['dados'] as $item) {
-      $item->pedido_id = 'LHT.' . preg_replace("/^(\d{4})(\d{4})(\d+)(\d{2})/", '$1.$2.$3-$4', str_pad((string)$item->id, 13, 0, STR_PAD_LEFT));
+      $item->pedido_id = config('app.customVars.prefix') . preg_replace("/^(\d{4})(\d{4})(\d+)(\d{2})/", '$1.$2.$3-$4', str_pad((string)$item->id, 13, 0, STR_PAD_LEFT));
     }
 
     return view('pedidos.listagem', $data);
@@ -52,7 +52,7 @@ class AdminPedidosController extends BaseController
     $config = Configuracao::find(1)->toArray();
     $data['dados'] = Pedido::with('produtos', 'cliente', 'comprovantes', 'vendedor')->findOrFail($id);
 
-    $data['dados']->pedidos_id = 'LHT.' . preg_replace("/^(\d{4})(\d{4})(\d+)(\d{2})/", '$1.$2.$3-$4', str_pad((string)$data['dados']->id, 13, 0, STR_PAD_LEFT));
+    $data['dados']->pedidos_id = config('app.customVars.prefix') . preg_replace("/^(\d{4})(\d{4})(\d+)(\d{2})/", '$1.$2.$3-$4', str_pad((string)$data['dados']->id, 13, 0, STR_PAD_LEFT));
 
     if (!is_null($data['dados']->parcelas)) {
       $juros = $config['parcela' . $data['dados']->parcelas] / 100;
@@ -165,7 +165,7 @@ class AdminPedidosController extends BaseController
       $insertKpl['InserirPedido']['ChaveIdentificacao'] = '77AD990B-6138-4065-9B86-8D30119C09D3';
       $insertKpl['InserirPedido']['ListaDePedidos'] = [
           'DadosPedidos' => [
-              "NumeroDoPedido" => 'LHT.' . str_pad((string)$pedido->id, 13, 0, STR_PAD_LEFT),
+              "NumeroDoPedido" => config('app.customVars.prefix') . str_pad((string)$pedido->id, 13, 0, STR_PAD_LEFT),
               "Email" => $cliente->email,
               "CPFouCNPJ" => $cliente->documento,
               "CodigoCliente" => $cliente->codigo_cliente,

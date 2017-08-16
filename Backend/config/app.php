@@ -237,5 +237,6 @@ return [
       'password' => env('DB_PASSWORD', ''),
       'unix_socket' => env('DB_SOCKET', ''),
       'connection' => env('DB_CONNECTION', ''),
+      'prefix' => 'TLP.',
   ]
 ];

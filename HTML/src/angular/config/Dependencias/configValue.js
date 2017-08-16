@@ -13,5 +13,5 @@
     "client_secret_dev": "5cXW4MSqOVsqsMmhtCc6oRcNc25bbIeIopYr0biU",
     "scope": "*",
     "dev": false,
-    "prefix": "LHT."
+    "prefix": "TLP."
   });
