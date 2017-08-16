@@ -3,9 +3,9 @@
   angular.module('appToten')
          .controller('pagamentoController', pagamentoController);
 
-  pagamentoController.$inject = ['$scope', '$rootScope', 'apiService', '$state', '$timeout'];
+  pagamentoController.$inject = ['$scope', '$rootScope', 'apiService', '$state', '$timeout', 'config'];
 
-  function pagamentoController($scope, $rootScope, apiService, $state, $timeout) {
+  function pagamentoController($scope, $rootScope, apiService, $state, $timeout, config) {
     var vm = $scope;
     var root = $rootScope;
     vm.dadosVendedor = {};
@@ -43,7 +43,7 @@
       return Array(n - String(nr).length + 1).join(str || '0') + nr;
     };
 
-    vm.idPedido = 'TESTE.' + padLeft(vm.cliente.idPedido, 13).replace(/^(\d{4})(\d{4})(\d+)(\d{2})/, '$1.$2.$3-$4');
+    vm.idPedido = config.prefix + padLeft(vm.cliente.idPedido, 13).replace(/^(\d{4})(\d{4})(\d+)(\d{2})/, '$1.$2.$3-$4');
 
     vm.validarVendedor = function () {
       var enviar = {};

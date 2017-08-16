@@ -3,9 +3,9 @@
   angular.module('appToten')
          .controller('pagamentoMpController', pagamentoMpController);
 
-  pagamentoMpController.$inject = ['$scope', '$rootScope', 'apiService', '$state', '$timeout', 'mercadoPago', 'cfpLoadingBar'];
+  pagamentoMpController.$inject = ['$scope', '$rootScope', 'apiService', '$state', '$timeout', 'mercadoPago', 'cfpLoadingBar', 'config'];
 
-  function pagamentoMpController($scope, $rootScope, apiService, $state, $timeout, mercadoPago, cfpLoadingBar) {
+  function pagamentoMpController($scope, $rootScope, apiService, $state, $timeout, mercadoPago, cfpLoadingBar, config) {
     var vm = $scope;
     var root = $rootScope;
     vm.dadosVendedor = {};
@@ -214,7 +214,7 @@
       return Array(n - String(nr).length + 1).join(str || '0') + nr;
     };
 
-    vm.idPedido = 'TESTE.' + padLeft(vm.cliente.idPedido, 13).replace(/^(\d{4})(\d{4})(\d+)(\d{2})/, '$1.$2.$3-$4');
+    vm.idPedido = config.prefix + padLeft(vm.cliente.idPedido, 13).replace(/^(\d{4})(\d{4})(\d+)(\d{2})/, '$1.$2.$3-$4');
     //endregion
 
     //region Frete

@@ -3,9 +3,9 @@
   angular.module('appToten')
          .controller('finalizacaoController', finalizacaoController);
 
-  finalizacaoController.$inject = ['$scope', '$rootScope', 'apiService', '$state', '$timeout'];
+  finalizacaoController.$inject = ['$scope', '$rootScope', 'apiService', 'config', '$timeout', '$state'];
 
-  function finalizacaoController($scope, $rootScope, apiService, $state, $timeout) {
+  function finalizacaoController($scope, $rootScope, apiService, config, $timeout, $state) {
     var vm = $scope;
     var root = $rootScope;
     vm.dadosVendedor = {};
@@ -54,8 +54,8 @@
 
     var calcTotal = function () {
       return vm.listaCompras.reduce(function (previousValue, obj) {
-          return previousValue + (obj.preco * obj.qnt);
-        }, 0) + parseFloat(vm.cliente.freteValor.valor);
+        return previousValue + (obj.preco * obj.qnt);
+      }, 0) + parseFloat(vm.cliente.freteValor.valor);
     };
 
     vm.totalCarrinho = calcTotal();
@@ -64,7 +64,7 @@
       return Array(n - String(nr).length + 1).join(str || '0') + nr;
     };
 
-    vm.idPedido = 'TESTE.' + padLeft(vm.cliente.idPedido, 13).replace(/^(\d{4})(\d{4})(\d+)(\d{2})/, '$1.$2.$3-$4');
+    vm.idPedido = config.prefix + padLeft(vm.cliente.idPedido, 13).replace(/^(\d{4})(\d{4})(\d+)(\d{2})/, '$1.$2.$3-$4');
 
     vm.limparSessao = function () {
       apiService.delStorage('comprovante');
@@ -78,6 +78,8 @@
       $timeout(function () {
         root.itensCarrinho = 0;
       });
+
+      $state.go('home');
     };
   }
 

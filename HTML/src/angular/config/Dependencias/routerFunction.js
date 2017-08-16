@@ -27,7 +27,8 @@
           deleteStorage: [
             'apiService',
             '$timeout',
-            function (apiService, $timeout) {
+            '$rootScope',
+            function (apiService, $timeout, $rootScope) {
               apiService.delStorage('comprovante');
               apiService.delStorage('cliente');
               apiService.delStorage('carrinho');
@@ -37,7 +38,7 @@
               apiService.delStorage('frete');
               apiService.delStorage('boleto');
               $timeout(function () {
-                root.itensCarrinho = 0;
+                $rootScope.itensCarrinho = 0;
               });
             }
           ]

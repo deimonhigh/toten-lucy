@@ -137,13 +137,15 @@
                         </div>
                     @endif
 
-                    <h3 class="bbottom">Dados do vendedor</h3>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h5>Nome</h5>
-                            <p><strong>{{ $dados->vendedor->nome }}</strong></p>
+                    @if($dados->vendedor)
+                        <h3 class="bbottom">Dados do vendedor</h3>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h5>Nome</h5>
+                                <p><strong>{{ $dados->vendedor->nome }}</strong></p>
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                     <h3 class="bbottom">Dados do pedido</h3>
                     <div class="row">
@@ -162,18 +164,20 @@
                             <h5>Total com Frete</h5>
                             <p><strong>{{ 'R$' . number_format($dados->totalComFrete, 2, ',', '.') }}</strong></p>
                         </div>
-                        <div class="col-sm-6">
-                            <h5>Número de parcelas</h5>
-                            @if($dados->parcelas)
-                                <p><strong>{{ $dados->parcelas }}</strong></p>
-                            @else
-                                @if(strpos($dados->comprovante, '.'))
-                                    <p><strong>À vista</strong></p>
+                        @if($dados->totalComFrete > 0)
+                            <div class="col-sm-6">
+                                <h5>Número de parcelas</h5>
+                                @if($dados->parcelas)
+                                    <p><strong>{{ $dados->parcelas }}</strong></p>
                                 @else
-                                    <p><strong>Boleto</strong></p>
+                                    @if(strpos($dados->comprovante, '.'))
+                                        <p><strong>À vista</strong></p>
+                                    @else
+                                        <p><strong>Boleto</strong></p>
+                                    @endif
                                 @endif
-                            @endif
-                        </div>
+                            </div>
+                        @endif
                     </div>
 
                     @if(!is_null($dados->comprovante) && strlen($dados->comprovante) > 0)

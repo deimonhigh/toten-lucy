@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller as BaseController;
 use App\Http\Controllers\Model\Atualizacao;
+use App\Http\Controllers\Model\CategoriaProduto;
 use App\Http\Controllers\Model\Imagemproduto;
 use App\Http\Controllers\Model\Produto;
 use Carbon\Carbon;
@@ -73,11 +74,7 @@ class AdminProdutosController extends BaseController
 
   public function importarProdutos()
   {
-
     ini_set('max_execution_time', 0);
-    ini_set("xdebug.var_display_max_children", -1);
-    ini_set("xdebug.var_display_max_data", -1);
-    ini_set("xdebug.var_display_max_depth", -1);
 
     //region Salva Produtos
     $client = new \SoapClient('http://234F657.ws.kpl.com.br/Abacoswsplataforma.asmx?wsdl', ['trace' => true, "soap_version" => SOAP_1_2]);
@@ -139,13 +136,16 @@ class AdminProdutosController extends BaseController
               ]
           );
 
-          array_push($notInProdutos, $row->CodigoProduto);
+          CategoriaProduto::where('produto_id', $produto->id)->delete();
 
-          $produto->categorias()->detach();
           if ($categoriasIncluir) {
-            $produto->categorias()->attach($categoriasIncluir);
+            foreach ($categoriasIncluir as $item) {
+              $catProduto = new CategoriaProduto();
+              $catProduto->produto_id = $produto->id;
+              $catProduto->codigocategoria_id = $item;
+              $catProduto->save();
+            }
           }
-
         }
         catch (\Exception $e) {
           \Log::error($e->getMessage());
@@ -154,9 +154,7 @@ class AdminProdutosController extends BaseController
         }
       endforeach;
 
-      if (count($notInProdutos) > 0) {
-        Produto::whereNotIn('codigoproduto', $notInProdutos)->update(['disabled' => true]);
-
+      if (count($protocoloProduto) > 0) {
         //region Confirma Produtos
         $this->confirmaProdutos($protocoloProduto);
         //endregion

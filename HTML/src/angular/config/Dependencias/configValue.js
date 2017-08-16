@@ -12,5 +12,6 @@
     "client_secret": "aw8AFIdfQ280GTnGjnJGHJGRc6lZpop1Pz3xhOj3",
     "client_secret_dev": "5cXW4MSqOVsqsMmhtCc6oRcNc25bbIeIopYr0biU",
     "scope": "*",
-    "dev": false
+    "dev": false,
+    "prefix": "LHT."
   });
