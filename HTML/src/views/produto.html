@@ -1,0 +1,121 @@
+<header>
+  <div class="logo produto">
+    <h1 ng-bind="produto.nomeproduto"></h1>
+    <h2>Referência: {{ produto.codigoproduto }}</h2>
+  </div>
+
+  <a ui-sref="carrinho" class="meuCarrinho">
+    <span>
+      meu<br>carrinho
+    </span>
+
+    <div class="img">
+      <img src="assets/imgs/header/carrinho.png" alt="Carrinho">
+      <div class="notification" ng-bind="itensCarrinho"></div>
+    </div>
+  </a>
+
+</header>
+<section class="produto">
+  <div class="grid">
+    <ul class="listaImagens grid-1">
+      <li ng-repeat="item in produto.imagens" ng-click="changeImg(item)">
+        <a href="javascript:void (0);">
+          <img ng-src="{{ item.url }}" alt="{{ produto.nomeproduto }}">
+        </a>
+      </li>
+    </ul>
+    <div class="bigImg grid-5 noFlex" ng-if="!loadingProduto">
+      <div ng-if="!produto.nomeproduto"></div>
+      <img ng-src="{{ imagemGrande.url }}" alt="{{ produto.nomeproduto }}" style="max-width: 100%">
+    </div>
+    <div class="infos grid-4">
+      <div class="total" ng-if="produto.precopromocao > 0">
+        <span class="anterior" ng-bind="produto.preco | currency:'R$ '"></span>
+        <span class="valorTotal" ng-bind="produto.precopromocao | currency:'R$ '"></span>
+      </div>
+      <div class="total" ng-if="produto.precopromocao == 0">
+        <span class="valorTotal" ng-bind="produto.preco | currency:'R$ '"></span>
+      </div>
+      <div class="microInfo" ng-if="produto.precopromocao > 0">
+        <span>
+          Ou em até
+          <b ng-bind="temaStorage.max_parcelas + 'X'"></b>
+          de
+          <b ng-bind="produto.comJuros | currency:'R$ '"></b>
+        </span>
+        <span>
+          Ou à vista por
+          <b ng-bind="produto.semJuros | currency:'R$ '"></b>
+        </span>
+      </div>
+
+      <div class="microInfo" ng-if="produto.precopromocao == 0">
+        <span>
+          Ou em até
+          <b ng-bind="temaStorage.max_parcelas + 'X'"></b>
+          de
+          <b ng-bind="produto.comJuros | currency:'R$ '"></b>
+        </span>
+        <span>
+          Ou à vista por
+          <b ng-bind="produto.semJuros | currency:'R$ '"></b>
+        </span>
+      </div>
+
+      <div class="infoProduto" ng-if="produtosRelacionados.length > 0">
+        <h4><strong>Cor:</strong>
+        </h4>
+        <ul class="cores" ng-if="produtosRelacionados.length > 0">
+          <li ng-repeat="item in produtosRelacionados">
+            <button type="button"
+                    class="btn btnActive tp"
+                    ng-bind="item.cor"
+                    disabled
+                    ng-if="item.cor == produto.cor"></button>
+            <button type="button"
+                    class="btn"
+                    ng-bind="item.cor"
+                    ui-sref="produto({'id' : item.id})"
+                    ng-if="item.cor != produto.cor"></button>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="infoProduto" ng-if="produto.codigoprodutopai">
+        <h4><strong>Quantidade:</strong></h4>
+        <div class="input-group">
+          <span class="input-group-addon pointer" ng-click="minus()">
+            <i class="fa fa-minus"></i>
+          </span>
+          <input type="text" class="form-control" ng-model="qnt">
+          <span class="input-group-addon pointer" ng-click="more()">
+            <i class="fa fa-plus"></i>
+          </span>
+        </div>
+      </div>
+
+      <button class="btn" ng-click="addCarrinho(produto)" ng-if="produto.codigoprodutopai">
+        <span>
+          @@include('../assets/imgs/produto/cart.svg')
+        </span>
+        ADICIONAR AO CARRINHO
+      </button>
+
+      <div class="infoProduto">
+        <h4><strong>DESCRIÇÃO:</strong></h4>
+        <p ng-if="produto.descricao.length > 0" ng-bind-html="trustResource(produto.descricao)"></p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="grid middle begin">
+  <div class="collum align-left grid-6">
+    <button class="btn white" ui-sref="categorias">
+      continuar comprando
+    </button>
+  </div>
+</footer>

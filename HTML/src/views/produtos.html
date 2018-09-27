@@ -1,0 +1,67 @@
+<header>
+  <a ui-sref="categorias" class="logo">
+    <h1 ng-bind="temaStorage.empresa"></h1>
+  </a>
+
+  <h2 ng-bind="produtoActive"></h2>
+
+  <a ui-sref="carrinho" class="meuCarrinho">
+    <span>
+      meu<br>carrinho
+    </span>
+
+    <div class="img">
+      <img src="assets/imgs/header/carrinho.png" alt="Carrinho">
+      <div class="notification" ng-bind="itensCarrinho"></div>
+    </div>
+  </a>
+
+</header>
+<section class="produtos">
+  <div class="grid">
+    <div class="grid-3">
+      <ul class="grid filterRight">
+        <li ng-repeat="item in categorias">
+          <a ui-sref="produtos({categoria:item.id})" ng-class="{'active': item.id == menuActive}">
+            <img ng-src="{{ item.imagem }}" alt="{{ item.descricao }}">
+            <span ng-bind="item.descricao"></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="grid-9">
+      <span ng-if="produtos.length == 0 && !loading">
+        Carregando...
+      </span>
+      <ul class="grid listagem stretch align-left" ng-if="produtos.length > 0">
+        <li class="grid-3" ng-repeat="item in produtos">
+          <a ui-sref="produto({id: item.id})">
+            <button class="btn lupa">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+            <img ng-src="{{ item.imagens[0].url }}" alt="{{ item.nomeproduto }}">
+            <div class="title" ng-bind="item.nomeproduto"></div>
+
+            <div class="outer grid middle">
+              <div class="grid-7 total" ng-if="item.precopromocao > 0">
+                <span class="anterior" ng-bind="item.preco | currency:'R$ '"></span>
+                <span class="valorTotal" ng-bind="item.precopromocao | currency:'R$ '"></span>
+              </div>
+              <div class="grid-7 total" ng-if="item.precopromocao == 0">
+                <span class="valorTotal" ng-bind="item.preco | currency:'R$ '"></span>
+              </div>
+              <div class="grid-5 parcelas">
+                <span class="parcelamento" ng-bind="temaStorage.max_parcelas + 'X'"></span>
+                <span class="totalParcela" ng-bind="item.comJuros | currency:'R$ '"></span>
+              </div>
+            </div>
+
+          </a>
+        </li>
+      </ul>
+      <h2 ng-if="produtos.length == 0 && loading" style="display: block;">
+        Nenhum produto encontrado.
+      </h2>
+    </div>
+  </div>
+</section>

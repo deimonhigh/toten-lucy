@@ -1,0 +1,31 @@
+<header>
+  <a ui-sref="home" class="logo">
+    <h1 ng-bind="temaStorage.empresa"></h1>
+  </a>
+</header>
+
+<section class="categorias">
+  <article>
+    <h2>SELECIONE UMA <br>CATEGORIA</h2>
+    <h3>Navegue pelas categorias abaixo e encontre de forma <br>fácil e rápida o que procura!</h3>
+
+    <div class="collumn">
+      <div ng-if="categorias.length == 0">
+        Carregando...
+      </div>
+      <ul class="grid">
+        <li class="grid-4" ng-repeat="item in categorias">
+          <a ui-sref="produtos({categoria:item.id})">
+            <img ng-src="{{ item.imagem }}" alt="{{ item.descricao }}">
+            <span ng-bind="item.descricao"></span>
+          </a>
+        </li>
+      </ul>
+
+      <a ui-sref="produto({id: temaStorage.produto_id})" class="destaque">
+        <img ng-src="{{ temaStorage.banner }}" alt="Destaque" ng-if="temaStorage.banner">
+      </a>
+    </div>
+
+  </article>
+</section>

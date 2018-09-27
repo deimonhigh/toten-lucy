@@ -1,0 +1,145 @@
+.categorias {
+  article {
+    //margin-top : 30px;
+
+    h2 {
+      font           : 500 lh(21px, 120%) $nw;
+      display        : inline-block;
+      vertical-align : top;
+
+      &:after {
+        content    : '';
+        width      : 35px;
+        height     : 2px;
+        background : $default;
+
+        margin-top : 10px;
+
+        display    : block;
+      }
+    }
+
+    h3 {
+      font           : 500 lh(16px, 150%) $op;
+      display        : inline-block;
+      color          : #666666;
+      vertical-align : top;
+      margin-left    : 50px;
+    }
+
+    .collumn {
+      //max-width         : 1060px;
+      margin            : 30px auto 0 auto;
+
+      display           : -webkit-flex;
+      display           : flex;
+
+      -webkit-flex-flow : row;
+      flex-flow         : row;
+
+      width             : 100%;
+      height            : auto;
+
+      ul {
+        list-style      : none;
+
+        display         : flex;
+        width           : 80%;
+
+        -webkit-flex    : 1 1 auto;
+        flex            : 1 1 auto;
+
+        flex-flow       : row wrap;
+
+        align-items     : flex-start;
+        justify-content : flex-start;
+
+        padding         : 0 15px 0 0;
+
+        li {
+          cursor          : pointer;
+
+          text-align      : center;
+
+          padding         : 0 4% 4% 0;
+
+          display         : flex;
+          align-items     : center;
+          justify-content : center;
+
+          flex-flow       : column;
+
+          &:nth-child(3n+3) {
+            margin-right : 0;
+          }
+
+          &:nth-child(n+4) {
+            margin-bottom : 0;
+          }
+
+          a {
+            text-decoration : none;
+
+            display         : flex;
+            align-items     : center;
+            justify-content : center;
+
+            width           : 100%;
+            flex-direction  : column;
+
+            border          : 1px solid #EEEEEE;
+            height          : 190px;
+            transition      : all .2s ease;
+
+            &:hover {
+              background : #FFFFFF;
+            }
+          }
+
+          img {
+            display : inline-block;
+          }
+
+          span {
+            display    : block;
+            margin-top : 40px;
+            color      : #888888;
+
+            font       : 600 lh(14px, 150%) $nw;
+          }
+        }
+      }
+
+      .destaque {
+        -webkit-flex : 1 1 auto;
+        flex         : 1 1 auto;
+        position     : relative;
+
+        .price {
+          position   : absolute;
+          top        : 20px;
+          left       : 20px;
+
+          padding    : 40px 30px;
+
+          background : $default;
+
+          span {
+            display        : block;
+            text-transform : uppercase;
+            font           : 400 lh(13px, 150%) $nw;
+            color          : #FFFFFF;
+            &.big {
+              font-size     : 26px;
+              font-weight   : 600;
+              line-height   : 30px;
+              margin-bottom : 4px;
+            }
+          }
+
+        }
+      }
+    }
+
+  }
+}

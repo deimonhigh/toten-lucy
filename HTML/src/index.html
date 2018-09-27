@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR" ng-app="appToten">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Toten Lucy</title>
+  <meta name="theme-color" content="#FF9800">
+  <meta name="msapplication-navbutton-color" content="#FF9800">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#FF9800">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!--<script type="text/javascript">if (document.location.protocol != "https:") {document.location = document.URL.replace(/^http:/i, "https:");}</script>-->
+
+  <link rel="stylesheet" type="text/css" href="assets/css/style.min.css" />
+  <!--<link rel="stylesheet" type="text/css" href="{{ url('assets/css/style.min.css') }}" />-->
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,600,700" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+  <style ng-bind="tema"></style>
+
+</head>
+<body ng-class="{'inicio': inicio}">
+  <ui-view class="ng-cloak"></ui-view>
+  <div class="hidden" ng-class="{'hidden': !foto}">
+    <div ng-controller="fotoController" class="tableModal full fixed black animate-if" ng-if="foto">
+      <div class="tCell">
+        <div class="dib foto">
+          <div class="grid">
+            <div class="column">
+              <div class="right">
+                <div class="btnHolder">
+                  <h3>COMPROVANTE <br> DE PAGAMENTO</h3>
+                </div>
+              </div>
+              <form name="comprovantesForm" ng-submit="false">
+                <ul>
+                  <li ng-repeat="item in comprovantes">
+                    <button ng-click="removeItem(item)">- Excluir</button>
+                    <div class="formField">
+                      <select name="bandeira"
+                              ng-model="item.bandeira"
+                              required
+                              ng-options="item as item.descricao for item in bandeiras track by item.id">
+                        <option value selected>Selecione a bandeira</option>
+                      </select>
+                    </div>
+                    <div class="formField">
+                      <input type="number"
+                             required
+                             name="codigo"
+                             ng-model="item.codigo"
+                             placeholder="Digite o código do cupom">
+                    </div>
+                  </li>
+                </ul>
+                <div class="btnHolder">
+                  <button type="button"
+                          ng-if="!hideButtonComprovante"
+                          class="btn btnFoto no-animate"
+                          ng-click="addComprovante()">+
+                                                      ADICIONAR
+                                                      OUTRO
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div class="column" ng-if="!confirmFoto">
+              <div class="imgExample">
+                <webcam channel="channel"
+                        on-streaming="onSuccess()"
+                        on-error="onError(err)"
+                        on-stream="onStream(stream)"
+                        ng-if="!picture"
+                ></webcam>
+                <button type="button" class="btn" ng-click="makeSnapshot()">
+                  <div class="img">
+                    @@include('assets/imgs/fotos/camera.svg')
+                  </div>
+                  fotografar
+                </button>
+              </div>
+            </div>
+            <div class="column" ng-if="confirmFoto">
+              <div class="imgExample OkFoto">
+                <img ng-src="@{{ imgResponse }}" alt="Foto">
+                <button type="button" class="btn tp" ng-click="notOkFoto()">
+                  <div class="img">
+                    @@include('assets/imgs/fotos/camera.svg')
+                  </div>
+                  repetir foto
+                </button>
+                <button type="button" class="btn no-animate" ng-click="closeModal()" ng-if="comprovantesForm.$valid">
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                  confirmar
+                </button>
+              </div>
+            </div>
+            <canvas id="snapshot" width="300" height="240"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/scripts.min.js"></script>
+  <script src="assets/angular/app.min.js"></script>
+  <script src="assets/angular/config/configModule.min.js"></script>
+  <script src="assets/angular/views/viewsModule.min.js"></script>
+  <script src="assets/angular/service/serviceModule.min.js"></script>
+  <script src="assets/angular/directive/directiveModule.min.js"></script>
+  <script src="assets/angular/factory/factoryModule.min.js"></script>
+
+  <!--<script src="{{ url('assets/js/scripts.min.js') }}"></script>-->
+  <!--<script src="{{ url('assets/angular/app.min.js') }}"></script>-->
+  <!--<script src="{{ url('assets/angular/config/configModule.min.js') }}"></script>-->
+  <!--<script src="{{ url('assets/angular/views/viewsModule.min.js') }}"></script>-->
+  <!--<script src="{{ url('assets/angular/service/serviceModule.min.js') }}"></script>-->
+  <!--<script src="{{ url('assets/angular/directive/directiveModule.min.js') }}"></script>-->
+  <!--<script src="{{ url('assets/angular/factory/factoryModule.min.js') }}"></script>-->
+
+</body>
+</html>

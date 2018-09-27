@@ -1,0 +1,351 @@
+// Imports
+// Reset
+@import "import";
+//@import "loader";
+@import "animation";
+@import "variables";
+@import "fonts";
+@import "mixins/mixins";
+@import "keyFrames";
+
+* {
+  box-sizing : border-box;
+  padding    : 0;
+  margin     : 0;
+}
+
+body {
+  background : #FFFFFF;
+  font       : lh(16px, 150%) $op;
+
+  &.inicio {
+    background : $background;
+  }
+}
+
+#loading-bar .bar {
+  background : $default;
+  height     : 5px;
+}
+
+.noPad {
+  padding : 0 !important;
+}
+
+.tableModal {
+  display : table;
+
+  &.black {
+    background : rgba(0, 0, 0, .9);
+  }
+
+  &.full {
+    width   : 100%;
+    height  : 100%;
+    top     : 0;
+    left    : 0;
+    z-index : 9999999;
+  }
+
+  &.fixed {
+    position : fixed;
+  }
+
+  .tCell {
+    display        : table-cell;
+    width          : 100%;
+    vertical-align : middle;
+    text-align     : center;
+
+    &.top {
+      vertical-align : top;
+    }
+
+    &.bottom {
+      vertical-align : bottom;
+    }
+
+    .dib {
+      display : inline-block;
+
+      &.full {
+        width : 100%;
+      }
+
+      &.txtCenter {
+        text-align : center;
+      }
+    }
+  }
+}
+
+.btn {
+  padding            : 12px 50px;
+  background         : $default;
+  color              : #FFFFFF;
+  text-transform     : uppercase;
+  border-radius      : 0;
+  font-weight        : 600;
+  font-family        : $nw;
+  letter-spacing     : 1px;
+  -webkit-transition : all .4s ease;
+  -moz-transition    : all .4s ease;
+  -o-transition      : all .4s ease;
+  transition         : all .4s ease;
+  outline            : none !important;
+
+  &.tp {
+    background : none;
+  }
+
+  &.btnActive{
+    color: #212121;
+    border: 1px solid #212121;
+  }
+
+  &.white {
+    background : #FFFFFF;
+    color      : #333333;
+
+    &:hover, &:active, &:focus {
+      background : none;
+    }
+  }
+
+  i {
+    color              : #FFFFFF;
+    -webkit-transition : color .4s ease;
+    -moz-transition    : color .4s ease;
+    -o-transition      : color .4s ease;
+    transition         : color .4s ease;
+  }
+
+  svg {
+    * {
+      fill               : #FFFFFF;
+      -webkit-transition : fill .4s ease;
+      -moz-transition    : fill .4s ease;
+      -o-transition      : fill .4s ease;
+      transition         : fill .4s ease;
+    }
+  }
+
+  &:hover, &:active, &:focus {
+    svg {
+      * {
+        fill : #333333;
+      }
+    }
+    i {
+      color : #333333;
+    }
+  }
+
+  &.go {
+    &:after {
+      content : '';
+      font    : 16px $fw;
+    }
+  }
+}
+
+.mt30 {
+  margin-top : 30px;
+}
+
+.mt-75 {
+  margin-top : -75px;
+}
+
+.ml5 {
+  margin-left : 5px;
+}
+
+section {
+  padding   : 30px 40px 40px 40px;
+  max-width : 1100px;
+  margin    : auto;
+
+  &.full {
+    max-width : 100%;
+    padding   : 30px 70px 70px 70px;
+  }
+}
+
+.noBtn {
+  outline    : none;
+  border     : none;
+  background : none;
+  height     : 40px;
+  width      : 40px;
+
+  &.full {
+    width  : auto;
+    height : auto;
+  }
+}
+
+.grid {
+  display         : flex;
+  align-items     : flex-start;
+  justify-content : center;
+  width           : 100%;
+  flex-flow       : row wrap;
+  flex-direction  : row;
+
+  &.stretch {
+    align-items : stretch;
+  }
+
+  &.middle {
+    align-items : center;
+  }
+
+  &.bottom {
+    align-items : flex-end;
+  }
+
+  &.begin {
+    justify-content : flex-start;
+  }
+
+  &.end {
+    justify-content : flex-end;
+  }
+
+  @include grid(12);
+
+  .column {
+    flex-direction : column;
+  }
+
+  .row {
+    flex-direction : row;
+  }
+
+  .align-left {
+    justify-content : flex-start;
+  }
+
+  .align-right {
+    justify-content : flex-end;
+  }
+
+  .align-top {
+    align-self : flex-start;
+  }
+
+  .align-bottom {
+    align-self : flex-end;
+  }
+
+  .gutter {
+    padding-right : 20px;
+  }
+}
+
+.choiceButton {
+  margin-bottom : 15px;
+
+  &.circle {
+    span {
+      -webkit-border-radius : 50%;
+      -moz-border-radius    : 50%;
+      border-radius         : 50%;
+    }
+  }
+
+  span {
+    height         : 50px;
+    width          : 50px;
+    background     : #EEEEEE;
+    overflow       : hidden;
+    padding        : 4px;
+    vertical-align : middle;
+    cursor         : pointer;
+    display        : inline-block;
+
+    &:after {
+      content    : "\f00c";
+      font       : 30px $fw;
+      color      : $default;
+      width      : 100%;
+      height     : 100%;
+      display    : block;
+      padding    : 6px 0 0 0;
+      text-align : center;
+      opacity    : 0;
+    }
+  }
+
+  p {
+    display        : inline-block;
+    margin         : 0 0 0 10px;
+    vertical-align : middle;
+    font           : 600 lh(12px, 120%) $op;
+    width          : calc(100% - 70px);
+  }
+
+  input {
+    border   : 0 !important;
+    clip     : rect(0 0 0 0) !important;
+    height   : 1px !important;
+    margin   : -1px !important;
+    overflow : hidden !important;
+    padding  : 0 !important;
+    position : absolute !important;
+    width    : 1px !important;
+
+    &:checked ~ span {
+      &:after {
+        opacity : 1;
+      }
+    }
+    &[disabled] ~ span {
+      background : #F7F7F7;
+      border     : 1px solid #CFCFCF;
+      &:after {
+        display : none;
+      }
+    }
+  }
+}
+
+.errorBorder {
+  border     : 1px solid $error !important;
+  background : rgba($error, 0.04) !important;
+}
+
+.error {
+  font   : 14px $op;
+  margin : 5px 0;
+  color  : $error;
+}
+
+.mt25 {
+  margin-top : 25px;
+}
+
+.pointer {
+  cursor : pointer;
+}
+
+@import "footer";
+@import "login";
+@import "home";
+@import "categorias";
+@import "foto";
+@import "carrinho";
+@import "cadastro";
+@import "header";
+@import "produtos";
+@import "pagamento";
+
+.noFlex {
+  display : inline-block !important;
+}
+
+.no-animate {
+  -webkit-transition : none !important;
+  transition         : none !important;
+}

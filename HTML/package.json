@@ -1,0 +1,51 @@
+{
+  "name": "toten-lucy",
+  "version": "1.0.0",
+  "author": "Bruno Souza <bruno.souza@agenciadominio.com.br>",
+  "private": true,
+  "contributors": [],
+  "description": "App para Toten Lucy",
+  "main": "",
+  "keywords": [
+    "Toten",
+    "Lucy",
+    "webApp",
+    "JS",
+    "AngularJS"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "preinstall": "npm i -g gulp-cli",
+    "postinstall": "gulp",
+    "buildProd": "gulp buildProd --dist=../Backend/public/ --del=false",
+    "defaultProd": "gulp defaultProd --dist=../Backend/public/ --del=false"
+  },
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-clean": "^0.3.2",
+    "gulp-clean-css": "^3.0.0",
+    "gulp-connect": "^4.1.0",
+    "gulp-decomment": "^0.1.3",
+    "gulp-file-include": "^1.0.0",
+    "gulp-htmlmin": "^2.0.0",
+    "gulp-include": "^2.3.1",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0"
+  },
+  "dependencies": {
+    "@uirouter/angularjs": "latest",
+    "angular": "^1.6.4",
+    "angular-animate": "^1.6.4",
+    "angular-i18n": "^1.6.4",
+    "angular-loading-bar": "^0.9.0",
+    "angular-local-storage": "^0.6.0",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
+    "webcam": "^3.1.1"
+  }
+}

@@ -1,0 +1,81 @@
+//region LaserMetal
+@font-face {
+  font-family : 'LaserMetal';
+  src         : url($fonts + 'LaserMetal.eot');
+  src         : url($fonts + 'LaserMetal.eot') format('embedded-opentype'),
+  url($fonts + 'LaserMetal.woff2') format('woff2'),
+  url($fonts + 'LaserMetal.woff') format('woff'),
+  url($fonts + 'LaserMetal.ttf') format('truetype'),
+  url($fonts + 'LaserMetal#LaserMetal') format('svg');
+}
+
+//endregion
+
+//region NovecentowideMedium
+@font-face {
+  font-family : 'Novecentowide';
+  src         : url($fonts + 'NovecentowideBold.eot');
+  src         : url($fonts + 'NovecentowideBold.eot') format('embedded-opentype'),
+  url($fonts + 'NovecentowideBold.woff2') format('woff2'),
+  url($fonts + 'NovecentowideBold.woff') format('woff'),
+  url($fonts + 'NovecentowideBold.ttf') format('truetype'),
+  url($fonts + 'NovecentowideBold.svg#NovecentowideBold') format('svg');
+  font-weight : 700;
+}
+
+@font-face {
+  font-family : 'Novecentowide';
+  src         : url($fonts + 'NovecentowideDemiBold.eot');
+  src         : url($fonts + 'NovecentowideDemiBold.eot') format('embedded-opentype'),
+  url($fonts + 'NovecentowideDemiBold.woff2') format('woff2'),
+  url($fonts + 'NovecentowideDemiBold.woff') format('woff'),
+  url($fonts + 'NovecentowideDemiBold.ttf') format('truetype'),
+  url($fonts + 'NovecentowideDemiBold.svg#NovecentowideDemiBold') format('svg');
+  font-weight : 600;
+}
+
+@font-face {
+  font-family : 'Novecentowide';
+  src         : url($fonts + 'NovecentowideMedium.eot');
+  src         : url($fonts + 'NovecentowideMedium.eot') format('embedded-opentype'),
+  url($fonts + 'NovecentowideMedium.woff2') format('woff2'),
+  url($fonts + 'NovecentowideMedium.woff') format('woff'),
+  url($fonts + 'NovecentowideMedium.ttf') format('truetype'),
+  url($fonts + 'NovecentowideMedium.svg#NovecentowideMedium') format('svg');
+  font-weight : 500;
+}
+
+@font-face {
+  font-family : 'Novecentowide';
+  src         : url($fonts + 'NovecentowideNormal.eot');
+  src         : url($fonts + 'NovecentowideNormal.eot') format('embedded-opentype'),
+  url($fonts + 'NovecentowideNormal.woff2') format('woff2'),
+  url($fonts + 'NovecentowideNormal.woff') format('woff'),
+  url($fonts + 'NovecentowideNormal.ttf') format('truetype'),
+  url($fonts + 'NovecentowideNormal.svg#NovecentowideNormal') format('svg');
+  font-weight : 400;
+}
+
+@font-face {
+  font-family : 'Novecentowide';
+  src         : url($fonts + 'NovecentowideBook.eot');
+  src         : url($fonts + 'NovecentowideBook.eot') format('embedded-opentype'),
+  url($fonts + 'NovecentowideBook.woff2') format('woff2'),
+  url($fonts + 'NovecentowideBook.woff') format('woff'),
+  url($fonts + 'NovecentowideBook.ttf') format('truetype'),
+  url($fonts + 'NovecentowideBook.svg#NovecentowideBook') format('svg');
+  font-weight : 300;
+}
+
+@font-face {
+  font-family : 'Novecentowide';
+  src         : url($fonts + 'NovecentowideLight.eot');
+  src         : url($fonts + 'NovecentowideLight.eot') format('embedded-opentype'),
+  url($fonts + 'NovecentowideLight.woff2') format('woff2'),
+  url($fonts + 'NovecentowideLight.woff') format('woff'),
+  url($fonts + 'NovecentowideLight.ttf') format('truetype'),
+  url($fonts + 'NovecentowideLight.svg#NovecentowideLight') format('svg');
+  font-weight : 200;
+}
+
+//endregion
